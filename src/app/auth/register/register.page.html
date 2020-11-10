@@ -1,0 +1,74 @@
+<div class="register-form__header">
+  <p class="register-form__title">Crear una cuenta</p>
+</div>
+<mat-horizontal-stepper linear #stepper>
+  <mat-step [stepControl]="firstFormGroup">
+    <form class="register-form" [formGroup]="firstFormGroup">
+      <ng-template matStepLabel>Información personal</ng-template>
+      <p class="register-form__label">Información personal</p>
+      <div class="register-form__input">
+        <input type="text" placeholder="Nombre(s)" formControlName="first_names" required>
+      </div>
+      <div class="register-form__input">
+        <input type="text" placeholder="Primer Apellido" formControlName="last_name_one" required>
+      </div>
+      <div class="register-form__input">
+        <input type="text" placeholder="Segundo Apellido" formControlName="first_name_two" required>
+      </div>
+      <div class="register-form__input">
+        <input type="date" placeholder="Fecha de nacimiento" formControlName="birthday" required>
+      </div>
+      <div class="register-form__input">
+        <p class="register-form__label-small">Género</p>
+        <mat-radio-group formControlName="gender_id" required>
+          <mat-radio-button value="1">Femanino</mat-radio-button>
+          <mat-radio-button value="2">Masculino</mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div class="register-form__input">
+        <select formControlName="civil_status_id" required>
+          <option value="">Estado civil</option>
+          <option value="1">Soltero/a</option>
+          <option value="2">Casado/a</option>
+          <option value="3">Viudo/a</option>
+          <option value="4">Divorciado/a</option>
+        </select>
+      </div>
+      <div class="register-form__input">
+        <select formControlName="education_level_id" required>
+          <option value="">Nivel de Estudios</option>
+          <option value="1">Primaria</option>
+          <option value="2">Bachiller</option>
+          <option value="3">Universitario</option>
+          <option value="4">Posgrado</option>
+          <option value="5">Ninguno</option>
+        </select>
+      </div>
+      <div>
+        <button class="register-form__btn next" mat-button matStepperNext>Siguiente</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="secondFormGroup">
+    <form [formGroup]="secondFormGroup">
+      <ng-template matStepLabel>Ubicación</ng-template>
+      <mat-form-field>
+        <mat-label>Address</mat-label>
+        <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY"
+               required>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Contacto</ng-template>
+    <p>You are now done.</p>
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button (click)="stepper.reset()">Reset</button>
+    </div>
+  </mat-step>
+</mat-horizontal-stepper>

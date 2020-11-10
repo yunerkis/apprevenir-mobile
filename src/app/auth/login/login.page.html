@@ -1,0 +1,47 @@
+<ion-content>
+  <div class="login-logo">
+    <img src="../../../assets/images/apprevenir-logo.png" alt="logo-app">
+  </div>
+  <div class="login-content">
+    <div class="login-form">
+      <div *ngIf="toggle == 'login'">
+        <div class="login-form__header">
+          <p class="login-form__title">Acceder</p>
+          <p class="login-form__subtitle">Ingresa tu usuario y contraseña para obtener acceso</p>
+        </div>
+        <div class="login-form__form">
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <div class="login-form__input">
+              <input type="email" placeholder="Email" formControlName="email" required>
+              <ion-icon name="mail-outline"></ion-icon>
+            </div>
+            <span class="login-form__forgot-link" (click)="isToggle('reset')">¿Olvídaste tu contraseña?</span>
+            <div class="login-form__input">
+              <input type="password" placeholder="Contraseña" formControlName="password" required>
+              <ion-icon name="lock-closed-outline"></ion-icon>
+            </div>
+            <div class="login-form__check">
+              <input type="checkbox">
+              <span class="login-form__remmenber">Recuérdame en este dispositivo</span>
+            </div>
+            <button class="login-form__btn login" type="submit">Acceder</button>
+          </form>
+        </div>
+      </div>
+      <app-password-reset *ngIf="toggle == 'reset'"></app-password-reset>
+      <button class="login-form__btn register" (click)="isToggle('login')" *ngIf="toggle == 'reset'">Cancelar</button>
+      <div *ngIf="toggle == 'login'">
+        <div class="login-form__register">
+          <div class="login-form__register-text">
+            <hr class="separate">
+            <span>¿No tienes una cuenta?</span>    
+            <hr class="separate">
+          </div>
+          <button class="login-form__btn register" (click)="isToggle('register')">Crear una cuenta</button>
+        </div>
+        <app-terms></app-terms>
+      </div>
+      <app-register *ngIf="toggle == 'register'"></app-register>
+    </div>
+  </div>
+</ion-content>

@@ -1,0 +1,7 @@
+{
+  "name": "Apprevenir",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
