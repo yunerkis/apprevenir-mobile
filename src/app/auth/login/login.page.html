@@ -15,13 +15,13 @@
               <input type="email" placeholder="Email" formControlName="email" required>
               <ion-icon name="mail-outline"></ion-icon>
             </div>
-            <span class="login-form__forgot-link" (click)="isToggle('reset')">¿Olvídaste tu contraseña?</span>
+            <span class="login-form__forgot-link" (click)="isToggle('reset'); this.loginForm.reset();">¿Olvídaste tu contraseña?</span>
             <div class="login-form__input">
               <input type="password" placeholder="Contraseña" formControlName="password" required>
               <ion-icon name="lock-closed-outline"></ion-icon>
             </div>
             <div class="login-form__check">
-              <input type="checkbox">
+              <input type="checkbox" formControlName="remember_me">
               <span class="login-form__remmenber">Recuérdame en este dispositivo</span>
             </div>
             <button class="login-form__btn login" type="submit">Acceder</button>

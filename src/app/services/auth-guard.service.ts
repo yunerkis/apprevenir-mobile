@@ -6,6 +6,7 @@ import { environment } from '../../environments/environment';
 import { ToastController, Platform } from '@ionic/angular';
 import { BehaviorSubject} from 'rxjs'; 
 import { Router } from '@angular/router';
+import { map } from 'rxjs/operators';
 
 const TOKEN_KEY = 'active_token';
 
@@ -17,7 +18,7 @@ export class AuthGuardService {
   url = environment.url;
   user = null;
   authenticationState = new BehaviorSubject(false);
-  toogle = new BehaviorSubject('login');
+  toggle = new BehaviorSubject('login');
 
   constructor(
     private router: Router,
@@ -64,25 +65,6 @@ export class AuthGuardService {
       });
   }
 
-  reset(email) {
-    return this.http.post(`${this.url}/api/v1/reset-password`, email).subscribe(
-      res => {
-        this.toogle.next('login');
-      }, error => {
-        console.log(error);
-      });
-  }
-
-  async messageErros(error) {
-    const toast = await this.toastController.create({
-      color: 'danger',
-      duration: 3000,
-      message: error
-    });
-
-    await toast.present();
-  }
-
   logout() {
     this.storage.get(TOKEN_KEY).then(token => {
       const headers = new HttpHeaders({
@@ -97,5 +79,46 @@ export class AuthGuardService {
           console.log(error);
         });
     });
+  }
+
+  reset(email) {
+    return this.http.post(`${this.url}/api/v1/reset-password`, email).subscribe(
+      res => {
+        this.toggle.next('login');
+      }, error => {
+        console.log(error.error.errors);
+      });
+  }
+
+  async messageErros(error) {
+    const toast = await this.toastController.create({
+      color: 'danger',
+      duration: 3000,
+      message: error
+    });
+
+    await toast.present();
+  }
+
+  register(data) {
+    return this.http.post(`${this.url}/api/v1/register`, data).subscribe(
+      res => {
+        this.toggle.next('login');
+      }, data => {
+        console.log(data.error.errors);
+        //this.messageErros(data.error.errors.email[0]);
+      });
+  }
+
+  countries() {
+    return this.http.get(`${this.url}/api/v1/countries`).pipe(map(res => {return res;}));
+  }
+
+  states(country) {
+    return this.http.get(`${this.url}/api/v1/states?country=`+country).pipe(map(res => {return res;}));
+  }
+
+  cities(state) {
+    return this.http.get(`${this.url}/api/v1/cities?state=`+state).pipe(map(res => {return res;}));
   }
 }

@@ -44,31 +44,60 @@
           <option value="5">Ninguno</option>
         </select>
       </div>
-      <div>
+      <div class="register-form__content-btns">
+        <button class="register-form__btn back" mat-button (click)="cancel()">Atras</button>
         <button class="register-form__btn next" mat-button matStepperNext>Siguiente</button>
       </div>
     </form>
   </mat-step>
   <mat-step [stepControl]="secondFormGroup">
-    <form [formGroup]="secondFormGroup">
+    <form class="register-form" [formGroup]="secondFormGroup">
       <ng-template matStepLabel>Ubicación</ng-template>
-      <mat-form-field>
-        <mat-label>Address</mat-label>
-        <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY"
-               required>
-      </mat-form-field>
-      <div>
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button matStepperNext>Next</button>
+      <p class="register-form__label">Ubicación</p>
+      <div class="register-form__input">
+        <select formControlName="country_id" required #country (change)="getStates(country.value)">
+          <option value="">País</option>
+          <option value="{{country.id}}" *ngFor="let country of countries">{{country.name}}</option>
+        </select>
+      </div>
+      <div class="register-form__input">
+        <select formControlName="state_id" required #state (change)="getCities(state.value)">
+          <option value="" selected>Departamento</option>
+          <option value="{{state.id}}" *ngFor="let state of states">{{state.name}}</option>
+        </select>
+      </div>
+      <div class="register-form__input">
+        <select formControlName="city_id" required>
+          <option value="" selected>ciudad</option>
+          <option value="{{city.id}}" *ngFor="let city of cities">{{city.name}}</option>
+        </select>
+      </div>
+      <div class="register-form__content-btns">
+        <button class="register-form__btn back" mat-button matStepperPrevious>Atras</button>
+        <button class="register-form__btn next" mat-button matStepperNext>Siguente</button>
       </div>
     </form>
   </mat-step>
   <mat-step>
-    <ng-template matStepLabel>Contacto</ng-template>
-    <p>You are now done.</p>
-    <div>
-      <button mat-button matStepperPrevious>Back</button>
-      <button mat-button (click)="stepper.reset()">Reset</button>
-    </div>
+    <form class="register-form" [formGroup]="thirdFormGroup" (ngSubmit)="onSubmit()">
+      <ng-template matStepLabel>Contacto</ng-template>
+      <p class="register-form__label">Contacto</p>
+      <div class="register-form__input">
+        <input type="phone" placeholder="Número de celular" formControlName="phone" required>
+      </div>
+      <div class="register-form__input">
+        <input type="email" placeholder="Correo electrónico" formControlName="email" required>
+      </div>
+      <div class="register-form__input">
+        <input type="password" placeholder="Contraseña" formControlName="password" required>
+      </div>
+      <div class="register-form__input">
+        <input type="password" placeholder="Repetir contraseña" formControlName="password_confirmation" required>
+      </div>
+      <div class="register-form__content-btns">
+        <button class="register-form__btn back" mat-button matStepperPrevious>Atras</button>
+        <button class="register-form__btn next" mat-button type="submit">Registrar</button>
+      </div>
+    </form>
   </mat-step>
 </mat-horizontal-stepper>

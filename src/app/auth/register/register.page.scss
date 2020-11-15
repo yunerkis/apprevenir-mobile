@@ -43,11 +43,24 @@
         height: 44px;  
     }
 
+    &__content-btns {
+        display: flex;
+    }
+
     &__btn.next {
         background: #009E9E 0% 0% no-repeat padding-box;
         box-shadow: 0px 5px 6px #00D1D14D;
         border-radius: 22px;
         color: #fff;
+    }
+
+    &__btn.back {
+        border: 1px solid #CED9D7;
+        border-radius: 22px;
+        opacity: 1;
+        background-color: #fff;
+        color: #36484F99;
+        margin-right: 25px;
     }
 }  
 

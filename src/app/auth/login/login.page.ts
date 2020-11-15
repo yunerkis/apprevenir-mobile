@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { Component, OnInit, ViewChild  } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthGuardService } from '../../services/auth-guard.service';
+import { IonContent } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -11,6 +12,7 @@ export class LoginPage implements OnInit {
 
   loginForm: FormGroup;
   toggle = 'login';
+  @ViewChild(IonContent, { static: false }) content: IonContent;
   
   constructor(
     private formBuilder: FormBuilder,
@@ -21,6 +23,7 @@ export class LoginPage implements OnInit {
     this.loginForm = this.formBuilder.group({
       email: ['', Validators.compose([Validators.email, Validators.required])],
       password: ['', Validators.required],
+      remember_me: [''],
     });
   }
 
@@ -29,9 +32,10 @@ export class LoginPage implements OnInit {
   }
 
   isToggle(stateToogle) {
-    this.authGuardService.toogle.next(stateToogle);
-    this.authGuardService.toogle.subscribe(state => {
+    this.authGuardService.toggle.next(stateToogle);
+    this.authGuardService.toggle.subscribe(state => {
       this.toggle = state;
+      this.content.scrollToTop();
     });
   }
 
