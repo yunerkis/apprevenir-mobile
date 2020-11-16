@@ -7,8 +7,6 @@ import { IonicModule } from '@ionic/angular';
 import { LoginPageRoutingModule } from './login-routing.module';
 
 import { LoginPage } from './login.page';
-import { PasswordResetPageModule } from '../password-reset/password-reset.module';
-import { TermsPageModule } from '../terms/terms.module';
 import { RegisterPageModule } from '../register/register.module';
 
 @NgModule({
@@ -18,8 +16,6 @@ import { RegisterPageModule } from '../register/register.module';
     IonicModule,
     ReactiveFormsModule,
     LoginPageRoutingModule,
-    PasswordResetPageModule,
-    TermsPageModule,
     RegisterPageModule,
   ],
   declarations: [LoginPage]
