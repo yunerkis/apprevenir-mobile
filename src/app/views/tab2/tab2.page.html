@@ -1,17 +1,43 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Tab 2
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 2</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <app-explore-container name="Tab 2 page"></app-explore-container>
+  <div class="test__content">
+    <div class="test__label">
+      Por favor elije un test
+    </div>
+    <div class="test__list">
+      <div class="test__card">
+        <div class="test__card-head">
+          <ion-icon name="help-circle-outline" class="test__card-help" (click)="openModal(['holos', 'test'])"></ion-icon>
+          <div class="test__card-category">
+            riesgo, cambio y coadicción
+          </div>
+          <div class="test__card-title">
+            Dependendia <br> Emocional
+          </div>
+        </div>
+        <div class="test__card-image">
+          <img src="../../../assets/images/apprevenir-test.png" alt="test image">
+        </div>
+        <div>
+          <button class="test__btn test">Hacer test</button>
+        </div>
+      </div>
+      <div class="test__card">
+        <div class="test__card-head">
+          <ion-icon name="help-circle-outline" class="test__card-help"></ion-icon>
+          <div class="test__card-category">
+            riesgo, cambio y coadicción
+          </div>
+          <div class="test__card-title">
+            Dependendia <br> Emocional
+          </div>
+        </div>
+        <div class="test__card-image">
+          <img src="../../../assets/images/test-image.png" alt="test image">
+        </div>
+        <div>
+          <button class="test__btn test">Hacer test</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </ion-content>
