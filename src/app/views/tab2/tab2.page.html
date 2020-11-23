@@ -1,41 +1,34 @@
+<ion-header [translucent]="true">
+  <ion-toolbar class="bg-header">
+    <div class="home-logo">
+      <img src="../../../assets/images/apprevenir-logo-2.png" alt="logo-app">
+    </div>
+    <ion-icon name="search-outline" class="search-icon"></ion-icon>
+  </ion-toolbar>
+</ion-header>
 <ion-content [fullscreen]="true">
   <div class="test__content">
     <div class="test__label">
       Por favor elije un test
     </div>
     <div class="test__list">
-      <div class="test__card">
+      <div class="test__card" *ngFor="let test of tests">
         <div class="test__card-head">
-          <ion-icon name="help-circle-outline" class="test__card-help" (click)="openModal(['holos', 'test'])"></ion-icon>
-          <div class="test__card-category">
-            riesgo, cambio y coadicción
+          <img src="../../../assets/icon/help-icon.svg" class="test__card-help" (click)="openModal(test)" alt="help">
+          <ion-icon name="help-circle-outline" class="test__card-help" (click)="openModal(test)"></ion-icon>
+          <div class="test__card-category" *ngFor="let category of test.categories">
+            {{ category.name }}
           </div>
           <div class="test__card-title">
-            Dependendia <br> Emocional
+            {{ test.name }}
           </div>
         </div>
         <div class="test__card-image">
-          <img src="../../../assets/images/apprevenir-test.png" alt="test image">
+          <img *ngIf="test.image == ''" src="../../../assets/images/apprevenir-test.png" alt="test image">
+          <img *ngIf="test.image != ''" src={{test.image}} alt="test image">
         </div>
         <div>
-          <button class="test__btn test">Hacer test</button>
-        </div>
-      </div>
-      <div class="test__card">
-        <div class="test__card-head">
-          <ion-icon name="help-circle-outline" class="test__card-help"></ion-icon>
-          <div class="test__card-category">
-            riesgo, cambio y coadicción
-          </div>
-          <div class="test__card-title">
-            Dependendia <br> Emocional
-          </div>
-        </div>
-        <div class="test__card-image">
-          <img src="../../../assets/images/test-image.png" alt="test image">
-        </div>
-        <div>
-          <button class="test__btn test">Hacer test</button>
+          <a [routerLink]="['/test/test/'+test.id]"><button class="test__btn test">Hacer test</button></a>
         </div>
       </div>
     </div>

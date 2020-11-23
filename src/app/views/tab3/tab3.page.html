@@ -1,9 +1,128 @@
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 3</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <app-explore-container name="Tab 3 page"></app-explore-container>
+<ion-content>
+  <div class="profile__head">
+    <img class="img-bg" src="../../../assets/images/apprevenir-test.png" alt="test image">
+    <div class="profile__title">Nombres</div>
+    <div class="profile__profile-title">Apellidos</div>
+  </div>
+  <div class="content">
+    <div class="template-content">
+      <div class="profile__tab-content">
+        <div class="profile__tab" [ngClass]="{'active': tab == 'data'}" (click)="toggletab('data')">
+          <ion-icon name="person-circle-outline"></ion-icon>
+          <ion-label>Mis datos</ion-label>
+        </div>
+        <div class="profile__tab" [ngClass]="{'active': tab == 'test'}" (click)="toggletab('test')">
+          <ion-icon name="reader-outline"></ion-icon>
+          <ion-label>Mis test</ion-label>
+        </div>
+      </div>
+      <div class="stepper-top">
+        <div *ngIf="tab == 'data'">
+          <mat-horizontal-stepper linear #stepper >
+            <mat-step [stepControl]="firstFormGroup">
+              <form class="register-form" [formGroup]="firstFormGroup">
+                <ng-template matStepLabel>Información personal</ng-template>
+                <p class="register-form__label">Información personal</p>
+                <div class="register-form__input">
+                  <input type="text" placeholder="Nombre(s)" formControlName="first_names" required>
+                </div>
+                <div class="register-form__input">
+                  <input type="text" placeholder="Primer Apellido" formControlName="last_name_one" required>
+                </div>
+                <div class="register-form__input">
+                  <input type="text" placeholder="Segundo Apellido" formControlName="first_name_two" required>
+                </div>
+                <div class="register-form__input">
+                  <input type="date" placeholder="Fecha de nacimiento" formControlName="birthday" required>
+                </div>
+                <div class="register-form__input">
+                  <p class="register-form__label-small">Género</p>
+                  <mat-radio-group formControlName="gender_id" required>
+                    <mat-radio-button value="1">Femanino</mat-radio-button>
+                    <mat-radio-button value="2">Masculino</mat-radio-button>
+                  </mat-radio-group>
+                </div>
+                <div class="register-form__input">
+                  <select formControlName="civil_status_id" required>
+                    <option value="">Estado civil</option>
+                    <option value="1">Soltero/a</option>
+                    <option value="2">Casado/a</option>
+                    <option value="3">Viudo/a</option>
+                    <option value="4">Divorciado/a</option>
+                  </select>
+                </div>
+                <div class="register-form__input">
+                  <select formControlName="education_level_id" required>
+                    <option value="">Nivel de Estudios</option>
+                    <option value="1">Primaria</option>
+                    <option value="2">Bachiller</option>
+                    <option value="3">Universitario</option>
+                    <option value="4">Posgrado</option>
+                    <option value="5">Ninguno</option>
+                  </select>
+                </div>
+                <div class="register-form__content-btns">
+                  <a [routerLink]="['/login']"><button class="register-form__btn back" mat-button>Atras</button></a>
+                  <button class="register-form__btn next" mat-button matStepperNext>Siguiente</button>
+                </div>
+              </form>
+            </mat-step>
+            <mat-step [stepControl]="secondFormGroup">
+              <form class="register-form" [formGroup]="secondFormGroup">
+                <ng-template matStepLabel>Ubicación</ng-template>
+                <p class="register-form__label">Ubicación</p>
+                <div class="register-form__input">
+                  <select formControlName="country_id" required #country (change)="getStates(country.value)">
+                    <option value="">País</option>
+                    <option value="{{country.id}}" *ngFor="let country of countries">{{country.name}}</option>
+                  </select>
+                </div>
+                <div class="register-form__input">
+                  <select formControlName="state_id" required #state (change)="getCities(state.value)">
+                    <option value="" selected>Departamento</option>
+                    <option value="{{state.id}}" *ngFor="let state of states">{{state.name}}</option>
+                  </select>
+                </div>
+                <div class="register-form__input">
+                  <select formControlName="city_id" required>
+                    <option value="" selected>ciudad</option>
+                    <option value="{{city.id}}" *ngFor="let city of cities">{{city.name}}</option>
+                  </select>
+                </div>
+                <div class="register-form__content-btns">
+                  <button class="register-form__btn back" mat-button matStepperPrevious>Atras</button>
+                  <button class="register-form__btn next" mat-button matStepperNext>Siguente</button>
+                </div>
+              </form>
+            </mat-step>
+            <mat-step>
+              <form class="register-form" [formGroup]="thirdFormGroup" (ngSubmit)="onSubmit()">
+                <ng-template matStepLabel>Contacto</ng-template>
+                <p class="register-form__label">Contacto</p>
+                <div class="register-form__input">
+                  <input type="phone" placeholder="Número de celular" formControlName="phone" required>
+                </div>
+                <div class="register-form__input">
+                  <input type="email" placeholder="Correo electrónico" formControlName="email" required>
+                </div>
+                <div class="register-form__input">
+                  <input type="password" placeholder="Contraseña" formControlName="password" required>
+                </div>
+                <div class="register-form__input">
+                  <input type="password" placeholder="Repetir contraseña" formControlName="password_confirmation" required>
+                </div>
+                <div class="register-form__content-btns">
+                  <button class="register-form__btn back" mat-button matStepperPrevious>Atras</button>
+                  <button class="register-form__btn next" mat-button type="submit">Registrar</button>
+                </div>
+              </form>
+            </mat-step>
+          </mat-horizontal-stepper>
+        </div>
+        <div *ngIf="tab == 'test'">
+          test
+        </div>
+      </div>
+    </div>
+  </div>
 </ion-content>

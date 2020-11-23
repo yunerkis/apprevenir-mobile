@@ -1,12 +1,12 @@
-import { IonicModule } from '@ionic/angular';
-import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Tab3Page } from './tab3.page';
-import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 
-import { Tab3PageRoutingModule } from './tab3-routing.module';
+import { IonicModule } from '@ionic/angular';
+
+import { TestPageRoutingModule } from './test-routing.module';
+
+import { TestPage } from './test.page';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -17,21 +17,19 @@ import {MatRadioModule} from '@angular/material/radio';
 
 @NgModule({
   imports: [
-    IonicModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    ExploreContainerComponentModule,
+    IonicModule,
+    TestPageRoutingModule,
     MatStepperModule,
     MatInputModule,
     MatButtonModule,
     MatAutocompleteModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatRadioModule,
-    RouterModule.forChild([{ path: '', component: Tab3Page }]),
-    Tab3PageRoutingModule,
+    MatRadioModule
   ],
-  declarations: [Tab3Page]
+  declarations: [TestPage]
 })
-export class Tab3PageModule {}
+export class TestPageModule {}

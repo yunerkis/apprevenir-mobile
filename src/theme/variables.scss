@@ -312,13 +312,25 @@
     height: 46vh;
   }
 
-  &__title {
+  &__title, &__test-title {
     position: relative;
     left: 30px;
     top: 55px;
     font-size: 20px;
     letter-spacing: 5.1px;
     text-transform: uppercase;
+  }
+
+  &__test-title {
+    top: 80px;
+    font-size: 30px;
+    font-weight: 500;
+    text-transform: capitalize;
+    z-index: 30;
+    letter-spacing: 1px;
+    width: 60%;
+    text-align: left;
+    line-height: 30px;
   }
 
   &__head {

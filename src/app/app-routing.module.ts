@@ -10,11 +10,16 @@ const routes: Routes = [
   {
     path: 'home',
     loadChildren: () => import('./views/tabs/tabs.module').then(m => m.TabsPageModule),
-    // canActivate: [AuthService]
+    canActivate: [AuthService]
   },
   {
     path: 'modal',
     loadChildren: () => import('./views/modals/modal/modal.module').then( m => m.ModalPageModule)
+  },
+  {
+    path: 'test',
+    loadChildren: () => import('./views/test/template/template.module').then( m => m.TemplatePageModule),
+    // canActivate: [AuthService]
   },
 ];
 @NgModule({

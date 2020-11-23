@@ -1,0 +1,196 @@
+ion-content {
+    --background: #fff !important;
+    --color: #3E6472 !important;
+    
+    .profile {
+
+        &__tab-content {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            font-size: 14px;
+            position: absolute;
+            width: 100%;
+            left: 0;
+            top: 0;
+            padding-top: 20px;
+            color: #4A657080;
+
+            ion-icon {
+                font-size: 25px;
+                margin-bottom: 8px;
+            }
+        }
+
+        &__tab {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-bottom: 20px;
+            width: 100%;
+            border-bottom: 1px solid #4A657080;
+        }
+
+        &__tab.active {
+            border-bottom: 4px solid #20E57E;
+            color: #009E9E;
+        }
+        
+
+        &__icons {
+            display: flex;
+            justify-content: space-between;
+            padding-left: 30px;
+            padding-right: 50px;
+            position: relative;
+            z-index: 20;
+        }
+
+        &__head {
+            width: 100%;
+            height: 30vh;
+            background-color: #009E9E;
+            position: fixed;
+            z-index: 20;
+            margin-bottom: -35px;
+            text-align: center;
+            padding-top: 20px;
+            overflow: hidden;
+            color: #fff;
+
+            .img-bg {
+                position: absolute;
+                right: -38px;
+            }
+        }
+
+        &__bg {
+            width: 100%;
+            height: 100%;
+            background-color: #009E9E;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0.6;
+            z-index: 20;
+        }
+
+        &__title, &__profile-title {
+            position: absolute;
+            left: 30px;
+            top: 80px;
+            font-size: 25px;
+            text-transform: capitalize;
+            font-weight: 500;
+        }
+        
+        &__profile-title {
+            top: 105px;
+            font-size: 18px;
+            font-weight: 400;
+            z-index: 30;
+            width: 60%;
+            text-align: left;
+            line-height: 28px;
+        }
+    }
+    
+    .content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border-radius: 35px 35px 0 0;
+        position: relative;
+        z-index: 30;
+        background-color: #fff;
+        margin-top: 155px;
+        padding-top: 20px;
+    }
+
+    .template-content {
+        width: 320px;
+        height: 100%;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}
+
+.stepper-top {
+    margin-top: 85px;
+}
+
+.register-form {
+
+    margin-bottom: 50px;
+
+    &__title, &__label, &__label-small {
+        font-size: 26px;
+        font-weight: 600;
+        margin-bottom: 30px;
+    }
+
+    &__label {
+        font-size: 18px;
+        margin-top: 35px;
+    }
+
+    &__label-small {
+        font-size: 16px;
+        font-weight: 400;
+        margin-bottom: 15px;
+    }
+
+    &__input{
+        margin-bottom: 28px;
+        position: relative;
+    }
+
+    &__input input, &__input select {
+        width: 100%;
+        height: 50px;
+        padding-left: 16px;
+        background: #FFFFFF 0% 0% no-repeat padding-box;
+        border: 1px solid #4A657080;
+        border-radius: 8px;
+        opacity: 1;
+    }
+
+    &__input input[type=date] {
+        padding-right: 18px;
+    }
+
+    &__btn {
+        height: 44px;  
+        min-width: 125px;
+    }
+
+    &__content-btns {
+        display: flex;
+        justify-content: space-around;
+    }
+
+    &__btn.next {
+        background: #009E9E 0% 0% no-repeat padding-box;
+        box-shadow: 0px 5px 6px #00D1D14D;
+        border-radius: 22px;
+        color: #fff;
+    }
+
+    &__btn.back {
+        border: 1px solid #CED9D7;
+        border-radius: 22px;
+        opacity: 1;
+        background-color: #fff;
+        color: #36484F99;
+        margin-right: 25px;
+    }
+}  
+
+mat-radio-group {
+
+    mat-radio-button:first-child {
+        margin-right: 30px;
+        margin-left: 15px;
+    }
+}

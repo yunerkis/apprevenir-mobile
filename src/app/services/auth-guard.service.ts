@@ -36,10 +36,8 @@ export class AuthGuardService {
   checkToken() {
     this.storage.get(TOKEN_KEY).then(token => {
       if (token) {
-        const decode = this.helper.decodeToken(token);
         const isExpired = this.helper.isTokenExpired(token);
         if (!isExpired) {
-          this.user = decode;
           this.authenticationState.next(true);
         } else {
           this.storage.remove(TOKEN_KEY);
@@ -58,7 +56,7 @@ export class AuthGuardService {
         this.storage.set(TOKEN_KEY, res['data'].access_token);
         this.user = this.helper.decodeToken(res['data'].access_token);
         this.authenticationState.next(true);
-        this.router.navigate(['test']);
+        this.router.navigate(['home']);
       }, data => {
         console.log(data.error.errors);
         //this.messageErros(data.error.errors.email[0]);
