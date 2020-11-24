@@ -66,14 +66,9 @@ export class AuthGuardService {
         this.user = this.helper.decodeToken(res['data'].access_token);
         this.authenticationState.next(true);
         this.router.navigate(['home']);
-      }, data => {
-        console.log(data.error.errors);
-        //this.messageErros(data.error.errors.email[0]);
+      }, error => {
+        this.messageErros(error.error.data);
       });
-  }
-
-  getProfile() {
-    return 
   }
 
   logout() {
@@ -102,23 +97,12 @@ export class AuthGuardService {
       });
   }
 
-  async messageErros(error) {
-    const toast = await this.toastController.create({
-      color: 'danger',
-      duration: 3000,
-      message: error
-    });
-
-    await toast.present();
-  }
-
   register(data) {
     return this.http.post(`${this.url}/api/v1/register`, data).subscribe(
       res => {
         this.toggle.next('login');
       }, data => {
         console.log(data.error.errors);
-        //this.messageErros(data.error.errors.email[0]);
       });
   }
 
@@ -130,10 +114,11 @@ export class AuthGuardService {
         })
         return this.http.put(`${this.url}/api/v1/users/${profile.id}`, data, {headers: headers}).subscribe(
           res => {
+            this.messageSuccess('Perfil actualziado')
             return res;
           }, data => {
             console.log(data.error.errors);
-            //this.messageErros(data.error.errors.email[0]);
+            // this.messageErros(data.error.errors.email[0]);
           });
       });
     });
@@ -151,4 +136,25 @@ export class AuthGuardService {
   cities(state) {
     return this.http.get(`${this.url}/api/v1/cities?state=`+state).pipe(map(res => {return res;}));
   }
+
+  async messageErros(error) {
+    const toast = await this.toastController.create({
+      color: 'danger',
+      duration: 3000,
+      message: error
+    });
+
+    await toast.present();
+  }
+
+  async messageSuccess(success) {
+    const toast = await this.toastController.create({
+      color: 'success',
+      duration: 3000,
+      message: success
+    });
+
+    await toast.present();
+  }
+
 }

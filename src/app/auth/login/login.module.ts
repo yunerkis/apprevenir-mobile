@@ -9,6 +9,9 @@ import { LoginPageRoutingModule } from './login-routing.module';
 import { LoginPage } from './login.page';
 import { TermsPageModule } from '../terms/terms.module';
 
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+
 
 @NgModule({
   imports: [
@@ -17,6 +20,8 @@ import { TermsPageModule } from '../terms/terms.module';
     IonicModule,
     ReactiveFormsModule,
     LoginPageRoutingModule,
+    MatFormFieldModule,
+    MatInputModule,
     TermsPageModule
   ],
   declarations: [LoginPage]

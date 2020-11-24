@@ -23,6 +23,10 @@ export class PasswordResetPage implements OnInit {
   }
 
   onSubmit() {
+    if(this.resetForm.invalid) {
+      this.resetForm.setErrors({ ...this.resetForm.errors, 'yourErrorName': true });
+      return;
+    }
     this.authGuardService.reset(this.resetForm.value);
   }
 
