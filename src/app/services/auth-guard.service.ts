@@ -41,6 +41,7 @@ export class AuthGuardService {
           this.authenticationState.next(true);
         } else {
           this.storage.remove(TOKEN_KEY);
+          this.storage.remove('ID');
         }
       }
     });
@@ -54,6 +55,14 @@ export class AuthGuardService {
     return this.http.post(`${this.url}/api/v1/login`, credentials).subscribe(
       res => {
         this.storage.set(TOKEN_KEY, res['data'].access_token);
+        const headers = new HttpHeaders({
+          'Authorization': 'Bearer ' + res['data'].access_token
+        })
+        this.http.get(`${this.url}/api/v1/users/${res['data'].id}`, {headers: headers}).pipe(map(res => {return res;})).subscribe(user => { 
+          user['data'].profile.email = user['data'].email;
+          user['data'].profile.id = user['data'].id;
+          this.storage.set('PROFILE', user['data'].profile); 
+        });
         this.user = this.helper.decodeToken(res['data'].access_token);
         this.authenticationState.next(true);
         this.router.navigate(['home']);
@@ -61,6 +70,10 @@ export class AuthGuardService {
         console.log(data.error.errors);
         //this.messageErros(data.error.errors.email[0]);
       });
+  }
+
+  getProfile() {
+    return 
   }
 
   logout() {
@@ -72,6 +85,7 @@ export class AuthGuardService {
         res => {
           console.log(res);
           this.storage.remove(TOKEN_KEY);
+          this.storage.remove('ID');
           this.router.navigate(['login']);
         }, error => {
           console.log(error);
@@ -106,6 +120,24 @@ export class AuthGuardService {
         console.log(data.error.errors);
         //this.messageErros(data.error.errors.email[0]);
       });
+  }
+
+  updateProfile(data) {
+    return this.storage.get('PROFILE').then(profile => {
+      return this.storage.get(TOKEN_KEY).then(token => {
+        const headers = new HttpHeaders({
+          'Authorization': 'Bearer ' + token
+        })
+        return this.http.put(`${this.url}/api/v1/users/${profile.id}`, data, {headers: headers}).subscribe(
+          res => {
+            return res;
+          }, data => {
+            console.log(data.error.errors);
+            //this.messageErros(data.error.errors.email[0]);
+          });
+      });
+    });
+    
   }
 
   countries() {

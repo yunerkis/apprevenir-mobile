@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonContent } from '@ionic/angular';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-template',
@@ -17,7 +17,7 @@ export class TemplatePage implements OnInit {
    
     this.router.events.subscribe((evt) => {
       this.content.scrollToTop();
-  });
+    });
   }
 
 }
