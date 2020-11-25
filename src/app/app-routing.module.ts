@@ -16,6 +16,11 @@ const routes: Routes = [
     path: 'modal',
     loadChildren: () => import('./views/modals/modal/modal.module').then( m => m.ModalPageModule)
   },
+  {
+    path: 'test',
+    loadChildren: () => import('./views/test/template/template.module').then(m => m.TemplatePageModule),
+    canActivate: [AuthService]
+  },
 ];
 @NgModule({
   imports: [
