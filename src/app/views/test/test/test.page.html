@@ -1,31 +1,31 @@
-<mat-horizontal-stepper linear #stepper>
-  <mat-step *ngFor="let question of test.questions; let i = index">
-    <form class="test-form" [formGroup]="formGroup" (ngSubmit)="onSubmit()">
-      <div class="test-form__label">
-        <div class="test-form__order">
-          {{ question.order }}
+<form class="test-form" [formGroup]="formGroup">
+  <mat-horizontal-stepper linear #stepper formArrayName="formArray">
+      <mat-step formGroupName="{{i}}" [stepControl]="formArray?.get([i])" *ngFor="let question of test.questions; let i = index">
+        <div class="test-form__label">
+          <div class="test-form__order">
+            {{ question.order }}
+          </div>
+          <div class="test-form__question">
+            {{ question.question }}
+          </div>
         </div>
-        <div class="test-form__question">
-          {{ question.question }}
+        <div class="test-form__input">
+          <mat-radio-group formControlName="answer_id_{{question.id}}" required>
+            <mat-radio-button value="{{ answer.id }}" *ngFor="let answer of question.answers">
+              <div class="test-form__options">
+                <span class="test-form__option-letter">a</span>
+                <div class="test-form__option-answer">{{ answer.answer }}</div>
+              </div>
+            </mat-radio-button>
+          </mat-radio-group>
         </div>
-      </div>
-      <div class="test-form__input">
-        <mat-radio-group formControlName="answer_id_{{question.id}}" required>
-          <mat-radio-button value="{{ answer.id }}" *ngFor="let answer of question.answers">
-            <div class="test-form__options">
-              <span class="test-form__option-letter">a</span>
-              <div class="test-form__option-answer">{{ answer.answer }}</div>
-            </div>
-          </mat-radio-button>
-        </mat-radio-group>
-      </div>
-      <div class="test-form__content-btns">
-        <a *ngIf="i == 0" [routerLink]="['/home']"><button class="test-form__btn back" mat-button>Atras</button></a>
-        <button *ngIf="i != 0" class="test-form__btn back" mat-button matStepperPrevious>Atras</button>
-        <button  class="test-form__btn next" mat-button matStepperNext *ngIf="i != test.questions.length - 1"> Siguiente</button>
-        <button  class="test-form__btn next" mat-button matStepperNext *ngIf="i == test.questions.length - 1"> Enviar</button>
-      </div>
-    </form>
-  </mat-step>
-</mat-horizontal-stepper>
+        <div class="test-form__content-btns">
+          <a *ngIf="i == 0" [routerLink]="['/home']"><button class="test-form__btn back" mat-button>Atras</button></a>
+          <button *ngIf="i != 0" class="test-form__btn back" mat-button matStepperPrevious>Atras</button>
+          <button *ngIf="i != test.questions.length - 1" class="test-form__btn next" mat-button matStepperNext> Siguiente</button>
+          <button *ngIf="i == test.questions.length - 1" class="test-form__btn next" mat-button matStepperNext (click)="onSubmit()">Enviar</button>
+        </div>
+      </mat-step>
+  </mat-horizontal-stepper>
+</form>
 

@@ -11,5 +11,4 @@ export class TemplatePage implements OnInit {
 
   ngOnInit() {
   }
-
 }
