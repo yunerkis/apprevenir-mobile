@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { TestService } from '../../../services/test.service';
+import { ModalController } from '@ionic/angular';
+import { ModalPage } from '../../modals/modal/modal.page';
+
+
 
 @Component({
   selector: 'app-template',
@@ -7,8 +12,27 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TemplatePage implements OnInit {
 
-  constructor() { }
+  infoTest: any = [];
+
+  constructor(
+    public testService: TestService,
+    public modalController: ModalController,
+    
+  ) {}
 
   ngOnInit() {
+    this.testService.test.subscribe( (val) => this.infoTest = val);
+  }
+
+  async openModal(contents) {
+    const modal = await this.modalController.create({
+      component: ModalPage,
+      cssClass: 'modal-terms',
+      componentProps: {
+        "contents": contents,
+      }
+    });
+
+    return await modal.present();
   }
 }

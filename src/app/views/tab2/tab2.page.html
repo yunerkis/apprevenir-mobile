@@ -14,7 +14,6 @@
     <div class="test__list">
       <div class="test__card" *ngFor="let test of tests">
         <div class="test__card-head">
-          <img src="../../../assets/icon/help-icon.svg" class="test__card-help" (click)="openModal(test)" alt="help">
           <ion-icon name="help-circle-outline" class="test__card-help" (click)="openModal(test)"></ion-icon>
           <div class="test__card-category" *ngFor="let category of test.categories">
             {{ category.name }}

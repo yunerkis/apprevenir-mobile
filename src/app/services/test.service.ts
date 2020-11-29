@@ -15,6 +15,8 @@ const TOKEN_KEY = 'active_token';
 export class TestService {
 
   url = environment.url;
+  test = new BehaviorSubject([]);
+  testInfo = new BehaviorSubject({});
 
   constructor(
     private router: Router,
@@ -38,6 +40,21 @@ export class TestService {
         'Authorization': 'Bearer ' + token
       })
       return this.http.get(`${this.url}/api/v1/tests/${id}`, {headers: headers}).pipe(map(res => {return res;}));
+    });
+  }
+
+  storeAnswer(answer) {
+    return this.storage.get(TOKEN_KEY).then(token => {
+      const headers = new HttpHeaders({
+        'Authorization': 'Bearer ' + token
+      })
+      return this.http.post(`${this.url}/api/v1/users/answer`, answer, {headers: headers}).subscribe(
+        res => {
+          this.testInfo.next(res);
+          this.router.navigate(['test/test-result']);
+        }, data => {
+          console.log(data.error.errors);
+        });;
     });
   }
 }

@@ -1,6 +1,6 @@
 .test-form {
 
-    margin-bottom: 50px;
+    margin-bottom: 0px;
 
     &__title, &__label, &__label-small {
         font-size: 26px;
@@ -96,7 +96,7 @@ mat-radio-group {
     flex-direction: column;
 
     mat-radio-button {
-        margin-bottom: 18px;
+        margin-bottom: 10px;
         margin-left: 10px;
     }
 

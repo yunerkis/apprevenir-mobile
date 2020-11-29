@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TestService } from '../../../services/test.service';
 import { ActivatedRoute } from "@angular/router";
 import { FormGroup, FormBuilder, FormControl, Validators, AbstractControl, FormArray  } from '@angular/forms';
@@ -14,9 +14,8 @@ export class TestPage implements OnInit {
   formGroup: FormGroup;
   answers = [];
   answer = {};
+  addiction = null;
   get formArray(): AbstractControl | null { return this.formGroup.get('formArray'); }
-
-  @Output() dataTest: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(
     public testService: TestService,
@@ -33,10 +32,10 @@ export class TestPage implements OnInit {
     this.testService.getTest(id).then( res => { 
       res.subscribe(test => {
         this.test = test['data'];
-        this.dataTest.emit(this.test);
-        this.test['questions'].forEach(question => {
+        this.testService.test.next(this.test);
+        this.test['questions'].forEach((question, i) => {
           this.answer = {};
-          this.answer['answer_id_'+question.id] = ['', Validators.required];
+          this.answer['answer_'+i] = ['', Validators.required];
           this.answers.push(this.formBuilder.group(this.answer));
         });
         this.formGroup = this.formBuilder.group({ formArray: this.formBuilder.array(this.answers) });
@@ -45,6 +44,19 @@ export class TestPage implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.formGroup.value)
+    let arrayAnswers =  this.formGroup.value.formArray;
+    let key = 'answer_';
+    let objAnswers = [];
+    arrayAnswers.forEach((e, i) => {
+      objAnswers.push(e[key+i]);
+    });
+
+    let result = {
+      'test_id': this.test['id'],
+      'answers':objAnswers,
+      'addiction_id': this.addiction
+    }
+
+    this.testService.storeAnswer(result);
   }
 }

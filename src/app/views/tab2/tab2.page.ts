@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { TestService } from '../../services/test.service';
 import { ModalPage } from '../modals/modal/modal.page';
+import { Router, NavigationEnd } from '@angular/router';
 
 
 @Component({
@@ -15,9 +16,16 @@ export class Tab2Page implements OnInit {
 
   constructor(
     public modalController: ModalController,
-    public testService: TestService
+    public testService: TestService,
+    private router: Router
     
-  ) {}
+  ) {
+    this.router.events.subscribe(event => {       
+      if (event instanceof NavigationEnd && event.url == '/home') {
+        this.testService.test.next([])
+      }
+    });
+  }
 
   ngOnInit() {
     this.testService.getTestsList().then( res => { 

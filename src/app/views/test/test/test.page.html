@@ -10,7 +10,7 @@
           </div>
         </div>
         <div class="test-form__input">
-          <mat-radio-group formControlName="answer_id_{{question.id}}" required>
+          <mat-radio-group formControlName="answer_{{i}}" required>
             <mat-radio-button value="{{ answer.id }}" *ngFor="let answer of question.answers">
               <div class="test-form__options">
                 <span class="test-form__option-letter">a</span>
