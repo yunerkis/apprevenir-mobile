@@ -50,7 +50,7 @@ export class TestService {
       })
       return this.http.post(`${this.url}/api/v1/users/answer`, answer, {headers: headers}).subscribe(
         res => {
-          this.testInfo.next(res);
+          this.testInfo.next(res['data']);
           this.router.navigate(['test/test-result']);
         }, data => {
           console.log(data.error.errors);

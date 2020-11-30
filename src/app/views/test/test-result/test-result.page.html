@@ -1,9 +1,36 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>test-result</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content>
-
-</ion-content>
+<div>
+  <div class="result__tab-content">
+    <div class="result__tab" [ngClass]="{'active': tab == 'result'}" (click)="toggletab('result')">
+      <ion-icon name="alert-circle-outline"></ion-icon>
+      <ion-label>Resultado</ion-label>
+    </div>
+    <div class="result__tab" [ngClass]="{'active': tab == 'info'}" (click)="toggletab('info')">
+      <ion-icon name="caret-forward-circle-outline"></ion-icon>
+      <ion-label>Información</ion-label>
+    </div>
+    <div class="result__tab" [ngClass]="{'active': tab == 'help'}" (click)="toggletab('help')">
+      <ion-icon name="headset"></ion-icon>
+      <ion-label>Ayuda</ion-label>
+    </div>
+    <div class="result__tab" [ngClass]="{'active': tab == 'link'}" (click)="toggletab('link')">
+      <ion-icon name="school-outline"></ion-icon>
+      <ion-label>Enlaces</ion-label>
+    </div>
+  </div>
+  <div class="stepper-top">
+    <div *ngIf="tab == 'result'">
+      <div class="result__warning">
+        <ion-icon name="warning-outline"></ion-icon>
+        <div>{{testResult.resultLevel}}</div>
+      </div>
+    </div>
+    <div *ngIf="tab == 'info'">
+      <iframe width="100%" height="315" [src]="getVideoIframe(testResult.url_video)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    <div *ngIf="tab == 'help'" [innerHTML]="testResult.professional_help">
+    </div>
+    <div *ngIf="tab == 'link'">
+      {{testResult.url_interest}}
+    </div>
+  </div>
+</div>
