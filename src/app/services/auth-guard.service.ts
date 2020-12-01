@@ -86,7 +86,8 @@ export class AuthGuardService {
   reset(email) {
     return this.http.post(`${this.url}/api/v1/reset-password`, email).subscribe(
       res => {
-        this.toggle.next('login');
+        this.router.navigate(['login']);
+        this.messageSuccess('Email enviado')
       }, error => {
         console.log(error.error.errors);
       });
@@ -95,7 +96,8 @@ export class AuthGuardService {
   register(data) {
     return this.http.post(`${this.url}/api/v1/register`, data).subscribe(
       res => {
-        this.toggle.next('login');
+        this.router.navigate(['login']);
+        this.messageSuccess('Registrado')
       }, data => {
         console.log(data.error.errors);
       });

@@ -16,6 +16,56 @@ export class RegisterPage implements OnInit {
   countries = [];
   states = [];
   cities = [];
+  genders = [
+    {
+      gender : 'Femenino',
+      value: 1
+    },
+    {
+      gender : 'Masculino',
+      value: 2
+    },
+  ];
+  civil_statuses = [
+    {
+      status : 'Soltero/a',
+      value: 1
+    },
+    {
+      status : 'Casado/a',
+      value: 2
+    },
+    {
+      status : 'Viudo/a',
+      value: 3
+    },
+    {
+      status : 'Divorciado/a',
+      value: 4
+    },
+  ];
+  educations = [
+    {
+      education : 'Primaria',
+      value: 1
+    },
+    {
+      education : 'Bachiller',
+      value: 2
+    },
+    {
+      education : 'Universitario',
+      value: 3
+    },
+    {
+      education : 'Posgrado',
+      value: 4
+    },
+    {
+      education : 'Ninguno',
+      value: 5
+    },
+  ];
 
   constructor(
     private formBuilder: FormBuilder,

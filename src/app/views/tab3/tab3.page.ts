@@ -25,7 +25,6 @@ export class Tab3Page implements OnInit {
   cities = [];
   tab = "data";
   profile: any = '';
-
   genders = [
     {
       gender : 'Femenino',
@@ -36,7 +35,6 @@ export class Tab3Page implements OnInit {
       value: 2
     },
   ];
-
   civil_statuses = [
     {
       status : 'Soltero/a',
@@ -55,7 +53,6 @@ export class Tab3Page implements OnInit {
       value: 4
     },
   ];
-
   educations = [
     {
       education : 'Primaria',
@@ -78,11 +75,8 @@ export class Tab3Page implements OnInit {
       value: 5
     },
   ];
-
   displayedColumns: string[] = ['Test', 'Fecha', 'Nivel', 'Respuestas'];
-
   dataSource = [];
-
   color = {
     'Severo': '#FF4E60',
     'Moderado': '#FFA14E',
