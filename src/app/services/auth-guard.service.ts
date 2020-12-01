@@ -55,14 +55,9 @@ export class AuthGuardService {
     return this.http.post(`${this.url}/api/v1/login`, credentials).subscribe(
       res => {
         this.storage.set(TOKEN_KEY, res['data'].access_token);
-        const headers = new HttpHeaders({
-          'Authorization': 'Bearer ' + res['data'].access_token
-        })
-        this.http.get(`${this.url}/api/v1/users/${res['data'].id}`, {headers: headers}).pipe(map(res => {return res;})).subscribe(user => { 
-          user['data'].profile.email = user['data'].email;
-          user['data'].profile.id = user['data'].id;
-          this.storage.set('PROFILE', user['data'].profile); 
-        });
+        res['data'].profile.email = credentials['email'];
+        res['data'].profile.id = res['data'].id;
+        this.storage.set('PROFILE', res['data'].profile); 
         this.user = this.helper.decodeToken(res['data'].access_token);
         this.authenticationState.next(true);
         this.router.navigate(['home']);
@@ -80,7 +75,7 @@ export class AuthGuardService {
         res => {
           console.log(res);
           this.storage.remove(TOKEN_KEY);
-          this.storage.remove('ID');
+          this.storage.remove('PROFILE');
           this.router.navigate(['login']);
         }, error => {
           console.log(error);

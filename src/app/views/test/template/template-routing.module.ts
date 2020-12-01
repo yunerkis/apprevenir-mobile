@@ -15,7 +15,7 @@ const routes: Routes = [
     children : [
       {
         path: 'test/:id',
-        loadChildren: () => import('../test/test.module').then( m => m.TestPageModule)
+        loadChildren: () => import('../test/test.module').then( m => m.TestPageModule),
       },
       {
         path: 'test-result',

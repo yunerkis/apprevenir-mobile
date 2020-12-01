@@ -167,7 +167,7 @@ export class Tab3Page implements OnInit {
     });
 
     this.testService.myResults().then( res => { 
-      res.subscribe(results => { console.log(this.dataSource = results['data'])});
+      res.subscribe(results => { this.dataSource = results['data']});
     });
   }
 
