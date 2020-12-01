@@ -3,8 +3,6 @@ import { TestService } from '../../../services/test.service';
 import { ModalController } from '@ionic/angular';
 import { ModalPage } from '../../modals/modal/modal.page';
 
-
-
 @Component({
   selector: 'app-template',
   templateUrl: './template.page.html',
@@ -17,7 +15,6 @@ export class TemplatePage implements OnInit {
   constructor(
     public testService: TestService,
     public modalController: ModalController,
-    
   ) {}
 
   ngOnInit() {

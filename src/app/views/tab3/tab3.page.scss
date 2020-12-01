@@ -120,6 +120,22 @@ ion-content {
     margin-top: 100px;
 }
 
+table {
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 100px;
+}
+
+.test-icon {
+    font-size: 25px;
+    color: #4A657080;
+}
+
+td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type {
+    text-align: center;
+}
+
 .register-form {
 
     margin-bottom: 50px;

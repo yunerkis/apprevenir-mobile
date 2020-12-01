@@ -21,6 +21,10 @@ const routes: Routes = [
     loadChildren: () => import('./views/test/template/template.module').then(m => m.TemplatePageModule),
     canActivate: [AuthService]
   },
+  {
+    path: 'result',
+    loadChildren: () => import('./views/modals/result/result.module').then( m => m.ResultPageModule)
+  },
 ];
 @NgModule({
   imports: [

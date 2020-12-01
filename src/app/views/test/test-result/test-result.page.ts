@@ -11,7 +11,10 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 })
 export class TestResultPage implements OnInit {
 
-  testResult = {};
+  resultLevel = "";
+  url_video = "";
+  professional_help = "";
+  url_interest = "";
   tab = "result";
 
   constructor(
@@ -25,8 +28,10 @@ export class TestResultPage implements OnInit {
       if (Object.keys(val).length == 0) {
         this.router.navigate(['home']);
       }
-      this.testResult = val;
-      console.log(this.testResult)
+      this.resultLevel = val['resultLevel'];
+      this.url_video = val['url_video'];
+      this.professional_help = val['professional_help'];
+      this.url_interest = val['url_interest'];
     });
   }
 

@@ -15,6 +15,23 @@ export class TestPage implements OnInit {
   answers = [];
   answer = {};
   addiction = null;
+  questions: any;
+  order = {
+    0:"a",
+    1:"b",
+    2:"c",
+    3:"d",
+    4:"e",
+    5:"f",
+    6:"g",
+    7:"h",
+    8:"i",
+    9:"j",
+    10:"k",
+    11:"l",
+    12:"m",
+  };
+
   get formArray(): AbstractControl | null { return this.formGroup.get('formArray'); }
 
   constructor(
@@ -22,6 +39,7 @@ export class TestPage implements OnInit {
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
   ) { }
+  
 
   ngOnInit() {
 
@@ -32,6 +50,7 @@ export class TestPage implements OnInit {
     this.testService.getTest(id).then( res => { 
       res.subscribe(test => {
         this.test = test['data'];
+        this.questions =  this.test['questions'];
         this.testService.test.next(this.test);
         this.test['questions'].forEach((question, i) => {
           this.answer = {};

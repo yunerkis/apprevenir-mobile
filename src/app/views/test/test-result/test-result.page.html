@@ -21,16 +21,16 @@
     <div *ngIf="tab == 'result'">
       <div class="result__warning">
         <ion-icon name="warning-outline"></ion-icon>
-        <div>{{testResult.resultLevel}}</div>
+        <div>{{resultLevel}}</div>
       </div>
     </div>
     <div *ngIf="tab == 'info'">
-      <iframe width="100%" height="315" [src]="getVideoIframe(testResult.url_video)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      <iframe width="100%" height="315" [src]="getVideoIframe(url_video)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div>
-    <div *ngIf="tab == 'help'" [innerHTML]="testResult.professional_help">
+    <div *ngIf="tab == 'help'" [innerHTML]="professional_help">
     </div>
     <div *ngIf="tab == 'link'">
-      {{testResult.url_interest}}
+      {{url_interest}}
     </div>
   </div>
 </div>

@@ -1,0 +1,22 @@
+.modal-result {
+
+    &__title {
+        font-size: 24px;
+        line-height: 30px;
+        color: #3E6472;
+    }
+
+    &__sub-title {
+        font-size: 16px;
+        color: #3E6472;
+        margin-top: 15px;
+    }
+
+    &__content {
+        margin-top: 20px;
+        height: 360px;
+        overflow: auto;
+        margin-bottom: 20px;
+        overflow-y: auto;
+    }
+}

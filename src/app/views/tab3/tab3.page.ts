@@ -5,6 +5,9 @@ import { Storage } from '@ionic/storage';
 import {MatStepper} from '@angular/material/stepper/index';
 import { IonContent } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { TestService } from '../../services/test.service';
+import { ModalController } from '@ionic/angular';
+import { ResultPage } from '../modals/result/result.page';
 
 @Component({
   selector: 'app-tab3',
@@ -76,6 +79,16 @@ export class Tab3Page implements OnInit {
     },
   ];
 
+  displayedColumns: string[] = ['Test', 'Fecha', 'Nivel', 'Respuestas'];
+
+  dataSource = [];
+
+  color = {
+    'Severo': '#FF4E60',
+    'Moderado': '#FFA14E',
+    'Leve': '#20E57E'
+  };
+
   @ViewChild('stepper') stepper: MatStepper;
 
   @ViewChild(IonContent, { static: false }) content: IonContent;
@@ -84,7 +97,9 @@ export class Tab3Page implements OnInit {
     private formBuilder: FormBuilder,
     private authGuardService: AuthGuardService,
     private storage: Storage,
-    private router: Router
+    public testService: TestService,
+    private router: Router,
+    public modalController: ModalController,
   ) {}
 
   ngOnInit() {
@@ -150,6 +165,10 @@ export class Tab3Page implements OnInit {
 
       this.getCities(this.profile.state_id);
     });
+
+    this.testService.myResults().then( res => { 
+      res.subscribe(results => { console.log(this.dataSource = results['data'])});
+    });
   }
 
   getCountries() {
@@ -201,4 +220,27 @@ export class Tab3Page implements OnInit {
     this.tab = toggle;
   }
 
+  setStyle(color) {
+    return {
+      'background-color': this.color[color],
+      'color': '#fff',
+      'padding-left': '15px',
+      'padding-right': '15px',
+      'border-radius': '10px',
+      'padding-top': '1px',
+      'padding-bottom': '1px',
+    }
+  }
+
+  async openModal(contents) {
+    const modal = await this.modalController.create({
+      component: ResultPage,
+      cssClass: 'modal-terms',
+      componentProps: {
+        "contents": contents,
+      }
+    });
+
+    return await modal.present();
+  }
 }

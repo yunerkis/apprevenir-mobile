@@ -1,0 +1,25 @@
+<div class="modal-terms__content">
+  <div class="modal-result__head">
+    <div class="modal-result__title">Respuestas del test de {{ content.testName }}</div>
+    <div class="modal-result__sub-title">Nivel <span [ngStyle]=setStyle(content.resultLevel)>{{ content.resultLevel }}</span></div>
+  </div>
+  <div class="modal-result__content">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <ng-container matColumnDef="N">
+        <th mat-header-cell *matHeaderCellDef>N </th>
+        <td mat-cell *matCellDef="let element">{{ element.question.order }}</td>
+      </ng-container>
+      <ng-container matColumnDef="Pregunta">
+        <th mat-header-cell *matHeaderCellDef>Pregunta</th>
+        <td mat-cell *matCellDef="let element">{{ element.question.question }}</td>
+      </ng-container>
+      <ng-container matColumnDef="Respuesta">
+        <th mat-header-cell *matHeaderCellDef>Respuesta</th>
+        <td mat-cell *matCellDef="let element">{{ element.answer }}</td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+  <div class="modal-terms__btn-acept" (click)="closeModal()">Cerrar</div>
+</div>

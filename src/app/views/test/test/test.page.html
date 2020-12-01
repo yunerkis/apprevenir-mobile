@@ -1,6 +1,6 @@
 <form class="test-form" [formGroup]="formGroup">
   <mat-horizontal-stepper linear #stepper formArrayName="formArray">
-      <mat-step formGroupName="{{i}}" [stepControl]="formArray?.get([i])" *ngFor="let question of test.questions; let i = index">
+      <mat-step formGroupName="{{i}}" [stepControl]="formArray?.get([i])" *ngFor="let question of questions; let i = index">
         <div class="test-form__label">
           <div class="test-form__order">
             {{ question.order }}
@@ -11,9 +11,9 @@
         </div>
         <div class="test-form__input">
           <mat-radio-group formControlName="answer_{{i}}" required>
-            <mat-radio-button value="{{ answer.id }}" *ngFor="let answer of question.answers">
+            <mat-radio-button value="{{ answer.id }}" *ngFor="let answer of question.answers; let in = index">
               <div class="test-form__options">
-                <span class="test-form__option-letter">a</span>
+                <span class="test-form__option-letter">{{ order[in] }}</span>
                 <div class="test-form__option-answer">{{ answer.answer }}</div>
               </div>
             </mat-radio-button>
@@ -22,8 +22,8 @@
         <div class="test-form__content-btns">
           <a *ngIf="i == 0" [routerLink]="['/home']"><button class="test-form__btn back" mat-button>Atras</button></a>
           <button *ngIf="i != 0" class="test-form__btn back" mat-button matStepperPrevious>Atras</button>
-          <button *ngIf="i != test.questions.length - 1" class="test-form__btn next" mat-button matStepperNext> Siguiente</button>
-          <button *ngIf="i == test.questions.length - 1" class="test-form__btn next" mat-button matStepperNext (click)="onSubmit()">Enviar</button>
+          <button *ngIf="i != questions.length - 1" class="test-form__btn next" mat-button matStepperNext> Siguiente</button>
+          <button *ngIf="i == questions.length - 1" class="test-form__btn next" mat-button matStepperNext (click)="onSubmit()">Enviar</button>
         </div>
       </mat-step>
   </mat-horizontal-stepper>

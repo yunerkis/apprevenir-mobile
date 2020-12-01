@@ -57,4 +57,15 @@ export class TestService {
         });;
     });
   }
+
+  myResults() {
+    return this.storage.get('PROFILE').then(profile => {
+      return this.storage.get(TOKEN_KEY).then(token => {
+        const headers = new HttpHeaders({
+          'Authorization': 'Bearer ' + token
+        })
+        return this.http.get(`${this.url}/api/v1/users/results/${profile.id}`, {headers: headers}).pipe(map(res => {return res;}));
+      });
+    });
+  }
 }
