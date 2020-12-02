@@ -27,7 +27,8 @@
           <img *ngIf="test.image != ''" src={{test.image}} alt="test image">
         </div>
         <div>
-          <a [routerLink]="['/test/test/'+test.id]"><button class="test__btn test">Hacer test</button></a>
+          <button *ngIf="test.addictions.length > 0" class="test__btn test" (click)="openModal(test)">Hacer test</button>
+          <a *ngIf="test.addictions.length == 0" [routerLink]="['/test/test/'+test.id]"><button class="test__btn test">Hacer test</button></a>
         </div>
       </div>
     </div>

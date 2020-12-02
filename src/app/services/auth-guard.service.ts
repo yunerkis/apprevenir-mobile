@@ -41,7 +41,7 @@ export class AuthGuardService {
           this.authenticationState.next(true);
         } else {
           this.storage.remove(TOKEN_KEY);
-          this.storage.remove('ID');
+          this.storage.remove('PROFILE');
         }
       }
     });

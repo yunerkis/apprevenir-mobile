@@ -375,6 +375,10 @@
   padding: 0 !important;
 }
 
+.mat-horizontal-stepper-header-container {
+  overflow: hidden;
+}
+
 .mat-step-header .mat-step-icon {
   background-color: var(--neutral-color) !important;
 }

@@ -17,17 +17,18 @@
         padding-left: 30px;
         padding-right: 30px;
         margin-top: 40px;
-        padding-bottom: 5px;
+        padding-bottom: 45px;
     }
 
     &__card {
         width: 100%;
         background-color: #fff;
-        height: 450px;
+        height: auto;
         border-radius: 10px;
         box-shadow: 0px 0px 12px #26A79E1A;
         position: relative;
         margin-bottom: 30px;
+        padding-bottom: 30px;
     }
 
     &__card-head {
@@ -57,6 +58,9 @@
         line-height: 27px;
         letter-spacing: 2px;
         margin-bottom: 25px;
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
     }
 
     &__btn {
