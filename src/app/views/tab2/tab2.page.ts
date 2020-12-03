@@ -3,6 +3,7 @@ import { ModalController } from '@ionic/angular';
 import { TestService } from '../../services/test.service';
 import { ModalPage } from '../modals/modal/modal.page';
 import { Router, NavigationEnd } from '@angular/router';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 
 
 @Component({
@@ -13,11 +14,15 @@ import { Router, NavigationEnd } from '@angular/router';
 export class Tab2Page implements OnInit {
 
   tests = [];
+  arryTests = [];
+  search = false;
+  SearchForm: FormGroup;
 
   constructor(
     public modalController: ModalController,
     public testService: TestService,
-    private router: Router
+    private router: Router,
+    private formBuilder: FormBuilder,
     
   ) {
     this.router.events.subscribe(event => {       
@@ -29,12 +34,16 @@ export class Tab2Page implements OnInit {
 
   ngOnInit() {
     this.testService.getTestsList().then( res => { 
-      res.subscribe(tests => { this.tests = tests['data'] }, data => {
+      res.subscribe(tests => { this.tests = tests['data']; this.arryTests = tests['data']; }, data => {
         if (data.error.data == 'disabled') {
           this.testService.userDelete()
         }
         console.log(data.error);
       });
+    });
+
+    this.SearchForm = this.formBuilder.group({
+      search: [''],
     });
   }
 
@@ -48,5 +57,21 @@ export class Tab2Page implements OnInit {
     });
 
     return await modal.present();
+  }
+
+  toggleSearch() {
+    this.search = !this.search;
+    this.tests = this.arryTests;
+  }
+
+  arrayFilter()
+  {
+    let search = this.SearchForm.value.search;
+    this.tests = this.arryTests;
+    this.tests = this.tests.filter(function(test) {
+      if (test.name.toLowerCase().indexOf(search) !== -1) {
+        return test;
+      }
+    });
   }
 }

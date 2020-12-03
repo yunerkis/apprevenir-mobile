@@ -1,9 +1,15 @@
 <ion-header [translucent]="true">
-  <ion-toolbar class="bg-header">
+  <ion-toolbar class="bg-header" *ngIf="!search">
     <div class="home-logo">
       <img src="../../../assets/images/apprevenir-logo-2.png" alt="logo-app">
     </div>
-    <ion-icon name="search-outline" class="search-icon"></ion-icon>
+    <ion-icon name="search-outline" class="search-icon" (click)="toggleSearch()"></ion-icon>
+  </ion-toolbar>
+  <ion-toolbar class="bg-header" *ngIf="search">
+    <form [formGroup]="SearchForm">
+      <input type="text" placeholder="Buscar" formControlName="search" (keyup)="arrayFilter()">
+      <ion-icon name="close-circle-outline" class="search-icon" (click)="toggleSearch()"></ion-icon>
+    </form>
   </ion-toolbar>
 </ion-header>
 <ion-content [fullscreen]="true">

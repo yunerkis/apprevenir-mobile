@@ -81,6 +81,7 @@
     --background: #fff;
     height: 70px;
     box-shadow: 0px 2px 10px #26A79E26;
+    text-align: center;
 }
 
 .home-logo {
@@ -98,6 +99,18 @@
     color: #4A657080;
     height: 20px;
     width: 20px;
+}
+
+input {
+    width: 65%;
+    height: 35px;
+    padding-left: 16px;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    border: 1px solid #4A657080;
+    border-radius: 8px;
+    opacity: 1;
+    color: #3E6472;
+    margin-top: 10px;
 }
 
 

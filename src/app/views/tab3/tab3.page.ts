@@ -161,7 +161,12 @@ export class Tab3Page implements OnInit {
     });
 
     this.testService.myResults().then( res => { 
-      res.subscribe(results => { this.dataSource = results['data']});
+      res.subscribe(results => { this.dataSource = results['data']}, data => {
+        if (data.error.data == 'disabled') {
+          this.testService.userDelete()
+        }
+        console.log(data.error);
+      });
     });
   }
 

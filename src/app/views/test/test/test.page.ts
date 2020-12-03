@@ -58,6 +58,11 @@ export class TestPage implements OnInit {
           this.answers.push(this.formBuilder.group(this.answer));
         });
         this.formGroup = this.formBuilder.group({ formArray: this.formBuilder.array(this.answers) });
+      }, data => {
+        if (data.error.data == 'disabled') {
+          this.testService.userDelete()
+        }
+        console.log(data.error);
       });
     });
   }

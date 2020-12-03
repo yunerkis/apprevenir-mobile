@@ -32,6 +32,11 @@ export class TestResultPage implements OnInit {
       this.url_video = val['url_video'];
       this.professional_help = val['professional_help'];
       this.url_interest = val['url_interest'];
+    }, data => {
+      if (data.error.data == 'disabled') {
+        this.testService.userDelete()
+      }
+      console.log(data.error);
     });
   }
 
