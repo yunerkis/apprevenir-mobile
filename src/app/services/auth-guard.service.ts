@@ -130,15 +130,15 @@ export class AuthGuardService {
   }
 
   countries() {
-    return this.http.get(`${this.url}/api/v1/countries`).pipe(map(res => {return res;}));
+    return this.http.get(`${this.url}/api/v1/countries`);
   }
 
   states(country) {
-    return this.http.get(`${this.url}/api/v1/states?country=`+country).pipe(map(res => {return res;}));
+    return this.http.get(`${this.url}/api/v1/states?country=`+country);
   }
 
   cities(state) {
-    return this.http.get(`${this.url}/api/v1/cities?state=`+state).pipe(map(res => {return res;}));
+    return this.http.get(`${this.url}/api/v1/cities?state=`+state);
   }
 
   async messageErros(error) {

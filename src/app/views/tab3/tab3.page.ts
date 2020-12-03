@@ -184,7 +184,7 @@ export class Tab3Page implements OnInit {
         });
     } else {
       this.states = [];
-      this.getCities([]);
+      this.getCities('');
     }
   }
 

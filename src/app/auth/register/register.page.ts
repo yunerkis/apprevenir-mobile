@@ -115,7 +115,7 @@ export class RegisterPage implements OnInit {
         });
     } else {
       this.states = [];
-      this.getCities([]);
+      this.getCities('');
     }
   }
 
