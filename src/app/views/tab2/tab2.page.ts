@@ -29,7 +29,12 @@ export class Tab2Page implements OnInit {
 
   ngOnInit() {
     this.testService.getTestsList().then( res => { 
-      res.subscribe(tests => { this.tests = tests['data'] });
+      res.subscribe(tests => { this.tests = tests['data'] }, data => {
+        if (data.error.data == 'disabled') {
+          this.testService.userDelete()
+        }
+        console.log(data.error);
+      });
     });
   }
 

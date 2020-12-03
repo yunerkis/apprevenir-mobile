@@ -30,7 +30,7 @@ export class TestService {
       const headers = new HttpHeaders({
         'Authorization': 'Bearer ' + token
       })
-      return this.http.get(`${this.url}/api/v1/tests`, {headers: headers}).pipe(map(res => {return res;}));
+      return this.http.get(`${this.url}/api/v1/tests`, {headers: headers});
     });
   }
 
@@ -39,7 +39,7 @@ export class TestService {
       const headers = new HttpHeaders({
         'Authorization': 'Bearer ' + token
       })
-      return this.http.get(`${this.url}/api/v1/tests/${id}`, {headers: headers}).pipe(map(res => {return res;}));
+      return this.http.get(`${this.url}/api/v1/tests/${id}`, {headers: headers});
     });
   }
 
@@ -53,8 +53,11 @@ export class TestService {
           this.testInfo.next(res['data']);
           this.router.navigate(['test/test-result']);
         }, data => {
+          if (data.error.data == 'disabled') {
+            this.userDelete()
+          }
           console.log(data.error.errors);
-        });;
+        });
     });
   }
 
@@ -64,8 +67,15 @@ export class TestService {
         const headers = new HttpHeaders({
           'Authorization': 'Bearer ' + token
         })
-        return this.http.get(`${this.url}/api/v1/users/results/${profile.id}`, {headers: headers}).pipe(map(res => {return res;}));
+        return this.http.get(`${this.url}/api/v1/users/results/${profile.id}`, {headers: headers});
       });
     });
+  }
+
+  userDelete()
+  {
+    this.storage.remove(TOKEN_KEY);
+    this.storage.remove('PROFILE');
+    this.router.navigate(['login']);
   }
 }

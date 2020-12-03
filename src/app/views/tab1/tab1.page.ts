@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { AuthGuardService } from '../../services/auth-guard.service';
 
 @Component({
   selector: 'app-tab1',
@@ -9,10 +8,6 @@ import { AuthGuardService } from '../../services/auth-guard.service';
 export class Tab1Page {
 
   constructor(
-    private authGuardService: AuthGuardService,
   ) {}
-  
-  logout() {
-    this.authGuardService.logout();
-  }
+
 }

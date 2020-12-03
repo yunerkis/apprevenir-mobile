@@ -395,4 +395,14 @@ ion-content{
   background-image: none !important;
 }
 
+ion-list {
+  background: transparent !important;
+
+  ion-item {
+    --background: transparent;
+    --color: #3E6472 !important;
+    --border-color: transparent;
+  }
+}
+
 

@@ -73,7 +73,7 @@ export class TestPage implements OnInit {
     let result = {
       'test_id': this.test['id'],
       'answers':objAnswers,
-      'addiction_id': this.addiction
+      'addiction_id': this.route.snapshot.paramMap.get("addiction_id")
     }
 
     this.testService.storeAnswer(result);

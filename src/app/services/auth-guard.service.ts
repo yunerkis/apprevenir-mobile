@@ -34,16 +34,19 @@ export class AuthGuardService {
   }
 
   checkToken() {
-    this.storage.get(TOKEN_KEY).then(token => {
+    return this.storage.get(TOKEN_KEY).then(token => {
       if (token) {
         const isExpired = this.helper.isTokenExpired(token);
         if (!isExpired) {
           this.authenticationState.next(true);
+          return true;
         } else {
           this.storage.remove(TOKEN_KEY);
           this.storage.remove('PROFILE');
+          return false;
         }
       }
+      return false;
     });
   }
 
@@ -74,11 +77,10 @@ export class AuthGuardService {
       this.http.get(`${this.url}/api/v1/logout`, {headers: headers}).subscribe(
         res => {
           console.log(res);
-          this.storage.remove(TOKEN_KEY);
-          this.storage.remove('PROFILE');
-          this.router.navigate(['login']);
+          this.userDelete();
         }, error => {
           console.log(error);
+          this.userDelete();
         });
     });
   }
@@ -111,9 +113,14 @@ export class AuthGuardService {
         })
         return this.http.put(`${this.url}/api/v1/users/${profile.id}`, data, {headers: headers}).subscribe(
           res => {
+            data.id = profile.id;
+            this.storage.set('PROFILE', data);
             this.messageSuccess('Perfil actualziado')
             return res;
           }, data => {
+            if (data.error.data == 'disabled') {
+              this.userDelete()
+            }
             console.log(data.error.errors);
             // this.messageErros(data.error.errors.email[0]);
           });
@@ -152,6 +159,13 @@ export class AuthGuardService {
     });
 
     await toast.present();
+  }
+
+  userDelete()
+  {
+    this.storage.remove(TOKEN_KEY);
+    this.storage.remove('PROFILE');
+    this.router.navigate(['login']);
   }
 
 }
