@@ -3,9 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false,
+  production: true,
   // url: 'http://127.0.0.1:8000',
-  url: 'http://70c1ac6edc3f.ngrok.io'
+  url: 'https://70c1ac6edc3f.ngrok.io'
 };
 
 /*
