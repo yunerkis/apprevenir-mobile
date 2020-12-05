@@ -1,0 +1,31 @@
+:root {
+  // Branding colors
+  --color-primary: #009E9E;
+  --color-primary-hover: #00FFD0;
+  --color-primary-dark:#3CFF91;
+  --color-primary-medium:#00FFFF;
+  --color-primary-light:#00D1D14D;
+
+  --color-accent:#C8FF00;
+  --color-accent-hover:#32FFC0;
+  --color-accent-dark:#20E57E;
+  --color-accent-light:#CCFF00;
+
+  // Normal colors
+  --color-white: #fff;
+  --color-black: #000;
+
+  // Grey Scale
+  --color-normal-grey:#3E6472;
+  --color-grey-dark-1:#CED9D7;
+  --color-gray-dark-2: #4A657080;
+  --color-gray-dark-3: #26A79E26;
+  --color-grey-medium:  #CED9D7;
+  --color-grey-medium-2: #36484F99;
+  --color-grey-light: #F0F5F5;
+
+  // Notifications
+  --color-error: #f22727;
+  --color-warning: #ef9e0f;
+  --color-complete: #2ec700;
+}

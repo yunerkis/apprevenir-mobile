@@ -3,7 +3,7 @@
     <div *ngIf="toggle == 'login'">
       <div class="login-form__header">
         <p class="login-form__title">Acceder</p>
-        <p class="login-form__subtitle">Ingresa tu usuario y contraseña para obtener acceso</p>
+        <p class="login-form__subtitle">Ingresa tu usuario y contraseña para obtener acceso a todas las funcionalidades</p>
       </div>
       <div class="login-form__form">
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
@@ -16,11 +16,11 @@
             <input type="password" placeholder="Contraseña" formControlName="password" required>
             <ion-icon name="lock-closed-outline"></ion-icon>
           </div>
-          <div class="login-form__check">
-            <input type="checkbox" formControlName="remember_me">
-            <span class="login-form__remmenber">Recuérdame en este dispositivo</span>
+          <div class="box-checkbox">
+            <input type="checkbox" id="test1" />
+            <label for="test1">Recuérdame en este dispositivo</label>
           </div>
-          <button class="login-form__btn login" type="submit">Acceder</button>
+          <button class="btn btn-primary width-100" type="submit">Acceder</button>
         </form>
       </div>
     </div>
@@ -31,7 +31,7 @@
           <span>¿No tienes una cuenta?</span>    
           <hr class="separate">
         </div>
-        <a [routerLink]="['/register']"><button class="login-form__btn register">Crear una cuenta</button></a>
+        <a [routerLink]="['/register']"><button class="btn btn-secondary width-100" >Crear una cuenta</button></a>
       </div>
       <app-terms></app-terms>
     </div>

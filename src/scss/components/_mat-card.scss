@@ -1,0 +1,49 @@
+.card {
+    &__content {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 2rem 1rem;
+        justify-content: center;
+        padding-bottom: 8rem;
+    }
+    &__item {
+        background-color: var(--color-white);
+        border-radius: 15px;
+        box-shadow: 0px 0px 12px #26A79E1A;
+        display: flex;
+        flex-direction: column;
+        height: 445px;
+        justify-content: center;
+        margin: 10px;
+        padding: 15px;
+        position: relative;
+        width: 278px;
+    }
+    &__img {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+
+        img {
+            cursor: pointer;
+        }
+    }
+    &__risk {
+        color: var(--color-gray-dark-2);
+        font-family: "KanitMedium";
+        font-size: 14px;
+        text-align: center;
+    }
+    &__text {
+        font-size: 26px;
+        color: var(--color-normal-grey);
+        text-align: center;
+        font-family: "KanitMedium";
+        line-height: 1.8rem;
+    }
+    &__img-man {
+        width: 278px;
+        height: 236px;
+        margin: 2rem 0;
+    }
+}

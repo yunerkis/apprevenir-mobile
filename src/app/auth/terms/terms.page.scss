@@ -1,9 +1,12 @@
 .terms {
     font-size: 14px;
+    font-family: 'FiratRegular';
 
     p {
         margin-top: 25px;
         line-height: 22px;
+        font-family: 'FiratRegular';
+        color: var(--color-normal-grey);
     }
 
     &__link {

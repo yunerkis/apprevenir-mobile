@@ -24,3 +24,19 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+@import 'scss/base/base';
+@import 'scss/base/typography';
+@import 'scss/base/utilities';
+@import 'scss/base/mixin';
+@import 'scss/base/responsive';
+
+@import 'scss/variables/colors';
+
+@import 'scss/components/mat-input';
+@import 'scss/components/mat-navbar';
+@import 'scss/components/mat-card';
+@import 'scss/components/mat-steps';
+@import 'scss/components/mat-radio';
+@import 'scss/components/mat-calendar';
+@import 'scss/components/mat-modal';

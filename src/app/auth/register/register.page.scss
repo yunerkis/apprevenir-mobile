@@ -4,8 +4,9 @@
 
     &__title, &__label, &__label-small {
         font-size: 26px;
-        font-weight: 600;
         margin-bottom: 30px;
+        color: var(--color-normal-grey);
+        font-family: 'KanitMedium';
     }
 
     &__label {
