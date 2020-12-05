@@ -66,7 +66,7 @@ export class Tab2Page implements OnInit {
 
   arrayFilter()
   {
-    let search = this.SearchForm.value.search;
+    let search = this.SearchForm.value.search.toLowerCase();
     this.tests = this.arryTests;
     this.tests = this.tests.filter(function(test) {
       if (test.name.toLowerCase().indexOf(search) !== -1) {
