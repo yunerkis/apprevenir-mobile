@@ -21,8 +21,8 @@
       <div class="test__card" *ngFor="let test of tests">
         <div class="test__card-head">
           <ion-icon name="help-circle-outline" class="test__card-help" (click)="openModal(test)"></ion-icon>
-          <div class="test__card-category" *ngFor="let category of test.categories">
-            {{ category.name }}
+          <div class="test__card-category">
+            <span *ngFor="let category of test.categories"> {{ category.name }} <br></span>
           </div>
           <div class="test__card-title">
             {{ test.name }}

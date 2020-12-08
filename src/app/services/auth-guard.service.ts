@@ -99,7 +99,7 @@ export class AuthGuardService {
     return this.http.post(`${this.url}/api/v1/register`, data).subscribe(
       res => {
         this.router.navigate(['login']);
-        this.messageSuccess('Registrado')
+        this.messageSuccess('Usuario registrado correctamente')
       }, data => {
         console.log(data.error.errors);
       });
