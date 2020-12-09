@@ -7,15 +7,18 @@
       </div>
       <div class="login-form__form">
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-          <div class="login-form__input">
-            <input type="email" placeholder="Email" formControlName="email" required>
-            <ion-icon name="mail-outline"></ion-icon>
-          </div>
+          <mat-form-field class="example-full-width">
+            <mat-label>Email</mat-label>
+            <input type="email" placeholder="Email" formControlName="email" matInput>
+            <img src="./../../../assets/icon/email_outline.svg" alt="" matSuffix>
+          </mat-form-field>
           <a class="login-form__forgot-link" [routerLink]="['/password-reset']">¿Olvídaste tu contraseña?</a>
-          <div class="login-form__input">
-            <input type="password" placeholder="Contraseña" formControlName="password" required>
-            <ion-icon name="lock-closed-outline"></ion-icon>
-          </div>
+          <mat-form-field class="example-full-width">
+            <mat-label>Email</mat-label>
+            <input type="password" placeholder="Contraseña" formControlName="password" matInput>
+            <img src="./../../../assets/icon/lock_outline.svg" alt="" matSuffix class="app-m-rigth">
+            <img src="./../../../assets/icon/lock_outline.svg" alt="" matSuffix >
+          </mat-form-field>
           <div class="box-checkbox">
             <input type="checkbox" id="test1" />
             <label for="test1">Recuérdame en este dispositivo</label>
