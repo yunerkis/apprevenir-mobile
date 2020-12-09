@@ -16,6 +16,17 @@ export class TestResultPage implements OnInit {
   professional_help = "";
   url_interest = "";
   tab = "result";
+  gifLevel = {
+    'Leve': '<img src="../../../assets/images/leve.gif" alt="leve">',
+    'Moderado': '<img src="../../../assets/images/moderado.gif" alt="moderado">',
+    'Severo': '<img src="../../../assets/images/severo.gif" alt="severo">',
+  };
+  colorsLevel = {
+    'Leve': 'color: #20E57E',
+    'Moderado': 'color: #FFA14E',
+    'Severo': 'color: #FF4E60',
+  };
+
 
   constructor(
     public testService: TestService,

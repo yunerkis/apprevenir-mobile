@@ -12,7 +12,12 @@ export class LoaderService {
 
   showHideAutoLoader() {
     this.loadingController.create({
-      message: ``,
+      spinner: null,
+      message: `
+        <div>
+          <img src="../../assets/images/loading.gif" alt="loader">
+        </div>
+      `,
       duration: 2500
     }).then((res) => {
       res.present();

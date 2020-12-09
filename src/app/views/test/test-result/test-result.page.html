@@ -19,9 +19,17 @@
   </div>
   <div class="stepper-top">
     <div *ngIf="tab == 'result'">
-      <div class="result__warning">
-        <ion-icon name="warning-outline"></ion-icon>
-        <div>{{resultLevel}}</div>
+      <div *ngIf="gifLevel[resultLevel]">
+        <div class="result__warning">
+            <div [innerHTML]="gifLevel[resultLevel]"></div>
+            <div [style]="colorsLevel[resultLevel]">{{resultLevel}}</div>
+        </div>
+      </div>
+      <div *ngIf="!gifLevel[resultLevel]">
+        <div class="result__warning">
+          <ion-icon name="warning-outline"></ion-icon>
+          <div>{{resultLevel}}</div>
+        </div>
       </div>
     </div>
     <div class="tab-info" *ngIf="tab == 'info'">
