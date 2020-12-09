@@ -4,6 +4,7 @@ import { ActivatedRoute } from "@angular/router";
 import { FormGroup, FormBuilder, FormControl, Validators, AbstractControl, FormArray  } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { ModalPage } from '../../modals/modal/modal.page';
+import { LoaderService } from '../../../services/loader.service';
 
 @Component({
   selector: 'app-test',
@@ -42,10 +43,13 @@ export class TestPage implements OnInit {
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     public modalController: ModalController,
+    public loaderService: LoaderService
   ) { }
   
 
   ngOnInit() {
+
+    this.loaderService.showHideAutoLoader();
 
     this.formGroup = this.formBuilder.group({formArray: this.formBuilder.array([])});
 

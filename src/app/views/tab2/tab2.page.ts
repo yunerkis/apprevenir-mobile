@@ -4,6 +4,8 @@ import { TestService } from '../../services/test.service';
 import { ModalPage } from '../modals/modal/modal.page';
 import { Router, NavigationEnd } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { DomSanitizer } from '@angular/platform-browser';
+import { LoaderService } from '../../services/loader.service';
 
 @Component({
   selector: 'app-tab2',
@@ -15,7 +17,7 @@ export class Tab2Page implements OnInit {
   tests = [];
   arryTests = [];
   search = false;
-  image = '';
+  images : any = {};
   SearchForm: FormGroup;
 
   constructor(
@@ -23,7 +25,8 @@ export class Tab2Page implements OnInit {
     public testService: TestService,
     private router: Router,
     private formBuilder: FormBuilder,
-    
+    public sanitizer: DomSanitizer,
+    public loaderService: LoaderService 
   ) {
     this.router.events.subscribe(event => {       
       if (event instanceof NavigationEnd && event.url == '/home') {
@@ -33,8 +36,15 @@ export class Tab2Page implements OnInit {
   }
 
   ngOnInit() {
+
+    this.loaderService.showHideAutoLoader();
+
     this.testService.getTestsList().then( res => { 
-      res.subscribe(tests => { this.tests = tests['data']; this.arryTests = tests['data']; }, data => {
+      res.subscribe(tests => { 
+        this.tests = tests['data']; 
+        this.arryTests = tests['data'];
+        this.testImage(this.tests);
+      }, data => {
         if (data.error.data == 'disabled') {
           this.testService.userDelete()
         }
@@ -44,12 +54,7 @@ export class Tab2Page implements OnInit {
 
     this.SearchForm = this.formBuilder.group({
       search: [''],
-    });
-
-    this.testService.image('ALCOHOL.SVG').subscribe(
-      res => {
-        this.image = res['image'];
-      });
+    }); 
   }
 
   async openModal(contents) {
@@ -69,13 +74,24 @@ export class Tab2Page implements OnInit {
     this.tests = this.arryTests;
   }
 
-  arrayFilter()
-  {
+  arrayFilter() {
     let search = this.SearchForm.value.search.toLowerCase();
     this.tests = this.arryTests;
     this.tests = this.tests.filter(function(test) {
       if (test.name.toLowerCase().indexOf(search) !== -1) {
         return test;
+      }
+    });
+  }
+
+  testImage(tests) {
+    tests.forEach(test => {
+      if (test.image != '') {
+        this.testService.image(test.image).subscribe(
+          res => {
+            let key = test.image.split('.');
+            this.images[key[0]] =  this.sanitizer.bypassSecurityTrustHtml(res['image']);
+          });
       }
     });
   }

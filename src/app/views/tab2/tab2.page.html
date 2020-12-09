@@ -30,7 +30,7 @@
         </div>
         <div class="test__card-image">
           <img *ngIf="test.image == ''" src="../../../assets/images/apprevenir-test.png" alt="test image">
-          <img *ngIf="test.image != ''" src={{test.image}} alt="test image">
+          <div *ngIf="test.image != ''" [innerHTML]="images[test.svg]"></div>
         </div>
         <div>
           <button *ngIf="test.addictions.length > 0" class="test__btn test" (click)="openModal(test)">Hacer test</button>
