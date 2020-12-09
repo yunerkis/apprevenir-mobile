@@ -24,6 +24,7 @@ export class Tab3Page implements OnInit {
   states = [];
   cities = [];
   tab = "data";
+  image_gender = '';
   profile: any = '';
   genders = [
     {
@@ -127,6 +128,9 @@ export class Tab3Page implements OnInit {
 
     this.storage.get('PROFILE').then(profile => {
       this.profile = profile;
+
+      this.image_gender = this.profile.gender_id;
+     
       this.profile.last_name_one = this.profile.last_names.split(" ")[0];
       this.profile.first_name_two = this.profile.last_names.split(" ")[1];
 

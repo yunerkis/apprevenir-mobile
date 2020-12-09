@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { TestService } from '../../../services/test.service';
 import { ActivatedRoute } from "@angular/router";
 import { FormGroup, FormBuilder, FormControl, Validators, AbstractControl, FormArray  } from '@angular/forms';
+import { ModalController } from '@ionic/angular';
+import { ModalPage } from '../../modals/modal/modal.page';
 
 @Component({
   selector: 'app-test',
@@ -11,6 +13,7 @@ import { FormGroup, FormBuilder, FormControl, Validators, AbstractControl, FormA
 export class TestPage implements OnInit {
 
   test = [];
+  start = true;
   formGroup: FormGroup;
   answers = [];
   answer = {};
@@ -38,6 +41,7 @@ export class TestPage implements OnInit {
     public testService: TestService,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
+    public modalController: ModalController,
   ) { }
   
 
@@ -58,6 +62,7 @@ export class TestPage implements OnInit {
           this.answers.push(this.formBuilder.group(this.answer));
         });
         this.formGroup = this.formBuilder.group({ formArray: this.formBuilder.array(this.answers) });
+        this.openModal(this.test, true);
       }, data => {
         if (data.error.data == 'disabled') {
           this.testService.userDelete()
@@ -82,5 +87,18 @@ export class TestPage implements OnInit {
     }
 
     this.testService.storeAnswer(result);
+  }
+
+  async openModal(contents, start = false) {
+    const modal = await this.modalController.create({
+      component: ModalPage,
+      cssClass: 'modal-terms',
+      componentProps: {
+        "contents": contents,
+        "start": start
+      }
+    });
+
+    return await modal.present();
   }
 }

@@ -72,6 +72,11 @@ export class TestService {
     });
   }
 
+  image(filename)
+  {
+    return this.http.get(`${this.url}/image/${filename}`);
+  }
+
   userDelete()
   {
     this.storage.remove(TOKEN_KEY);

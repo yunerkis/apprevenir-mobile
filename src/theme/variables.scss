@@ -264,6 +264,7 @@
     padding: 20px;
     overflow: hidden;
     position: relative;
+    max-height: 700px;
   }
 
   &__title {
@@ -310,7 +311,7 @@
 
   &__text {
     margin-top: 200px;
-    height: 46vh;
+    height: 45vh;
   }
 
   &__title, &__test-title {

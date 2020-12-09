@@ -5,7 +5,6 @@ import { ModalPage } from '../modals/modal/modal.page';
 import { Router, NavigationEnd } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 
-
 @Component({
   selector: 'app-tab2',
   templateUrl: 'tab2.page.html',
@@ -16,6 +15,7 @@ export class Tab2Page implements OnInit {
   tests = [];
   arryTests = [];
   search = false;
+  image = '';
   SearchForm: FormGroup;
 
   constructor(
@@ -45,6 +45,11 @@ export class Tab2Page implements OnInit {
     this.SearchForm = this.formBuilder.group({
       search: [''],
     });
+
+    this.testService.image('ALCOHOL.SVG').subscribe(
+      res => {
+        this.image = res['image'];
+      });
   }
 
   async openModal(contents) {

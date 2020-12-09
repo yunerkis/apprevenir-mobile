@@ -1,6 +1,7 @@
 <ion-content>
   <div class="profile__head">
-    <img class="img-bg" src="../../../assets/images/apprevenir-test.png" alt="test image">
+    <img *ngIf="image_gender == 1" class="img-bg img-gender" src="../../../assets/images/MUJER-PERFIL-APPREVENIR.svg" alt="test image">
+    <img *ngIf="image_gender == 2" class="img-bg img-gender" src="../../../assets/images/HOMBRE-PERFIL-APPREVENIR.svg" alt="test image">
     <div class="profile__title">{{ profile.first_names }}</div>
     <div class="profile__profile-title">{{ profile.last_names }}</div>
   </div>
