@@ -23,7 +23,7 @@
     &__card {
         width: 100%;
         background-color: #fff;
-        height: auto;
+        height: 445px;
         border-radius: 10px;
         box-shadow: 0px 0px 12px #26A79E1A;
         position: relative;
@@ -33,6 +33,10 @@
 
     &__card-head {
         padding-top: 35px;
+    }
+
+    &__card-image {
+        height: 236px;
     }
 
     &__card-help {
@@ -91,6 +95,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.home-logo-app {
+    width: 171px;
+    height: 36px;
 }
 
 .search-icon {

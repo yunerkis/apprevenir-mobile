@@ -115,7 +115,7 @@ export class AuthGuardService {
           res => {
             data.id = profile.id;
             this.storage.set('PROFILE', data);
-            this.messageSuccess('Perfil actualziado')
+            this.messageSuccess('Perfil actualizado')
             return res;
           }, data => {
             if (data.error.data == 'disabled') {

@@ -307,6 +307,14 @@
   }
 }
 
+.modal-wrapper.sc-ion-modal-ios, .modal-shadow.sc-ion-modal-ios {
+  background: transparent;
+}
+
+.header-ios ion-toolbar:last-of-type {
+  --border-width: 0 0 0 0;
+}
+
 .modal-test {
 
   &__text {
