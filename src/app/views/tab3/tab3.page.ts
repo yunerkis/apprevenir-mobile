@@ -214,8 +214,12 @@ export class Tab3Page implements OnInit {
     let formData = Object.assign(this.firstFormGroup.value, this.secondFormGroup.value, this.thirdFormGroup.value); 
     formData.last_names = formData.last_name_one+' '+formData.first_name_two;
     this.authGuardService.updateProfile(formData).then(() => {
-      this.router.navigate(['home/tab2']);
-      this.stepper.selectedIndex = 0;
+      this.storage.get('PROFILE').then(profile => {
+        this.profile = profile;
+        this.image_gender = this.profile.gender_id;
+        this.router.navigate(['home/tab2']);
+        this.stepper.selectedIndex = 0;
+      });   
     });
   }
 
