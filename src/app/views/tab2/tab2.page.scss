@@ -23,7 +23,8 @@
     &__card {
         width: 100%;
         background-color: #fff;
-        height: 445px;
+        height: auto;
+        min-height: 450px;
         border-radius: 10px;
         box-shadow: 0px 0px 12px #26A79E1A;
         position: relative;
@@ -36,7 +37,7 @@
     }
 
     &__card-image {
-        height: 236px;
+        height: 255px;
     }
 
     &__card-help {

@@ -6,6 +6,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { LoaderService } from '../../services/loader.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-tab2',
@@ -19,6 +20,7 @@ export class Tab2Page implements OnInit {
   search = false;
   images : any = {};
   SearchForm: FormGroup;
+  url = environment.url;
 
   constructor(
     public modalController: ModalController,
@@ -43,7 +45,6 @@ export class Tab2Page implements OnInit {
       res.subscribe(tests => { 
         this.tests = tests['data']; 
         this.arryTests = tests['data'];
-        this.testImage(this.tests);
       }, data => {
         if (data.error.data == 'disabled') {
           this.testService.userDelete()
@@ -84,15 +85,15 @@ export class Tab2Page implements OnInit {
     });
   }
 
-  testImage(tests) {
-    tests.forEach(test => {
-      if (test.image != '') {
-        this.testService.image(test.image).subscribe(
-          res => {
-            let key = test.image.split('.');
-            this.images[key[0]] =  this.sanitizer.bypassSecurityTrustHtml(res['image']);
-          });
-      }
-    });
-  }
+  // testImage(tests) {
+  //   tests.forEach(test => {
+  //     if (test.image != '') {
+  //       this.testService.image(test.image).subscribe(
+  //         res => {
+  //           let key = test.image.split('.');
+  //           this.images[key[0]] =  this.sanitizer.bypassSecurityTrustHtml(res['image']);
+  //         });
+  //     }
+  //   });
+  // }
 }

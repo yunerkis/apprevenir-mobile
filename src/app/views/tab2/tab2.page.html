@@ -22,7 +22,7 @@
         <div class="test__card-head">
           <ion-icon name="help-circle-outline" class="test__card-help" (click)="openModal(test)"></ion-icon>
           <div class="test__card-category">
-            <span *ngFor="let category of test.categories"> {{ category.name }} </span>
+            <span *ngFor="let category of test.categories"> {{ category.name }} <br></span>
           </div>
           <div class="test__card-title">
             {{ test.name }}
@@ -30,7 +30,7 @@
         </div>
         <div class="test__card-image">
           <img *ngIf="test.image == ''" src="../../../assets/images/apprevenir-test.png" alt="test image">
-          <div *ngIf="test.image != ''" [innerHTML]="images[test.svg]"></div>
+          <img *ngIf="test.image != ''" src="{{url}}/image/{{test.image}}" alt="test image">
         </div>
         <div>
           <button *ngIf="test.addictions.length > 0" class="test__btn test" (click)="openModal(test)">Hacer test</button>
