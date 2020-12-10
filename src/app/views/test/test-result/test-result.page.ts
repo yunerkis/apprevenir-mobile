@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TestService } from '../../../services/test.service';
 import { Router } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { LoaderService } from '../../../services/loader.service';
 
 
 @Component({
@@ -31,10 +32,12 @@ export class TestResultPage implements OnInit {
   constructor(
     public testService: TestService,
     private router: Router,
-    private _sanitizer: DomSanitizer
+    private _sanitizer: DomSanitizer,
+    public loaderService: LoaderService 
   ) { }
 
   ngOnInit() {
+    this.loaderService.showHideAutoLoader();
     this.testService.testInfo.subscribe( (val) => {
       if (Object.keys(val).length == 0) {
         this.router.navigate(['home']);
