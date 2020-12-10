@@ -114,9 +114,10 @@ export class AuthGuardService {
         return this.http.put(`${this.url}/api/v1/users/${profile.id}`, data, {headers: headers}).subscribe(
           res => {
             data.id = profile.id;
+            this.storage.remove('PROFILE');
             this.storage.set('PROFILE', data);
             this.messageSuccess('Perfil actualizado')
-            return res;
+            return data;
           }, data => {
             if (data.error.data == 'disabled') {
               this.userDelete()
