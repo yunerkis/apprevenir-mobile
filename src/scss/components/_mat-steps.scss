@@ -30,19 +30,23 @@
     .mat-step-header .mat-step-header-ripple {
         display: none;
     }
-    .mat-step-icon .mat-step-icon-state-number {
-        height: 5px;
-    }
+
     .mat-horizontal-stepper-header .mat-step-icon {
         margin-right: 0px;
     }
 
     .mat-step-icon {
         border-radius: 0;
-        height: 10px;
+        height: 2px;
         width: 100%;
     }
     .mat-horizontal-stepper-header {
         padding: 0;
     }
+
+    .mat-step-header .mat-step-icon-selected,
+     .mat-step-header .mat-step-icon-state-done, 
+     .mat-step-header .mat-step-icon-state-edit {
+        height: 10px;
+     }
 }
