@@ -5,7 +5,7 @@
 export const environment = {
   production: true,
   //url: 'http://127.0.0.1:8000',
-  url: 'https://4cd06134a11f.ngrok.io'
+  url: 'https://great-jellyfish-20.loca.lt'
 };
 
 /*
