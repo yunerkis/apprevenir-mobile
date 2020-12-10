@@ -16,6 +16,7 @@ export class TestResultPage implements OnInit {
   url_video = "";
   professional_help = "";
   url_interest = "";
+  load = false;
   tab = "result";
   gifLevel = {
     'Leve': '<img src="../../../assets/images/leve.gif" alt="leve">',
@@ -38,6 +39,7 @@ export class TestResultPage implements OnInit {
 
   ngOnInit() {
     this.loaderService.showHideAutoLoader();
+    
     this.testService.testInfo.subscribe( (val) => {
       if (Object.keys(val).length == 0) {
         this.router.navigate(['home']);
@@ -52,22 +54,30 @@ export class TestResultPage implements OnInit {
       }
       console.log(data.error);
     });
+
+    setTimeout(()=>{
+      this.loadResult(); 
+    }, 2700);
   }
 
   toggletab(toggle) {
     this.tab = toggle;
   }
 
+  loadResult() {
+    this.load = true;
+  }
+
   getVideoIframe(url) {
-    var video, results;
- 
-    if (url === null) {
-        return '';
-    }
-    results = url.match('[\\?&]v=([^&#]*)');
-    video   = (results === null) ? url : results[1];
- 
-    return this._sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/' + video);   
-}
+      var video, results;
+  
+      if (url === null) {
+          return '';
+      }
+      results = url.match('[\\?&]v=([^&#]*)');
+      video   = (results === null) ? url : results[1];
+  
+      return this._sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/' + video);   
+  }
 
 }
