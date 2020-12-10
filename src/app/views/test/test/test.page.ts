@@ -5,6 +5,7 @@ import { FormGroup, FormBuilder, FormControl, Validators, AbstractControl, FormA
 import { ModalController } from '@ionic/angular';
 import { ModalPage } from '../../modals/modal/modal.page';
 import { LoaderService } from '../../../services/loader.service';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-test',
@@ -19,6 +20,7 @@ export class TestPage implements OnInit {
   answers = [];
   answer = {};
   addiction = null;
+  url = environment.url;
   questions: any;
   order = {
     0:"a",
