@@ -23,3 +23,26 @@
 .mat-step-header:hover{
     background-color: transparent;
 }
+
+
+.one-steps {
+    .mat-step-icon-content,
+    .mat-step-header .mat-step-header-ripple {
+        display: none;
+    }
+    .mat-step-icon .mat-step-icon-state-number {
+        height: 5px;
+    }
+    .mat-horizontal-stepper-header .mat-step-icon {
+        margin-right: 0px;
+    }
+
+    .mat-step-icon {
+        border-radius: 0;
+        height: 10px;
+        width: 100%;
+    }
+    .mat-horizontal-stepper-header {
+        padding: 0;
+    }
+}
