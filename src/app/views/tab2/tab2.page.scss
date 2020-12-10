@@ -118,14 +118,16 @@
 
 input {
     width: 65%;
-    height: 35px;
+    height: 45px;
     padding-left: 16px;
     background: var(--color-white)FFF 0% 0% no-repeat padding-box;
-    border: 1px solidvar(--color-gray-dark-2);
+    border: 1px solid var(--color-gray-dark-2);
     border-radius: 8px;
     opacity: 1;
     color: var(--color-normal-grey);
     margin-top: 10px;
+    font-family: 'KanitMedium';
+    font-size: 16px;
 }
 
 

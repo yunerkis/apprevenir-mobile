@@ -86,7 +86,7 @@ ion-content {
             top: 80px;
             font-size: 25px;
             text-transform: capitalize;
-            font-weight: 500;
+            font-family: 'KanitMedium';
         }
         
         &__profile-title {
@@ -147,8 +147,8 @@ td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type {
 
     &__title, &__label, &__label-small {
         font-size: 26px;
-        font-weight: 600;
         margin-bottom: 30px;
+        font-family: 'KanitMedium';
     }
 
     &__label {
@@ -196,6 +196,7 @@ td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type {
         box-shadow: 0px 5px 6px #00D1D14D;
         border-radius: 22px;
         color: #fff;
+        font-family: 'KanitMedium';
     }
 
     &__btn.back {
@@ -205,6 +206,7 @@ td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type {
         background-color: #fff;
         color: #36484F99;
         margin-right: 25px;
+        font-family: 'KanitMedium';
     }
 }  
 

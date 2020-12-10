@@ -57,19 +57,21 @@
     }
 
     &__btn.next {
-        background: #009E9E 0% 0% no-repeat padding-box;
-        box-shadow: 0px 5px 6px #00D1D14D;
+        background:var(--color-primary) 0% 0% no-repeat padding-box;
+        box-shadow: 0px 5px 6px var(--color-primary-light);
         border-radius: 22px;
-        color: #fff;
+        color: var(--color-white);
+        font-family: 'KanitMedium';
     }
 
     &__btn.back {
-        border: 1px solid #CED9D7;
+        border: 1px solid var(--color-grey-dark-1);
         border-radius: 22px;
         opacity: 1;
-        background-color: #fff;
-        color: #36484F99;
+        background-color: var(--color-white);
+        color:var(--color-grey-medium-2);
         margin-right: 25px;
+        font-family: 'KanitMedium';
     }
 
     &__options {
@@ -78,7 +80,7 @@
     }
 
     &__option-letter {
-        color: #009E9E;
+        color:var(--color-primary);
         font-size: 24px;
         margin-right: 12px;
         margin-left: 12px;
