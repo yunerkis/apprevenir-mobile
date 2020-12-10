@@ -3,14 +3,14 @@
     &__content {
         width: 100%;
         height: 100%;
-        color: #3E6472;
+        color: var(--color-normal-grey);
         padding-top: 35px;
         text-align: center;
     }
 
     &__label {
         font-size: 28px;
-        font-weight: 600;
+        font-family: 'KanitMedium';
     }
 
     &__list {
@@ -22,7 +22,7 @@
 
     &__card {
         width: 100%;
-        background-color: #fff;
+        background-color: var(--color-white);
         height: auto;
         min-height: 450px;
         border-radius: 10px;
@@ -46,29 +46,30 @@
         position: absolute;
         width: 20px;
         height: 20px;
-        color: #4A657080;
+        color:var(--color-gray-dark-2);
         right: 15px;
         top: 15px;
     }
 
     &__card-category {
-        color: #4A657080;
+        color:var(--color-gray-dark-2);
         text-transform: uppercase;
         font-size: 10px;
-        font-weight: 600;
         margin-bottom: 10px;
         line-height: 15px;
+        font-family: 'KanitMedium';
+        
     }
 
     &__card-title {
         font-size: 25px;
-        font-weight: 600;
         line-height: 27px;
         letter-spacing: 2px;
         margin-bottom: 25px;
         width: 90%;
         margin-left: auto;
         margin-right: auto;
+        font-family: 'KanitMedium';
     }
 
     &__btn {
@@ -80,13 +81,13 @@
         background: #009E9E 0% 0% no-repeat padding-box;
         box-shadow: 0px 5px 6px #00D1D14D;
         border-radius: 22px;
-        color: #fff;
+        color: var(--color-white);
         margin-top: 4px;
     }
 }
 
 .bg-header{
-    --background: #fff;
+    --background: var(--color-white);
     height: 70px;
     box-shadow: 0px 2px 10px #26A79E26;
     text-align: center;
@@ -109,7 +110,7 @@
     position: absolute;
     top: 25px;
     right: 30px;
-    color: #4A657080;
+    color:var(--color-gray-dark-2);
     height: 20px;
     width: 20px;
 }
@@ -118,11 +119,11 @@ input {
     width: 65%;
     height: 35px;
     padding-left: 16px;
-    background: #FFFFFF 0% 0% no-repeat padding-box;
-    border: 1px solid #4A657080;
+    background: var(--color-white)FFF 0% 0% no-repeat padding-box;
+    border: 1px solidvar(--color-gray-dark-2);
     border-radius: 8px;
     opacity: 1;
-    color: #3E6472;
+    color: var(--color-normal-grey);
     margin-top: 10px;
 }
 
