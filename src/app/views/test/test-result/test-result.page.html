@@ -1,4 +1,4 @@
-<div>
+<div *ngIf="load">
   <div class="result__tab-content">
     <div class="result__tab" [ngClass]="{'active': tab == 'result'}" (click)="toggletab('result')">
       <ion-icon name="alert-circle-outline"></ion-icon>
