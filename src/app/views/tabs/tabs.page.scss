@@ -17,6 +17,14 @@ ion-tab-bar {
     text-align: center;
     font-size: 12px;
     padding-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    img {
+        width: 140px;
+        margin-bottom: 20px;
+    }
 }
 
 

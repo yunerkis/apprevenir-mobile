@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController, NavParams } from '@ionic/angular';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-modal',
@@ -9,8 +10,10 @@ import { Router } from '@angular/router';
   styleUrls: ['./modal.page.scss'],
 })
 export class ModalPage implements OnInit {
+  
   content: any;
   addiction: FormGroup;
+  url = environment.url;
 
   constructor(
     private modalController: ModalController,

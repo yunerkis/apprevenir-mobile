@@ -12,6 +12,7 @@ export class LoginPage implements OnInit {
 
   loginForm: FormGroup;
   toggle = 'login';
+  show = false;
   
   constructor(
     private formBuilder: FormBuilder,
@@ -26,6 +27,10 @@ export class LoginPage implements OnInit {
       password: ['', Validators.required],
       remember_me: [''],
     });
+  }
+
+  password() {
+    this.show = !this.show;
   }
 
   onSubmit() {

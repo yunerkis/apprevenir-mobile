@@ -15,8 +15,8 @@
           <a class="login-form__forgot-link" [routerLink]="['/password-reset']">¿Olvídaste tu contraseña?</a>
           <mat-form-field class="example-full-width">
             <mat-label>Contraseña</mat-label>
-            <input type="password" placeholder="Contraseña" formControlName="password" matInput>
-            <img src="./../../../assets/icon/Icon material-visibility.svg" alt="" matSuffix class="app-m-rigth width-icon">
+            <input [type]="show ? 'text' : 'password'" placeholder="Contraseña" formControlName="password" matInput>
+            <img src="./../../../assets/icon/Icon material-visibility.svg" alt="" matSuffix class="app-m-rigth width-icon" (click)="password()">
             <img src="./../../../assets/icon/lock_outline.svg" alt="" matSuffix >
           </mat-form-field>
           <div class="box-checkbox">
