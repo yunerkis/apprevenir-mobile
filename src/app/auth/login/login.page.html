@@ -16,7 +16,7 @@
           <mat-form-field class="example-full-width">
             <mat-label>Contraseña</mat-label>
             <input [type]="show ? 'text' : 'password'" placeholder="Contraseña" formControlName="password" matInput>
-            <img src="./../../../assets/icon/Icon material-visibility.svg" alt="" matSuffix class="app-m-rigth width-icon" (click)="password()">
+            <img [src]="show ? './../../../assets/icon/Icon material-visibility-off.svg' : './../../../assets/icon/Icon material-visibility.svg'"alt="" matSuffix class="app-m-rigth width-icon" (click)="password()">
             <img src="./../../../assets/icon/lock_outline.svg" alt="" matSuffix >
           </mat-form-field>
           <div class="box-checkbox">
