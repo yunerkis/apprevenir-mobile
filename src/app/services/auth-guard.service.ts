@@ -109,7 +109,8 @@ export class AuthGuardService {
     return this.storage.get('PROFILE').then(profile => {
       return this.storage.get(TOKEN_KEY).then(token => {
         const headers = new HttpHeaders({
-          'Authorization': 'Bearer ' + token
+          'Authorization': 'Bearer ' + token,
+          'Access-Control-Allow-Origin': '*'
         })
         return this.http.put(`${this.url}/api/v1/users/${profile.id}`, data, {headers: headers}).subscribe(
           res => {

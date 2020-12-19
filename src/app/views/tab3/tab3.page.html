@@ -1,5 +1,8 @@
 <ion-content>
   <div class="profile__head">
+    <a [routerLink]="['/home']" class="back-arrow">
+      <ion-icon name="arrow-back-outline"></ion-icon>
+    </a>
     <img *ngIf="image_gender == 1" class="img-bg img-gender" src="../../../assets/images/MUJER-PERFIL-APPREVENIR.svg" alt="test image">
     <img *ngIf="image_gender == 2" class="img-bg img-gender" src="../../../assets/images/HOMBRE-PERFIL-APPREVENIR.svg" alt="test image">
     <div class="profile__title">{{ profile.first_names }}</div>

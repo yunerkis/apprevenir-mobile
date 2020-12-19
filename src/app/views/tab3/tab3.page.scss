@@ -67,6 +67,13 @@ ion-content {
                 width: 40%;
                 right: 0px;
             }
+
+            .back-arrow {
+                font-size: 40px;
+                position: absolute;
+                left: 30px;
+                color: #fff;
+            }
         }
 
         &__bg {

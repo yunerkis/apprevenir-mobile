@@ -37,8 +37,7 @@
     </div>
     <div class="tab-info" *ngIf="tab == 'help'" [innerHTML]="professional_help">
     </div>
-    <div class="tab-info" *ngIf="tab == 'link'">
-      {{url_interest}}
+    <div class="tab-info" *ngIf="tab == 'link'" [innerHTML]="url_interest">
     </div>
   </div>
 </div>

@@ -33,6 +33,30 @@
     }
 }
 
+.presentation {
+    margin-top: 0;
+    height: auto;
+    top: 18%;
+
+    .content-start {
+        margin-top: 0px;
+    }
+
+    .modal-test {
+
+        &__text {
+            margin-top: 0px;
+            height: auto;
+
+            img {
+                width: 125px;
+                margin-top: 10px;
+                margin-bottom: 10px;
+            }
+        }
+    }
+}
+
 select {
     width: 100%;
     height: 50px;

@@ -1,4 +1,4 @@
-<div class="modal-terms__content">
+<div class="modal-terms__content" *ngIf="!start">
   <div class="modal-test__head">
     <img src="{{url}}/image/{{content.image}}" alt="test image">
     <div class="modal-test__bg"></div>
@@ -6,7 +6,7 @@
     <div class="modal-test__test-title">{{ content.name }}</div>
   </div>
   <div class="modal-terms__text modal-test__text">
-    <div *ngIf="!start">
+    <div>
       <div [innerHTML]="content.introduction" *ngIf="content.addictions.length == 0">
       </div>
       <div *ngIf="content.addictions.length > 0">
@@ -22,7 +22,13 @@
         </div>
       </div>
     </div>
-    <div class="content-start" *ngIf="start">
+  </div>
+  <div class="modal-terms__btn-acept" (click)="closeModal()">Cerrar</div>
+</div>
+<div class="modal-terms__content presentation" *ngIf="start">
+  <div class="content-start" >
+    <div class="modal-terms__text modal-test__text">
+      <img src="../../../../assets/images/presentation.png" alt="presentation image">
       <p>
         A continuación, se te harán una serie de preguntas, responde de manera <span>HONESTA</span> así el resultado obtenido será <span>CONFIABLE</span>.
       </p>
@@ -30,6 +36,6 @@
         Recuerda que tu reporte es <span>COMPLETAMENTE CONFIDENCIAL</span>.
       </p>
     </div>
+    <div class="modal-terms__btn-acept" (click)="closeModal()">Aceptar</div>
   </div>
-  <div class="modal-terms__btn-acept" (click)="closeModal()">Cerrar</div>
 </div>

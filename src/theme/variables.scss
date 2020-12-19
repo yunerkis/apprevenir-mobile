@@ -426,6 +426,26 @@ ion-list {
   }
 }
 
+.tab-info {
+
+  ul {
+      list-style-type: none;
+      list-style-image: url('../assets/icon/school_outline.svg'); 
+
+      li {
+        position: relative;
+      }
+  }
+
+  a {
+      color:#009E9E !important;
+      position: absolute;
+      top: 0;
+      width: 90%;
+      left: 10px;
+  }
+}
+
 //Menu Izquierdo
 .list-ios {
   margin-top: 2rem;

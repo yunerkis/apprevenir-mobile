@@ -28,7 +28,8 @@ export class TestService {
   getTestsList() {
     return this.storage.get(TOKEN_KEY).then(token => {
       const headers = new HttpHeaders({
-        'Authorization': 'Bearer ' + token
+        'Authorization': 'Bearer ' + token,
+        'Access-Control-Allow-Origin': '*'
       })
       return this.http.get(`${this.url}/api/v1/tests`, {headers: headers});
     });
@@ -37,7 +38,8 @@ export class TestService {
   getTest(id) {
     return this.storage.get(TOKEN_KEY).then(token => {
       const headers = new HttpHeaders({
-        'Authorization': 'Bearer ' + token
+        'Authorization': 'Bearer ' + token,
+        'Access-Control-Allow-Origin': '*'
       })
       return this.http.get(`${this.url}/api/v1/tests/${id}`, {headers: headers});
     });
@@ -46,7 +48,8 @@ export class TestService {
   storeAnswer(answer) {
     return this.storage.get(TOKEN_KEY).then(token => {
       const headers = new HttpHeaders({
-        'Authorization': 'Bearer ' + token
+        'Authorization': 'Bearer ' + token,
+        'Access-Control-Allow-Origin': '*'
       })
       return this.http.post(`${this.url}/api/v1/users/answer`, answer, {headers: headers}).subscribe(
         res => {
@@ -65,7 +68,8 @@ export class TestService {
     return this.storage.get('PROFILE').then(profile => {
       return this.storage.get(TOKEN_KEY).then(token => {
         const headers = new HttpHeaders({
-          'Authorization': 'Bearer ' + token
+          'Authorization': 'Bearer ' + token,
+          'Access-Control-Allow-Origin': '*'
         })
         return this.http.get(`${this.url}/api/v1/users/results/${profile.id}`, {headers: headers});
       });
