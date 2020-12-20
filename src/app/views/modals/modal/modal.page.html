@@ -15,7 +15,7 @@
           <form [formGroup]="addiction" (ngSubmit)="onSubmit(content.id)">
             <select formControlName="addiction_id" required>
               <option value="">Elige una opción</option>
-              <option [value]="addiction.pivot.addiction_id" *ngFor="let addiction of content.addictions">{{ addiction.name }}</option>
+              <option [value]="addiction.pivot.addiction_id+' '+addiction.name" *ngFor="let addiction of content.addictions">{{ addiction.name }}</option>
             </select>
             <button class="modal-test__btn test" type="submit">Hacer test</button>
           </form>

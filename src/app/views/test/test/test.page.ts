@@ -19,7 +19,6 @@ export class TestPage implements OnInit {
   formGroup: FormGroup;
   answers = [];
   answer = {};
-  addiction = null;
   url = environment.url;
   questions: any;
   order = {
@@ -89,7 +88,7 @@ export class TestPage implements OnInit {
     let result = {
       'test_id': this.test['id'],
       'answers':objAnswers,
-      'addiction_id': this.route.snapshot.paramMap.get("addiction_id")
+      'addiction_id': this.route.snapshot.queryParamMap.get("addiction_id")
     }
 
     this.testService.storeAnswer(result);

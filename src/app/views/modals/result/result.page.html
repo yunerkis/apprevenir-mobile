@@ -1,7 +1,7 @@
 <div class="modal-terms__content">
   <div class="modal-result__head">
-    <div class="modal-result__title">Respuestas del test de {{ content.testName }}</div>
-    <div class="modal-result__sub-title">Nivel <span [ngStyle]=setStyle(content.resultLevel)>{{ content.resultLevel }}</span></div>
+    <div class="modal-result__title">Respuestas del test de {{ content.testName }} </div>
+    <div class="modal-result__sub-title">Nivel <span *ngIf="content.addiction"> - {{ content.addiction.name }} </span><span [ngStyle]=setStyle(content.resultLevel)> {{ content.resultLevel }} </span></div>
   </div>
   <div class="modal-result__content">
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">

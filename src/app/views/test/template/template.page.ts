@@ -3,6 +3,7 @@ import { TestService } from '../../../services/test.service';
 import { ModalController } from '@ionic/angular';
 import { ModalPage } from '../../modals/modal/modal.page';
 import { environment } from '../../../../environments/environment';
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: 'app-template',
@@ -11,16 +12,22 @@ import { environment } from '../../../../environments/environment';
 })
 export class TemplatePage implements OnInit {
 
-  infoTest: any = [];
+  infoTest: any = null;
   url = environment.url;
+  addiction = null;
 
   constructor(
     public testService: TestService,
     public modalController: ModalController,
+    private route: ActivatedRoute,
+    
   ) {}
 
   ngOnInit() {
-    this.testService.test.subscribe( (val) => this.infoTest = val);
+    this.testService.test.subscribe( (val) => {
+      this.infoTest = val;
+      this.addiction = this.route.snapshot.queryParamMap.get("addiction");
+    });
   }
 
   async openModal(contents) {

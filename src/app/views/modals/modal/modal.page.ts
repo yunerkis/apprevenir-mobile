@@ -38,7 +38,9 @@ export class ModalPage implements OnInit {
   onSubmit(id) {
     if(!this.addiction.invalid) {
       this.closeModal()
-      this.router.navigate(['/test/test/'+id], { queryParams: { addiction_id: this.addiction.value.addiction_id } });
+      let addiction = this.addiction.value.addiction_id
+      let res = addiction.split(" ");
+      this.router.navigate(['/test/test/'+id], { queryParams: { addiction_id: res[0], addiction :res[1]  } });
     }
   }
 
