@@ -83,6 +83,54 @@ export class Tab3Page implements OnInit {
     'Moderado': '#FFA14E',
     'Leve': '#20E57E'
   };
+  clients:any = false;
+  clientTypes = {
+    'persona natual' : ['Persona Natural'],
+    'entidades territoriales' : [
+      'Entidad Territorial',
+      {
+        'Zona': ['zones', 'zone'],
+        'Comuna': ['communes', 'commune'],
+        'Barrio': ['neighborhoods', 'neighborhood']
+      }
+    ],
+    'secretarias de educacion': [
+      'Secretaría de Educación',
+      {
+        'Institución educativa': ['educationalInstitutions', 'educational_institution'],
+        'Grado': ['grades', 'grade']
+      }
+
+    ],
+    'instituciones educativas': [
+      'Institución Educativa',
+      {
+        'Grado': ['educationalGrades', 'grade']
+      }
+    ],
+    'universidades': [
+      'Universidad',
+      {
+        'Programa': ['programs', 'program'],
+        'Modalidad': ['modalities', 'modality	'],
+        'Semestre': ['semesters', 'semester']
+      }
+    ],
+    'empresas': [
+      'Empresa',
+      {
+        'Sede': ['locations', 'location'],
+        'Área': ['areas', 'area'],
+        'Turno': ['schedules', 'schedul']
+      }
+    ]
+  };
+  selects1: any = false;
+  selects2: any = false;
+  selects3: any = false;
+  referId = null;
+  label = [];
+  values = [];
 
   @ViewChild('stepper') stepper: MatStepper;
 
@@ -111,6 +159,11 @@ export class Tab3Page implements OnInit {
       gender_id: ['', Validators.required],
       civil_status_id: ['', Validators.required],
       education_level_id: ['', Validators.required],
+      client_type: ['', Validators.required],
+      client: [''],
+      selectA: [''],
+      selectB: [''],
+      selectC: [''],
     });
 
     this.secondFormGroup = this.formBuilder.group({
@@ -128,7 +181,8 @@ export class Tab3Page implements OnInit {
 
     this.storage.get('PROFILE').then(profile => {
       this.profile = profile;
-
+      let config = JSON.parse(this.profile.client_config);
+      
       this.image_gender = this.profile.gender_id;
      
       this.profile.last_name_one = this.profile.last_names.split(" ")[0];
@@ -142,6 +196,11 @@ export class Tab3Page implements OnInit {
         gender_id: [this.profile.gender_id, Validators.required],
         civil_status_id: [this.profile.civil_status_id, Validators.required],
         education_level_id: [this.profile.education_level_id, Validators.required],
+        client_type: [config['client_type'], Validators.required],
+        client: [config['client']],
+        selectA: [config['selectA']],
+        selectB: [config['selectB']],
+        selectC: [config['selectC']],
       });
 
       this.secondFormGroup = this.formBuilder.group({
@@ -162,6 +221,15 @@ export class Tab3Page implements OnInit {
       this.getStates(this.profile.country_id);
 
       this.getCities(this.profile.state_id);
+
+      this.getClients(config['client_type'], 1)
+
+      setTimeout(() => {
+        this.getSelect1(config['selectA'], 1)
+        this.getSelect2(config['selectB'], 1)
+        this.getSelect3(config['selectC'], 1)
+      }, 1000);
+      
     });
 
     this.testService.myResults().then( res => { 
@@ -210,9 +278,91 @@ export class Tab3Page implements OnInit {
     }
   }
 
+  getClients(clientType, reset = null) {
+    if (clientType != 'persona natual') {
+      this.authGuardService.getClientsList(clientType).subscribe(res => {
+        this.clients = false;
+        this.selects1 = false;   
+        this.selects2 = false;
+        this.selects3 = false;
+        if (reset == null) {
+          this.firstFormGroup.patchValue({
+            client: '',
+            selectA: '',
+            selectB: '',
+            selectC: ''
+          });
+        }
+        if (res['data'].length > 0) {
+          this.clients = res['data'];
+        }
+      });
+    }
+  }
+
+  getSelect1(select1, reset = null)
+  {
+    this.label = [];
+    this.values = [];
+    this.selects1 = false;
+    this.selects2 = false;
+    this.selects3 = false;
+    this.referId = null;
+
+    if (reset == null) {
+      this.firstFormGroup.patchValue({
+        selectA: '',
+        selectB: '',
+        selectC: ''
+      });
+    }
+
+    let type = this.clients[select1].client;
+    this.referId = this.clients[select1].id;
+    let data = this.clientTypes[type]; 
+    for (const key in data[1]) {
+      this.label.push(key);
+      this.values.push(data[1][key]);
+    }
+    
+    this.selects1 = this.clients[select1][this.values[0][0]];
+  }
+
+  getSelect2(select2, reset = null)
+  {
+    this.selects2 = false;
+    this.selects3 = false;
+    if (reset == null) {
+      this.firstFormGroup.patchValue({
+        selectB: '',
+        selectC: ''
+      });
+    }
+    this.selects2 = this.selects1[select2][this.values[1][0]];
+  }
+
+  getSelect3(select3, reset = null)
+  {
+    this.selects3 = false;
+    if (reset == null) {
+      this.firstFormGroup.patchValue({
+        selectC: ''
+      });
+    }
+    this.selects3 = this.selects2[select3][this.values[2][0]];
+  }
+
   onSubmit() {
     let formData = Object.assign(this.firstFormGroup.value, this.secondFormGroup.value, this.thirdFormGroup.value); 
     formData.last_names = formData.last_name_one+' '+formData.first_name_two;
+    formData.reference = this.referId;
+    formData.client_config = {
+      'client_type': formData.client_type,
+      'client': formData.client,
+      'selectA': formData.selectA,
+      'selectB': formData.selectB,
+      'selectC': formData.selectC,
+    };
     this.authGuardService.updateProfile(formData).then((data) => {
       this.image_gender = formData.gender_id;
       this.router.navigate(['home/tab2']);

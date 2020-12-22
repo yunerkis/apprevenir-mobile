@@ -16,6 +16,48 @@ export class RegisterPage implements OnInit {
   countries = [];
   states = [];
   cities = [];
+  clients:any = false;
+  clientTypes = {
+    'persona natual' : ['Persona Natural'],
+    'entidades territoriales' : [
+      'Entidad Territorial',
+      {
+        'Zona': ['zones', 'zone'],
+        'Comuna': ['communes', 'commune'],
+        'Barrio': ['neighborhoods', 'neighborhood']
+      }
+    ],
+    'secretarias de educacion': [
+      'Secretaría de Educación',
+      {
+        'Institución educativa': ['educationalInstitutions', 'educational_institution'],
+        'Grado': ['grades', 'grade']
+      }
+
+    ],
+    'instituciones educativas': [
+      'Institución Educativa',
+      {
+        'Grado': ['educationalGrades', 'grade']
+      }
+    ],
+    'universidades': [
+      'Universidad',
+      {
+        'Programa': ['programs', 'program'],
+        'Modalidad': ['modalities', 'modality	'],
+        'Semestre': ['semesters', 'semester']
+      }
+    ],
+    'empresas': [
+      'Empresa',
+      {
+        'Sede': ['locations', 'location'],
+        'Área': ['areas', 'area'],
+        'Turno': ['schedules', 'schedul']
+      }
+    ]
+  };
   genders = [
     {
       gender : 'Femenino',
@@ -66,6 +108,12 @@ export class RegisterPage implements OnInit {
       value: 5
     },
   ];
+  selects1: any = false;
+  selects2: any = false;
+  selects3: any = false;
+  referId = null;
+  label = [];
+  values = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -79,6 +127,11 @@ export class RegisterPage implements OnInit {
       first_name_two: ['', Validators.required],
       birthday: ['', Validators.required],
       gender_id: ['', Validators.required],
+      client_type: ['', Validators.required],
+      client: [''],
+      selectA: [''],
+      selectB: [''],
+      selectC: [''],
       civil_status_id: ['', Validators.required],
       education_level_id: ['', Validators.required],
     });
@@ -132,9 +185,82 @@ export class RegisterPage implements OnInit {
     }
   }
 
+  getClients(clientType) {
+    if (clientType != 'persona natual') {
+      this.authGuardService.getClientsList(clientType).subscribe(res => {
+        this.clients = false;
+        this.selects1 = false;   
+        this.selects2 = false;
+        this.selects3 = false;
+        this.firstFormGroup.patchValue({
+          client: '',
+          selectA: '',
+          selectB: '',
+          selectC: ''
+        });
+        if (res['data'].length > 0) {
+          this.clients = res['data'];
+        }
+      });
+    }
+  }
+
+  getSelect1(select1)
+  {
+    this.label = [];
+    this.values = [];  
+    this.selects1 = false;   
+    this.selects2 = false;
+    this.selects3 = false;
+    this.referId = null;
+    this.firstFormGroup.patchValue({
+      selectA: '',
+      selectB: '',
+      selectC: ''
+    });
+    
+    let type = this.clients[select1].client;
+    this.referId = this.clients[select1].id;
+    let data = this.clientTypes[type]; 
+    for (const key in data[1]) {
+      this.label.push(key);
+      this.values.push(data[1][key]);
+    }
+
+    this.selects1 = this.clients[select1][this.values[0][0]];
+  }
+
+  getSelect2(select2)
+  {
+    this.selects2 = false;
+    this.selects3 = false;
+    this.firstFormGroup.patchValue({
+      selectB: '',
+      selectC: ''
+    });
+    this.selects2 = this.selects1[select2][this.values[1][0]];
+  }
+
+  getSelect3(select3)
+  {
+    this.selects3 = false;
+    this.firstFormGroup.patchValue({
+      selectC: ''
+    });
+    this.selects3 = this.selects2[select3][this.values[2][0]];
+  }
+
   onSubmit() {
     let formData = Object.assign(this.firstFormGroup.value, this.secondFormGroup.value, this.thirdFormGroup.value); 
     formData.last_names = formData.last_name_one+' '+formData.first_name_two;
+    formData.reference = this.referId;
+    formData.client_config = {
+      'client_type': formData.client_type,
+      'client': formData.client,
+      'selectA': formData.selectA,
+      'selectB': formData.selectB,
+      'selectC': formData.selectC,
+    };
     this.authGuardService.register(formData);
   }
 }

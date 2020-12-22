@@ -36,6 +36,39 @@
           <option [value]="education.value" *ngFor="let education of educations">{{ education.education }}</option>
         </select>
       </div>
+      <div class="register-form__input">
+        <p class="register-form__label-small">Datos referido</p>
+        <select formControlName="client_type" required #clientType (change)="getClients(clientType.value)">
+          <option value="">Seleccione tipo de referido</option>
+          <option [value]="clientType.key" *ngFor="let clientType of clientTypes | keyvalue">{{clientType.value[0]}}</option>
+        </select>
+      </div>
+      <div class="register-form__input">
+        <select formControlName="client" *ngIf="clients" #clientSelect (change)="getSelect1(clientSelect.value)">
+          <option value="">Seleccione</option>
+          <option [value]="i" *ngFor="let client of clients; let i = index">{{client.profile.first_names}}</option>
+        </select>
+      </div>
+      <div *ngIf="clients">
+        <div class="register-form__input">
+          <select formControlName="selectA" *ngIf="selects1" #clientSelect2 (change)="getSelect2(clientSelect2.value)">
+            <option value="">{{ label[0] }}</option>
+            <option [value]="i" *ngFor="let select1 of selects1; let i = index">{{select1[values[0][1]]}}</option>
+          </select>
+        </div>
+        <div class="register-form__input">
+          <select formControlName="selectB" *ngIf="selects2" #clientSelect3 (change)="getSelect3(clientSelect3.value)">
+            <option value="">{{ label[1] }}</option>
+            <option [value]="i" *ngFor="let select2 of selects2; let i = index">{{select2[values[1][1]]}}</option>
+          </select>
+        </div>
+        <div class="register-form__input">
+          <select formControlName="selectC" *ngIf="selects3">
+            <option value="">{{ label[2] }}</option>
+            <option [value]="i" *ngFor="let select3 of selects3; let i = index">{{select3[values[2][1]]}}</option>
+          </select>
+        </div>
+      </div>
       <div class="register-form__content-btns">
         <a [routerLink]="['/login']"><button class="register-form__btn back" mat-button>Atras</button></a>
         <button class="register-form__btn next" mat-button matStepperNext>Siguiente</button>
