@@ -21,6 +21,7 @@
     <div *ngIf="tab == 'result'">
       <div *ngIf="gifLevel[resultLevel]">
         <div class="result__warning">
+            <img src="../../../../assets/icon/help.png" class="test__help" alt="help" (click)="openModal(resultLevel)">
             <div [innerHTML]="gifLevel[resultLevel]"></div>
             <div [style]="colorsLevel[resultLevel]">{{resultLevel}}</div>
         </div>

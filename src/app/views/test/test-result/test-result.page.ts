@@ -3,6 +3,8 @@ import { TestService } from '../../../services/test.service';
 import { Router } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { LoaderService } from '../../../services/loader.service';
+import { ModalController } from '@ionic/angular';
+import { LevelPage } from '../../modals/level/level.page';
 
 
 @Component({
@@ -20,13 +22,21 @@ export class TestResultPage implements OnInit {
   tab = "result";
   gifLevel = {
     'Leve': '<img src="../../../assets/images/leve.gif" alt="leve">',
+    'Ausencia de Ansiedad': '<img src="../../../assets/images/leve.gif" alt="leve">',
+    'Ausencia de depresión': '<img src="../../../assets/images/leve.gif" alt="leve">',
     'Moderado': '<img src="../../../assets/images/moderado.gif" alt="moderado">',
     'Severo': '<img src="../../../assets/images/severo.gif" alt="severo">',
+    'Presencia de Ansiedad': '<img src="../../../assets/images/severo.gif" alt="severo">',
+    'Presencia de depresión': '<img src="../../../assets/images/severo.gif" alt="severo">',
   };
   colorsLevel = {
     'Leve': 'color: #20E57E',
+    'Ausencia de Ansiedad': 'color: #20E57E',
+    'Ausencia de depresión': 'color: #20E57E',
     'Moderado': 'color: #FFA14E',
     'Severo': 'color: #FF4E60',
+    'Presencia de Ansiedad': 'color: #FF4E60',
+    'Presencia de depresión': 'color: #FF4E60',
   };
 
 
@@ -34,7 +44,8 @@ export class TestResultPage implements OnInit {
     public testService: TestService,
     private router: Router,
     private _sanitizer: DomSanitizer,
-    public loaderService: LoaderService 
+    public loaderService: LoaderService,
+    public modalController: ModalController, 
   ) { }
 
   ngOnInit() {
@@ -80,4 +91,17 @@ export class TestResultPage implements OnInit {
       return this._sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/' + video);   
   }
 
+  async openModal(level) {
+    const modal = await this.modalController.create({
+      component: LevelPage,
+      cssClass: 'modal-terms',
+      componentProps: {
+        "level": level,
+        "gifLevel": this.gifLevel[level],
+        "colorsLevel": this.colorsLevel[level]
+      }
+    });
+
+    return await modal.present();
+  }
 }
