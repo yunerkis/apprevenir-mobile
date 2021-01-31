@@ -19,7 +19,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 export function jwtOptions(storage){
   return {
-    getToken:()=>{
+    tokenGetter:()=>{
       return storage.get('active_token');
     },
     domainName: ['localhost:3000'],
