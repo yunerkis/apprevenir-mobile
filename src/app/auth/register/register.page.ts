@@ -18,7 +18,7 @@ export class RegisterPage implements OnInit {
   cities = [];
   clients:any = false;
   clientTypes = {
-    'persona natual' : ['Persona Natural'],
+    'persona natual' : ['Ninguno'],
     'entidades territoriales' : [
       'Entidad Territorial',
       {
@@ -159,6 +159,7 @@ export class RegisterPage implements OnInit {
   }
 
   getStates(country) {
+    this.getCities('');
     if (country != '') {
       this.authGuardService.states(country).subscribe(
         res => {
@@ -205,8 +206,7 @@ export class RegisterPage implements OnInit {
     }
   }
 
-  getSelect1(select1)
-  {
+  getSelect1(select1) {
     this.label = [];
     this.values = [];  
     this.selects1 = false;   
@@ -230,8 +230,7 @@ export class RegisterPage implements OnInit {
     this.selects1 = this.clients[select1][this.values[0][0]];
   }
 
-  getSelect2(select2)
-  {
+  getSelect2(select2) {
     this.selects2 = false;
     this.selects3 = false;
     this.firstFormGroup.patchValue({
@@ -241,8 +240,7 @@ export class RegisterPage implements OnInit {
     this.selects2 = this.selects1[select2][this.values[1][0]];
   }
 
-  getSelect3(select3)
-  {
+  getSelect3(select3) {
     this.selects3 = false;
     this.firstFormGroup.patchValue({
       selectC: ''
@@ -254,6 +252,7 @@ export class RegisterPage implements OnInit {
     let formData = Object.assign(this.firstFormGroup.value, this.secondFormGroup.value, this.thirdFormGroup.value); 
     formData.last_names = formData.last_name_one+' '+formData.first_name_two;
     formData.reference = this.referId;
+    formData.client = formData.client == '' ? 'persona natual' : formData.client;
     formData.client_config = {
       'client_type': formData.client_type,
       'client': formData.client,
