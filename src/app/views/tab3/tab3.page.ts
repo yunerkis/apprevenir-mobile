@@ -85,7 +85,7 @@ export class Tab3Page implements OnInit {
   };
   clients:any = false;
   clientTypes = {
-    'persona natual' : ['Persona Natural'],
+    'persona natual' : ['Ninguno'],
     'entidades territoriales' : [
       'Entidad Territorial',
       {
