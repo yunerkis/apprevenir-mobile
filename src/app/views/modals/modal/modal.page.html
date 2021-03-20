@@ -1,15 +1,15 @@
 <div class="modal-terms__content" *ngIf="!start">
   <div class="modal-test__head">
-    <img src="{{url}}/image/{{content.image}}" alt="test image">
+    <img src="{{url}}/images/{{content.image}}" alt="test image">
     <div class="modal-test__bg"></div>
     <div class="modal-test__title">test</div>
     <div class="modal-test__test-title">{{ content.name }}</div>
   </div>
   <div class="modal-terms__text modal-test__text">
     <div>
-      <div [innerHTML]="content.introduction" *ngIf="content.addictions.length == 0">
+      <div [innerHTML]="content.introduction" *ngIf="content.id == 2 || content.addictions.length == 0">
       </div>
-      <div *ngIf="content.addictions.length > 0">
+      <div *ngIf="content.addictions.length > 0 && content.id != 2">
         <div class="modal-test__form">
           <p>{{ content.description }}</p>
           <form [formGroup]="addiction" (ngSubmit)="onSubmit(content.id)">

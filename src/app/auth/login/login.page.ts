@@ -19,8 +19,6 @@ export class LoginPage implements OnInit {
     private authGuardService: AuthGuardService,
   ) {}
 
-  // email = new FormControl('', [Validators.required, Validators.email]);
-
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
       email: ['', Validators.compose([Validators.email, Validators.required])],
@@ -35,7 +33,6 @@ export class LoginPage implements OnInit {
 
   onSubmit() {
     if(this.loginForm.invalid) {
-      this.loginForm.setErrors({ ...this.loginForm.errors, 'yourErrorName': true });
       return;
     }
     this.authGuardService.login(this.loginForm.value);

@@ -10,12 +10,28 @@
           </div>
         </div>
         <div class="test-form__input">
-          <mat-radio-group formControlName="answer_{{i}}" required>
+          <mat-radio-group formControlName="addiction" required class="test__radio-flex" 
+            *ngIf="question.order == 1 && test['name'] == 'Drogas'" (change)="selectAddiction($event)">
+            <mat-radio-button value="{{ in }}" *ngFor="let addiction of test.addictions; let in = index">
+              <label class="test__label">{{ order[in] }}</label>
+              <div class="test-form__option-answer">{{ addiction.description }}</div>
+            </mat-radio-button>
+          </mat-radio-group>
+          <div *ngIf="question.order != 1 && test['name'] == 'Drogas'" class="test__addiction">
+            <label class="test__label">{{ order[0] }}</label>
+            <div class="test-form__option-answer">{{ addictionDesc }}</div>
+          </div>
+          <mat-select formControlName="answer_{{i}}" required *ngIf="question.order != 1 && test['name'] == 'Drogas'">
+            <mat-option value="">Elige una opción</mat-option>
+            <mat-option [value]="answer.id"  *ngFor="let answer of question.answers; let in = index">
+              {{ answer.answer }}
+            </mat-option>
+          </mat-select>
+          <mat-radio-group formControlName="answer_{{i}}" required class="test__radio-flex" 
+            *ngIf="test['name'] != 'Drogas'">
             <mat-radio-button value="{{ answer.id }}" *ngFor="let answer of question.answers; let in = index">
-              <div class="test-form__options">
-                <span class="test-form__option-letter">{{ order[in] }}</span>
-                <div class="test-form__option-answer">{{ answer.answer }}</div>
-              </div>
+              <label class="test__label">{{ order[in] }}</label>
+              <div class="test-form__option-answer">{{ answer.answer }}</div>
             </mat-radio-button>
           </mat-radio-group>
         </div>

@@ -13,7 +13,7 @@ import { ActivatedRoute } from "@angular/router";
 export class TemplatePage implements OnInit {
 
   infoTest: any = null;
-  url = environment.url;
+  url = environment.url+'/storage';
   addiction = null;
 
   constructor(

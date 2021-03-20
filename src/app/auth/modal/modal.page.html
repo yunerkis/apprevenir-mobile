@@ -1,14 +1,9 @@
-<div class="modal-terms__content">
+<div class="modal-terms__content" *ngIf="terms">
   <div class="modal-terms__title">
-    <div *ngIf="terms">
       Términos y condiciones generales de uso
-    </div>
-    <div *ngIf="!terms">
-      Política de privacidad
-    </div>
   </div>
   <div class="modal-terms__text">
-    <div *ngIf="terms">
+    <div>
       <span class="modal-terms__title">I. Objeto</span><br><br>
       <p>
         Apprevenir permite, conforme a las direcciones y vínculos visibles, a sus Usuarios el acceso y la utilización de diversos servicios y contenidos 
@@ -218,7 +213,16 @@
         Los presentes términos y condiciones se regirán e interpretarán en todos y cada uno de sus extremos por la Ley Colombiana. Tanto Apprevenir como el Usuario se comprometen a intentar resolver de manera amistosa cualquier desacuerdo que pudiera surgir en el desarrollo de sus relaciones mercantiles y/o comerciales.
       
     </div>
-    <div *ngIf="!terms">
+  </div>
+  <div class="modal-terms__btn-acept" (click)="closeModal()">Aceptar</div>
+</div>
+
+<div class="modal-terms__content" *ngIf="!terms">
+  <div class="modal-terms__title">
+      Política de privacidad
+  </div>
+  <div class="modal-terms__text">
+    <div>
       <span class="modal-terms__title">I. PROPÓSITO</span><br><br>
       <p>
         La presente política se expide en cumplimiento de la Ley Estatutaria 1581 de 2012 y el Decreto Único Reglamentario Sectorial 1074 de 2015 sobre el régimen de protección de datos personales y busca garantizar que Apprevenir, en condición de responsable del manejo de datos personales, realice el tratamiento de los mismos en estricto cumplimiento de la normatividad aplicable, garantizando asimismo los derechos de los titulares de los datos.

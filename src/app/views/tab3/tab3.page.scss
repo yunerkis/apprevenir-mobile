@@ -170,22 +170,8 @@ td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type {
     }
 
     &__input{
-        margin-bottom: 28px;
+        margin-bottom: 5px;
         position: relative;
-    }
-
-    &__input input, &__input select {
-        width: 100%;
-        height: 50px;
-        padding-left: 16px;
-        background: #FFFFFF 0% 0% no-repeat padding-box;
-        border: 1px solid #4A657080;
-        border-radius: 8px;
-        opacity: 1;
-    }
-
-    &__input input[type=date] {
-        padding-right: 18px;
     }
 
     &__btn {

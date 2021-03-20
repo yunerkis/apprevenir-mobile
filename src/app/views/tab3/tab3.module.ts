@@ -15,6 +15,9 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatTableModule} from '@angular/material/table';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import {MatIconModule} from '@angular/material/icon';
+import {MatSelectModule} from '@angular/material/select';
 
 @NgModule({
   imports: [
@@ -33,6 +36,9 @@ import {MatTableModule} from '@angular/material/table';
     MatTableModule,
     RouterModule.forChild([{ path: '', component: Tab3Page }]),
     Tab3PageRoutingModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatSelectModule
   ],
   declarations: [Tab3Page]
 })

@@ -11,6 +11,12 @@
             <mat-label>Email</mat-label>
             <input type="email" placeholder="Email" formControlName="email" matInput>
             <img src="./../../../assets/icon/email_outline.svg" alt="" matSuffix>
+            <mat-error *ngIf="loginForm.get('email').hasError('email') && !loginForm.get('email').hasError('required')">
+              Por favor ingresar un correo electrónico válido
+            </mat-error>
+            <mat-error *ngIf="loginForm.get('email').hasError('required')">
+              El correo electrónico es <strong>necesario</strong>
+            </mat-error>
           </mat-form-field>
           <a class="login-form__forgot-link" [routerLink]="['/password-reset']">¿Olvídaste tu contraseña?</a>
           <mat-form-field class="example-full-width">
@@ -18,6 +24,9 @@
             <input [type]="show ? 'text' : 'password'" placeholder="Contraseña" formControlName="password" matInput>
             <img [src]="show ? './../../../assets/icon/Icon material-visibility-off.svg' : './../../../assets/icon/Icon material-visibility.svg'"alt="" matSuffix class="app-m-rigth width-icon" (click)="password()">
             <img src="./../../../assets/icon/lock_outline.svg" alt="" matSuffix >
+            <mat-error *ngIf="loginForm.get('password').hasError('required')">
+              La contraseña es <strong>necesaria</strong>
+            </mat-error>
           </mat-form-field>
           <div class="box-checkbox">
             <input type="checkbox" id="test1" />

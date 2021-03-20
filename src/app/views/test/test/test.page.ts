@@ -14,12 +14,15 @@ import { environment } from '../../../../environments/environment';
 })
 export class TestPage implements OnInit {
 
+  addiction = null;
+  addiction_id = false;
+  addictionDesc = null;
   test = [];
   start = true;
   formGroup: FormGroup;
   answers = [];
   answer = {};
-  url = environment.url;
+  url = environment.url+'/storage';
   questions: any;
   order = {
     0:"a",
@@ -63,7 +66,11 @@ export class TestPage implements OnInit {
         this.testService.test.next(this.test);
         this.test['questions'].forEach((question, i) => {
           this.answer = {};
-          this.answer['answer_'+i] = ['', Validators.required];
+          if (i == 0 && this.test['name'] == 'Drogas') {
+            this.answer['addiction'] = ['', Validators.required];
+          } else {
+            this.answer['answer_'+i] = ['', Validators.required];
+          }
           this.answers.push(this.formBuilder.group(this.answer));
         });
         this.formGroup = this.formBuilder.group({ formArray: this.formBuilder.array(this.answers) });
@@ -85,13 +92,24 @@ export class TestPage implements OnInit {
       objAnswers.push(e[key+i]);
     });
 
+    if (!this.addiction_id) {
+      this.route.snapshot.queryParamMap.get("addiction_id")
+    }
+
     let result = {
       'test_id': this.test['id'],
       'answers':objAnswers,
-      'addiction_id': this.route.snapshot.queryParamMap.get("addiction_id")
+      'addiction_id': this.addiction_id
     }
 
     this.testService.storeAnswer(result);
+  }
+
+  selectAddiction(event) {
+
+    this.addictionDesc = this.test['addictions'][event.value].description;
+
+    this.addiction_id = this.test['addictions'][event.value].id;
   }
 
   async openModal(contents, start = false) {

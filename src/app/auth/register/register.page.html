@@ -5,73 +5,145 @@
   <mat-step [stepControl]="firstFormGroup">
     <form class="register-form" [formGroup]="firstFormGroup">
       <ng-template matStepLabel>Información personal</ng-template>
+      <div class="register-form__input">
+        <p class="register-form__label-small">¿Quién te recomendó usar Apprevenir?</p>
+        <mat-form-field class="example-full-width">
+          <mat-label>Seleccione quién te recomendó</mat-label>
+          <mat-select formControlName="client_type" required #clientType (selectionChange)="getClients(clientType.value)">
+            <mat-option *ngFor="let clientType of clientTypes | keyvalue" [value]="clientType.key">
+              {{ clientType.value[0] }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="firstFormGroup.get('client_type').hasError('required')">
+            Por favor elige quién te recomendó
+          </mat-error>
+        </mat-form-field>
+        <div *ngIf="clients">
+          <mat-form-field class="example-full-width" >
+            <mat-label>Seleccione usuario</mat-label>
+            <mat-select formControlName="client" #clientSelect (selectionChange)="getSelect1(clientSelect.value)">
+              <mat-option *ngFor="let client of clients; let i = index" [value]="i">
+                {{ client.profile.first_names }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="firstFormGroup.get('client').hasError('required')">
+              Por favor elige usuario
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field class="example-full-width" *ngIf="selectsA">
+            <mat-label>Por favor elige tu {{ label[0][0] }}</mat-label>
+            <mat-select formControlName="selectA">
+              <mat-option *ngFor="let selectA of selectsA;" [value]="selectA[label[0][1]]">
+                {{ selectA[label[0][1]] }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="firstFormGroup.get('selectA').hasError('required')">
+              Por favor elige tu {{ label[0][0] }}
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field class="example-full-width" *ngIf="selectsB">
+            <mat-label>Por favor elige tu {{ label[1][0] }}</mat-label>
+            <mat-select formControlName="selectB">
+              <mat-option *ngFor="let selectB of selectsB;" [value]="selectB[label[1][1]]">
+                {{ selectB[label[1][1]] }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="firstFormGroup.get('selectB').hasError('required')">
+              Por favor elige tu {{ label[1][0] }}
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field class="example-full-width" *ngIf="selectsC">
+            <mat-label>Por favor elige tu {{ label[2][0] }}</mat-label>
+            <mat-select formControlName="selectC">
+              <mat-option *ngFor="let selectC of selectsC;" [value]="selectC[label[2][1]]">
+                {{ selectC[label[2][1]] }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="firstFormGroup.get('selectC').hasError('required')">
+              Por favor elige tu {{ label[2][0] }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
       <p class="register-form__label">Información personal</p>
       <div class="register-form__input">
-        <input type="text" placeholder="Nombre(s)" formControlName="first_names" required>
+        <mat-form-field class="example-full-width">
+          <mat-label>Nombre</mat-label>
+          <input type="text" matInput required formControlName="first_names">
+          <mat-error *ngIf="firstFormGroup.get('first_names').hasError('required')">
+            Nombre es <strong>requerido</strong>
+          </mat-error>
+        </mat-form-field>
       </div>
       <div class="register-form__input">
-        <input type="text" placeholder="Primer Apellido" formControlName="last_name_one" required>
+        <mat-form-field class="example-full-width">
+          <mat-label>Primer Apellido</mat-label>
+          <input type="text" matInput required formControlName="last_names">
+          <mat-error *ngIf="firstFormGroup.get('last_names').hasError('required')">
+            Primer Apellido es <strong>requerido</strong>
+          </mat-error>
+        </mat-form-field>
       </div>
       <div class="register-form__input">
-        <input type="text" placeholder="Segundo Apellido" formControlName="first_name_two" required>
+        <mat-form-field class="example-full-width">
+          <mat-label>Segundo Apellido</mat-label>
+          <input type="text" matInput required formControlName="last_names_two">
+          <mat-error *ngIf="firstFormGroup.get('last_names_two').hasError('required')">
+            Segundo Apellido es <strong>requerido</strong>
+          </mat-error>
+        </mat-form-field>
       </div>
       <div class="register-form__input">
-        <input type="date" placeholder="Fecha de nacimiento" formControlName="birthday" required>
+        <mat-form-field class="example-full-width">
+          <mat-label>Fecha de Nacimiento</mat-label>
+          <input matInput [matDatepicker]="picker" required formControlName="birthday">
+          <mat-datepicker-toggle matSuffix [for]="picker">
+            <mat-icon matDatepickerToggleIcon class="icon-date" style="font-size: 20px;">date_range</mat-icon>
+          </mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error *ngIf="firstFormGroup.get('birthday').hasError('required')">
+            Por favor ingrese una fecha válida
+          </mat-error>
+        </mat-form-field>
       </div>
       <div class="register-form__input">
         <p class="register-form__label-small">Género</p>
         <mat-radio-group formControlName="gender_id" required>
           <mat-radio-button [value]="gender.value" *ngFor="let gender of genders">{{ gender.gender }}</mat-radio-button>
         </mat-radio-group>
+        <mat-error *ngIf="genderInvalid">
+          Por favor elige tu género
+        </mat-error>
       </div>
       <div class="register-form__input">
-        <select formControlName="civil_status_id" required>
-          <option value="">Estado civil</option>
-          <option [value]="civil_status.value" *ngFor="let civil_status of civil_statuses">{{ civil_status.status }}</option>
-        </select>
+        <mat-form-field class="example-full-width">
+          <mat-label>Estado Civil</mat-label>
+          <mat-select formControlName="civil_status_id" required>
+            <mat-option *ngFor="let civil_status of civil_statuses" [value]="civil_status.value">
+              {{ civil_status.status }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="firstFormGroup.get('civil_status_id').hasError('required')">
+            Por favor elige tu estado civil
+          </mat-error>
+        </mat-form-field>
       </div>
       <div class="register-form__input">
-        <select formControlName="education_level_id" required>
-          <option value="">Nivel de Estudios</option>
-          <option [value]="education.value" *ngFor="let education of educations">{{ education.education }}</option>
-        </select>
-      </div>
-      <div class="register-form__input">
-        <p class="register-form__label-small">Datos referido</p>
-        <select formControlName="client_type" required #clientType (change)="getClients(clientType.value)">
-          <option value="">Seleccione tipo de referido</option>
-          <option [value]="clientType.key" *ngFor="let clientType of clientTypes | keyvalue">{{clientType.value[0]}}</option>
-        </select>
-      </div>
-      <div class="register-form__input">
-        <select formControlName="client" *ngIf="clients" #clientSelect (change)="getSelect1(clientSelect.value)">
-          <option value="">Seleccione</option>
-          <option [value]="i" *ngFor="let client of clients; let i = index">{{client.profile.first_names}}</option>
-        </select>
-      </div>
-      <div *ngIf="clients">
-        <div class="register-form__input">
-          <select formControlName="selectA" *ngIf="selects1" #clientSelect2 (change)="getSelect2(clientSelect2.value)">
-            <option value="">{{ label[0] }}</option>
-            <option [value]="i" *ngFor="let select1 of selects1; let i = index">{{select1[values[0][1]]}}</option>
-          </select>
-        </div>
-        <div class="register-form__input">
-          <select formControlName="selectB" *ngIf="selects2" #clientSelect3 (change)="getSelect3(clientSelect3.value)">
-            <option value="">{{ label[1] }}</option>
-            <option [value]="i" *ngFor="let select2 of selects2; let i = index">{{select2[values[1][1]]}}</option>
-          </select>
-        </div>
-        <div class="register-form__input">
-          <select formControlName="selectC" *ngIf="selects3">
-            <option value="">{{ label[2] }}</option>
-            <option [value]="i" *ngFor="let select3 of selects3; let i = index">{{select3[values[2][1]]}}</option>
-          </select>
-        </div>
+        <mat-form-field class="example-full-width">
+          <mat-label>Nivel de Estudios </mat-label>
+          <mat-select formControlName="education_level_id" required>
+            <mat-option *ngFor="let education of educations" [value]="education.value">
+              {{ education.education }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="firstFormGroup.get('education_level_id').hasError('required')">
+            Por favor elige tu nivel de estudios
+          </mat-error>
+        </mat-form-field>
       </div>
       <div class="register-form__content-btns">
         <a [routerLink]="['/login']"><button class="register-form__btn back" mat-button>Atras</button></a>
-        <button class="register-form__btn next" mat-button matStepperNext>Siguiente</button>
+        <button class="register-form__btn next" mat-button matStepperNext (click)="onProfileNextClicked()">Siguiente</button>
       </div>
     </form>
   </mat-step>
@@ -80,22 +152,43 @@
       <ng-template matStepLabel>Ubicación</ng-template>
       <p class="register-form__label">Ubicación</p>
       <div class="register-form__input">
-        <select formControlName="country_id" required #country (change)="getStates(country.value)">
-          <option value="">País</option>
-          <option value="{{country.id}}" *ngFor="let country of countries">{{country.name}}</option>
-        </select>
+        <mat-form-field class="example-full-width" >
+          <mat-label>País</mat-label>
+          <mat-select formControlName="country_id" required #country (selectionChange)="getStates(country.value)">
+            <mat-option *ngFor="let country of countries" [value]="country.id">
+              {{ country.name }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="secondFormGroup.get('country_id').hasError('required')">
+            Por favor elige País
+          </mat-error>
+        </mat-form-field>
       </div>
       <div class="register-form__input">
-        <select formControlName="state_id" required #state (change)="getCities(state.value)">
-          <option value="" selected>Departamento</option>
-          <option value="{{state.id}}" *ngFor="let state of states">{{state.name}}</option>
-        </select>
+        <mat-form-field class="example-full-width" >
+          <mat-label>Departamento</mat-label>
+          <mat-select formControlName="state_id" required #state (selectionChange)="getCities(state.value)">
+            <mat-option *ngFor="let state of states" [value]="state.id">
+              {{ state.name }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="secondFormGroup.get('state_id').hasError('required')">
+            Por favor elige Departamento
+          </mat-error>
+        </mat-form-field>
       </div>
       <div class="register-form__input">
-        <select formControlName="city_id" required>
-          <option value="" selected>ciudad</option>
-          <option value="{{city.id}}" *ngFor="let city of cities">{{city.name}}</option>
-        </select>
+        <mat-form-field class="example-full-width" >
+          <mat-label>Ciudad</mat-label>
+          <mat-select formControlName="city_id" required>
+            <mat-option *ngFor="let city of cities" [value]="city.id">
+              {{ city.name }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="secondFormGroup.get('city_id').hasError('required')">
+            Por favor elige Ciudad
+          </mat-error>
+        </mat-form-field>
       </div>
       <div class="register-form__content-btns">
         <button class="register-form__btn back" mat-button matStepperPrevious>Atras</button>
@@ -108,16 +201,46 @@
       <ng-template matStepLabel>Contacto</ng-template>
       <p class="register-form__label">Contacto</p>
       <div class="register-form__input">
-        <input type="phone" placeholder="Número de celular" formControlName="phone" required>
+        <mat-form-field class="example-full-width">
+          <mat-label>Número de Celular</mat-label>
+          <input type="phone" matInput required formControlName="phone">
+          <mat-error *ngIf="thirdFormGroup.get('phone').hasError('required')">
+            Por favor ingresa tu número de celular
+          </mat-error>
+        </mat-form-field>
       </div>
       <div class="register-form__input">
-        <input type="email" placeholder="Correo electrónico" formControlName="email" required>
+        <mat-form-field class="example-full-width">
+          <mat-label>Email</mat-label>
+          <input type="email" placeholder="Correo electrónico" required formControlName="email" matInput>
+          <mat-error *ngIf="thirdFormGroup.get('email').hasError('email') && !thirdFormGroup.get('email').hasError('required')">
+            Por favor ingresar un correo electrónico válido
+          </mat-error>
+          <mat-error *ngIf="thirdFormGroup.get('email').hasError('required')">
+            El correo electrónico es <strong>necesario</strong>
+          </mat-error>
+        </mat-form-field>
       </div>
       <div class="register-form__input">
-        <input type="password" placeholder="Contraseña" formControlName="password" required>
+        <mat-form-field class="example-full-width">
+          <mat-label>Contraseña</mat-label>
+          <input type="password" matInput required formControlName="password">
+          <mat-error *ngIf="thirdFormGroup.get('password').hasError('required')">
+            Por favor ingresa tu Contraseña
+          </mat-error>
+        </mat-form-field>
       </div>
       <div class="register-form__input">
-        <input type="password" placeholder="Repetir contraseña" formControlName="password_confirmation" required>
+        <mat-form-field class="example-full-width">
+          <mat-label>Repetir contraseña</mat-label>
+          <input type="password" matInput required formControlName="password_confirmation">
+          <mat-error *ngIf="thirdFormGroup.get('password_confirmation').hasError('required')">
+            Por favor ingresa nuevamente la contraseña
+          </mat-error>
+          <mat-error *ngIf="thirdFormGroup.get('password_confirmation').hasError('sameError')">
+            La confirmación debe ser igual a la contraseña
+          </mat-error>
+        </mat-form-field>
       </div>
       <div class="register-form__content-btns">
         <button class="register-form__btn back" mat-button matStepperPrevious>Atras</button>

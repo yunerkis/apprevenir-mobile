@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl, ValidationErrors } from '@angular/forms';
 import { AuthGuardService } from '../../services/auth-guard.service';
 import { Storage } from '@ionic/storage';
 import {MatStepper} from '@angular/material/stepper/index';
@@ -8,24 +8,69 @@ import { Router } from '@angular/router';
 import { TestService } from '../../services/test.service';
 import { ModalController } from '@ionic/angular';
 import { ResultPage } from '../modals/result/result.page';
+import * as dayjs from "dayjs";
+import { promise } from 'selenium-webdriver';
 
 @Component({
   selector: 'app-tab3',
   templateUrl: 'tab3.page.html',
   styleUrls: ['tab3.page.scss']
 })
-export class Tab3Page implements OnInit {
+export class Tab3Page implements OnInit, AfterViewInit {
 
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   thirdFormGroup: FormGroup;
+  tab = "data";
+  image_gender = '';
+  name = '';
+  lastNames = '';
   isEditable = false;
+  genderInvalid = false;
   countries = [];
   states = [];
   cities = [];
-  tab = "data";
-  image_gender = '';
-  profile: any = '';
+  clients:any = false;
+  clientTypes = {
+    'persona natural' : ['Ninguno'],
+    'entidades territoriales' : [
+      'Entidad Territorial',
+      {
+        'Comuna': ['communes', 'commune'],
+        'Barrio': ['neighborhoods', 'neighborhood']
+      }
+    ],
+    'secretarias de educacion': [
+      'Secretaría de Educación',
+      {
+        'Institución educativa': ['educationalInstitutions', 'educational_institution'],
+        'Grado': ['grades', 'grade']
+      }
+
+    ],
+    'instituciones educativas': [
+      'Institución Educativa',
+      {
+        'Grado': ['educationalGrades', 'grade']
+      }
+    ],
+    'universidades': [
+      'Universidad',
+      {
+        'Programa': ['programs', 'program'],
+        'Modalidad': ['modalities', 'modality	'],
+        'Semestre': ['semesters', 'semester']
+      }
+    ],
+    'empresas': [
+      'Empresa',
+      {
+        'Sede': ['locations', 'location'],
+        'Área': ['areas', 'area'],
+        'Turno': ['schedules', 'schedul']
+      }
+    ]
+  };
   genders = [
     {
       gender : 'Femenino',
@@ -83,52 +128,11 @@ export class Tab3Page implements OnInit {
     'Moderado': '#FFA14E',
     'Leve': '#20E57E'
   };
-  clients:any = false;
-  clientTypes = {
-    'persona natual' : ['Ninguno'],
-    'entidades territoriales' : [
-      'Entidad Territorial',
-      {
-        'Zona': ['zones', 'zone'],
-        'Comuna': ['communes', 'commune'],
-        'Barrio': ['neighborhoods', 'neighborhood']
-      }
-    ],
-    'secretarias de educacion': [
-      'Secretaría de Educación',
-      {
-        'Institución educativa': ['educationalInstitutions', 'educational_institution'],
-        'Grado': ['grades', 'grade']
-      }
-
-    ],
-    'instituciones educativas': [
-      'Institución Educativa',
-      {
-        'Grado': ['educationalGrades', 'grade']
-      }
-    ],
-    'universidades': [
-      'Universidad',
-      {
-        'Programa': ['programs', 'program'],
-        'Modalidad': ['modalities', 'modality	'],
-        'Semestre': ['semesters', 'semester']
-      }
-    ],
-    'empresas': [
-      'Empresa',
-      {
-        'Sede': ['locations', 'location'],
-        'Área': ['areas', 'area'],
-        'Turno': ['schedules', 'schedul']
-      }
-    ]
-  };
-  selects1: any = false;
-  selects2: any = false;
-  selects3: any = false;
+  selectsA: any = false;
+  selectsB: any = false;
+  selectsC: any = false;
   referId = null;
+  referPosition = null;
   label = [];
   values = [];
 
@@ -145,110 +149,87 @@ export class Tab3Page implements OnInit {
     public modalController: ModalController,
   ) {}
 
-  ngOnInit() {
+  onProfileNextClicked() {
+    const control = this.firstFormGroup.get('gender_id');
+    this.genderInvalid = control.hasError('required');
+  }
 
+  ngOnInit() {
     this.router.events.subscribe((evt) => {
       this.content.scrollToTop();
     });
-
     this.firstFormGroup = this.formBuilder.group({
       first_names: ['', Validators.required],
-      last_name_one: ['', Validators.required],
-      first_name_two: ['', Validators.required],
+      last_names: ['', Validators.required],
+      last_names_two: ['', Validators.required],
       birthday: ['', Validators.required],
       gender_id: ['', Validators.required],
-      civil_status_id: ['', Validators.required],
-      education_level_id: ['', Validators.required],
       client_type: ['', Validators.required],
       client: [''],
       selectA: [''],
       selectB: [''],
       selectC: [''],
+      civil_status_id: ['', Validators.required],
+      education_level_id: ['', Validators.required],
     });
-
     this.secondFormGroup = this.formBuilder.group({
       country_id: ['', Validators.required],
       state_id: ['', Validators.required],
       city_id: ['', Validators.required],
     });
-
     this.thirdFormGroup = this.formBuilder.group({
       phone: ['', Validators.required],
-      email: [''],
-      password: ['', Validators.required],
-      password_confirmation: ['', Validators.required],
-    });
-
-    this.storage.get('PROFILE').then(profile => {
-      this.profile = profile;
-      let config = JSON.parse(this.profile.client_config);
-      
-      this.image_gender = this.profile.gender_id;
-     
-      this.profile.last_name_one = this.profile.last_names.split(" ")[0];
-      this.profile.first_name_two = this.profile.last_names.split(" ")[1];
-
-      this.firstFormGroup = this.formBuilder.group({
-        first_names: [this.profile.first_names, Validators.required],
-        last_name_one: [this.profile.last_name_one, Validators.required],
-        first_name_two: [this.profile.first_name_two, Validators.required],
-        birthday: [this.profile.birthday, Validators.required],
-        gender_id: [this.profile.gender_id, Validators.required],
-        civil_status_id: [this.profile.civil_status_id, Validators.required],
-        education_level_id: [this.profile.education_level_id, Validators.required],
-        client_type: [config['client_type'], Validators.required],
-        client: [config['client']],
-        selectA: [config['selectA']],
-        selectB: [config['selectB']],
-        selectC: [config['selectC']],
-      });
-
-      this.secondFormGroup = this.formBuilder.group({
-        country_id: [this.profile.country_id, Validators.required],
-        state_id: [this.profile.state_id, Validators.required],
-        city_id: [this.profile.city_id, Validators.required],
-      });
-
-      this.thirdFormGroup = this.formBuilder.group({
-        phone: [this.profile.phone, Validators.required],
-        email: [this.profile.email],
-        password: [''],
-        password_confirmation: [''],
-      });
-
-      this.getCountries();
-
-      this.getStates(this.profile.country_id);
-
-      this.getCities(this.profile.state_id);
-
-      this.getClients(config['client_type'], 1)
-
-      setTimeout(() => {
-        this.getSelect1(config['selectA'], 1)
-        this.getSelect2(config['selectB'], 1)
-        this.getSelect3(config['selectC'], 1)
-      }, 1000);
-      
-    });
+      email: ['', Validators.required],
+      password: [''],
+      password_confirmation: [''],
+    }, { validators: sameField });
 
     this.testService.myResults().then( res => { 
-      res.subscribe(results => { this.dataSource = results['data']}, data => {
-        if (data.error.data == 'disabled') {
-          this.testService.userDelete()
-        }
-        console.log(data.error);
-      });
+      res.subscribe(results => { this.dataSource = results['data']});
     });
   }
 
-  getCountries() {
-    this.authGuardService.countries().subscribe(
-      res => {
-        this.countries = res['data'];
-      }, data => {
-        console.log(data.error.errors);
+  ngAfterViewInit() {
+    this.storage.get('PROFILE').then(profile => {
+      let config = JSON.parse(profile.client_config);
+      this.image_gender = profile.gender_id;
+      this.name = profile.first_names;
+      this.lastNames = profile.last_names + ' ' + profile.last_names_two;
+     
+      this.firstFormGroup.patchValue({
+        first_names: profile.first_names,
+        last_names: profile.last_names,
+        last_names_two: profile.last_names_two,
+        birthday: profile.birthday,
+        gender_id: profile.gender_id,
+        civil_status_id: profile.civil_status_id,
+        education_level_id: profile.education_level_id,
+        client_type: config['client_type'],
+        client: config['position'],
+        selectA: config['selectA'],
+        selectB: config['selectB'],
+        selectC: config['selectC'],
       });
+      this.secondFormGroup.patchValue({
+        country_id: profile.country_id,
+        state_id: profile.state_id,
+        city_id:profile.city_id,
+      });
+      this.thirdFormGroup.patchValue({
+        phone: profile.phone,
+        email: profile.email,
+      });
+
+      this.getCountries();
+      this.getStates(profile.country_id);
+      this.getCities(profile.state_id);
+      
+      this.getClients(config['client_type'], false, config['position'])
+    });
+  }
+  
+  getCountries() {
+    this.authGuardService.countries().subscribe(res => {this.countries = res['data'];});
   }
 
   getStates(country) {
@@ -256,8 +237,6 @@ export class Tab3Page implements OnInit {
       this.authGuardService.states(country).subscribe(
         res => {
          this.states = res['data'];
-        }, data => {
-          console.log(data.error.errors);
         });
     } else {
       this.states = [];
@@ -270,98 +249,97 @@ export class Tab3Page implements OnInit {
       this.authGuardService.cities(state).subscribe(
         res => {
          this.cities = res['data'];
-        }, data => {
-          console.log(data.error.errors);
         });
     } else {
       this.cities = [];
     }
   }
 
-  getClients(clientType, reset = null) {
-    if (clientType != 'persona natual') {
+  getClients(clientType, update = true, position = null) {
+    this.clients = false
+    this.selectsA = false;   
+    this.selectsB = false;
+    this.selectsC = false;
+    this.referId = null;
+    this.referPosition = null;
+    let configClient = [
+      'client', 'selectA', 'selectB', 'selectC'
+    ]; 
+    if (update) {
+      this.firstFormGroup.patchValue({
+        client:'',
+        selectA:'',
+        selectB:'',
+        selectC:''
+      });
+    }
+    if (clientType != 'persona natural') {
       this.authGuardService.getClientsList(clientType).subscribe(res => {
-        this.clients = false;
-        this.selects1 = false;   
-        this.selects2 = false;
-        this.selects3 = false;
-        if (reset == null) {
-          this.firstFormGroup.patchValue({
-            client: '',
-            selectA: '',
-            selectB: '',
-            selectC: ''
-          });
-        }
         if (res['data'].length > 0) {
           this.clients = res['data'];
+          this.validationSelect(configClient);
+          if (!update && clientType != 'persona natural') {
+            this.getSelect1(position)
+          }
         }
       });
+    } else {
+      this.validationClearSelect(configClient);
     }
   }
 
-  getSelect1(select1, reset = null)
-  {
+  getSelect1(select1) {
+    let count = 0;
     this.label = [];
-    this.values = [];
-    this.selects1 = false;
-    this.selects2 = false;
-    this.selects3 = false;
-    this.referId = null;
-
-    if (reset == null) {
-      this.firstFormGroup.patchValue({
-        selectA: '',
-        selectB: '',
-        selectC: ''
-      });
-    }
-
-    let type = this.clients[select1].client;
     this.referId = this.clients[select1].id;
+    let type = this.clients[select1].client;
     let data = this.clientTypes[type]; 
     for (const key in data[1]) {
-      this.label.push(key);
-      this.values.push(data[1][key]);
+      if (data[1][key][0] != false) {
+        let element = data[1][key][0];
+        let name = data[1][key][1];
+        this.label.push([key, name]);
+        if (count == 0) {
+          this.selectsA = this.clients[select1].clientTypeConfig[element];
+        } else if (count == 1) {
+          this.selectsB = this.clients[select1].clientTypeConfig[element];
+        } else if (count == 2) {
+          this.selectsC = this.clients[select1].clientTypeConfig[element];
+        }
+      }
+      count++;
     }
-    
-    this.selects1 = this.clients[select1][this.values[0][0]];
   }
 
-  getSelect2(select2, reset = null)
-  {
-    this.selects2 = false;
-    this.selects3 = false;
-    if (reset == null) {
-      this.firstFormGroup.patchValue({
-        selectB: '',
-        selectC: ''
-      });
-    }
-    this.selects2 = this.selects1[select2][this.values[1][0]];
+  validationSelect(config) {
+    config.forEach(e => {
+      this.firstFormGroup.controls[e].setValidators([Validators.required]);
+    });
   }
 
-  getSelect3(select3, reset = null)
-  {
-    this.selects3 = false;
-    if (reset == null) {
-      this.firstFormGroup.patchValue({
-        selectC: ''
-      });
-    }
-    this.selects3 = this.selects2[select3][this.values[2][0]];
+  validationClearSelect(config) {
+    config.forEach(e => {
+      this.firstFormGroup.controls[e].patchValue('');
+      this.firstFormGroup.controls[e].clearValidators();
+      this.firstFormGroup.controls[e].updateValueAndValidity();
+    });
   }
 
   onSubmit() {
+    if(this.firstFormGroup.invalid || this.secondFormGroup.invalid || this.thirdFormGroup.invalid) {
+      return;
+    }
     let formData = Object.assign(this.firstFormGroup.value, this.secondFormGroup.value, this.thirdFormGroup.value); 
-    formData.last_names = formData.last_name_one+' '+formData.first_name_two;
+    formData.birthday = dayjs(formData.birthday).format("YYYY-MM-DD");
     formData.reference = this.referId;
+    formData.client = formData.client == '' ? 'persona natural' : formData.client;
     formData.client_config = {
       'client_type': formData.client_type,
       'client': formData.client,
       'selectA': formData.selectA,
       'selectB': formData.selectB,
       'selectC': formData.selectC,
+      'position':  this.referPosition
     };
     this.authGuardService.updateProfile(formData).then((data) => {
       this.image_gender = formData.gender_id;
@@ -397,4 +375,20 @@ export class Tab3Page implements OnInit {
 
     return await modal.present();
   }
+}
+
+export function sameField(
+  control: AbstractControl
+): ValidationErrors | null {
+  if (control && control.get("password") && control.get("password_confirmation")) {
+    const password = control.get("password").value;
+    const passwordConfirmation = control.get("password_confirmation").value;  
+    if (password != passwordConfirmation) {
+      control.get("password_confirmation")?.setErrors({ sameError: true });
+    } else {
+      control.get("password_confirmation")?.setErrors(null);
+    }
+    return null
+  }
+  return null;
 }

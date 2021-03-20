@@ -57,15 +57,18 @@ export class AuthGuardService {
   login(credentials) {
     return this.http.post(`${this.url}/api/v1/login`, credentials).subscribe(
       res => {
-        this.storage.set(TOKEN_KEY, res['data'].access_token);
         res['data'].profile.email = credentials['email'];
         res['data'].profile.id = res['data'].id;
+        this.storage.set(TOKEN_KEY, res['data'].access_token);
         this.storage.set('PROFILE', res['data'].profile); 
         this.user = this.helper.decodeToken(res['data'].access_token);
         this.authenticationState.next(true);
         this.router.navigate(['home']);
       }, error => {
-        this.messageErros(error.error.data);
+        const errorMessage = 
+          error.error?.data || 
+          "No fue posible contactar al servidor. Por favor revisa tu conexión a internet e inténtalo de nuevo";
+        this.messageErros(errorMessage);
       });
   }
 
@@ -74,15 +77,9 @@ export class AuthGuardService {
       const headers = new HttpHeaders({
         'Authorization': 'Bearer ' + token
       })
-      this.http.get(`${this.url}/api/v1/logout`, {headers: headers}).subscribe(
-        res => {
-          console.log(res);
-          this.userDelete();
-        }, error => {
-          console.log(error);
-          this.userDelete();
-        });
+      this.http.get(`${this.url}/api/v1/logout`, {headers: headers});
     });
+    this.userDelete();
   }
 
   reset(email) {
@@ -91,7 +88,10 @@ export class AuthGuardService {
         this.router.navigate(['login']);
         this.messageSuccess('Email enviado')
       }, error => {
-        console.log(error.error.errors);
+        const errorMessage = 
+          error.error?.data || 
+          "No fue posible contactar al servidor. Por favor revisa tu conexión a internet e inténtalo de nuevo";
+        this.messageErros(errorMessage);
       });
   }
 
@@ -100,8 +100,11 @@ export class AuthGuardService {
       res => {
         this.router.navigate(['login']);
         this.messageSuccess('Usuario registrado correctamente')
-      }, data => {
-        console.log(data.error.errors);
+      }, error => {
+        const errorMessage = 
+          error.error?.data || 
+          "No fue posible contactar al servidor. Por favor revisa tu conexión a internet e inténtalo de nuevo";
+        this.messageErros(errorMessage);
       });
   }
 
@@ -119,16 +122,14 @@ export class AuthGuardService {
             this.storage.set('PROFILE', data);
             this.messageSuccess('Perfil actualizado')
             return data;
-          }, data => {
-            if (data.error.data == 'disabled') {
-              this.userDelete()
-            }
-            console.log(data.error.errors);
-            // this.messageErros(data.error.errors.email[0]);
+          }, error => {
+            const errorMessage = 
+              error.error?.data || 
+              "No fue posible contactar al servidor. Por favor revisa tu conexión a internet e inténtalo de nuevo";
+            this.messageErros(errorMessage);
           });
       });
     });
-    
   }
 
   getClientsList(clientType)

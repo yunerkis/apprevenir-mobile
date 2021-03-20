@@ -5,6 +5,13 @@
 }
 
 .login-form {
+
+    &__form {
+
+        .mat-form-field {
+            margin-bottom: 15px;
+        }
+    }
     
     &__title {
         color: var(--color-normal-grey);

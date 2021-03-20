@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { AuthGuardService } from '../../services/auth-guard.service';
+import * as dayjs from "dayjs";
 
 @Component({
   selector: 'app-register',
@@ -12,17 +13,17 @@ export class RegisterPage implements OnInit {
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   thirdFormGroup: FormGroup;
+  genderInvalid = false;
   isEditable = false;
   countries = [];
   states = [];
   cities = [];
   clients:any = false;
   clientTypes = {
-    'persona natual' : ['Ninguno'],
+    'persona natural' : ['Ninguno'],
     'entidades territoriales' : [
       'Entidad Territorial',
       {
-        'Zona': ['zones', 'zone'],
         'Comuna': ['communes', 'commune'],
         'Barrio': ['neighborhoods', 'neighborhood']
       }
@@ -108,10 +109,11 @@ export class RegisterPage implements OnInit {
       value: 5
     },
   ];
-  selects1: any = false;
-  selects2: any = false;
-  selects3: any = false;
+  selectsA: any = false;
+  selectsB: any = false;
+  selectsC: any = false;
   referId = null;
+  referPosition = null;
   label = [];
   values = [];
 
@@ -120,11 +122,16 @@ export class RegisterPage implements OnInit {
     private authGuardService: AuthGuardService,
   ) { }
 
+  onProfileNextClicked() {
+    const control = this.firstFormGroup.get('gender_id');
+    this.genderInvalid = control.hasError('required');
+  }
+
   ngOnInit() {
     this.firstFormGroup = this.formBuilder.group({
       first_names: ['', Validators.required],
-      last_name_one: ['', Validators.required],
-      first_name_two: ['', Validators.required],
+      last_names: ['', Validators.required],
+      last_names_two: ['', Validators.required],
       birthday: ['', Validators.required],
       gender_id: ['', Validators.required],
       client_type: ['', Validators.required],
@@ -145,7 +152,7 @@ export class RegisterPage implements OnInit {
       email: ['', Validators.required],
       password: ['', Validators.required],
       password_confirmation: ['', Validators.required],
-    });
+    }, { validators: sameField });
     this.getCountries();
   }
 
@@ -153,8 +160,6 @@ export class RegisterPage implements OnInit {
     this.authGuardService.countries().subscribe(
       res => {
         this.countries = res['data'];
-      }, data => {
-        console.log(data.error.errors);
       });
   }
 
@@ -164,8 +169,6 @@ export class RegisterPage implements OnInit {
       this.authGuardService.states(country).subscribe(
         res => {
          this.states = res['data'];
-        }, data => {
-          console.log(data.error.errors);
         });
     } else {
       this.states = [];
@@ -178,8 +181,6 @@ export class RegisterPage implements OnInit {
       this.authGuardService.cities(state).subscribe(
         res => {
          this.cities = res['data'];
-        }, data => {
-          console.log(data.error.errors);
         });
     } else {
       this.cities = [];
@@ -187,79 +188,103 @@ export class RegisterPage implements OnInit {
   }
 
   getClients(clientType) {
-    if (clientType != 'persona natual') {
+    this.clients = false
+    this.selectsA = false;   
+    this.selectsB = false;
+    this.selectsC = false;
+    this.referId = null;
+    this.referPosition = null;
+    let configClient = [
+      'client', 'selectA', 'selectB', 'selectC'
+    ]; 
+    this.firstFormGroup.patchValue({
+      client:'',
+      selectA:'',
+      selectB:'',
+      selectC:''
+    });
+    if (clientType != 'persona natural') {
       this.authGuardService.getClientsList(clientType).subscribe(res => {
-        this.clients = false;
-        this.selects1 = false;   
-        this.selects2 = false;
-        this.selects3 = false;
-        this.firstFormGroup.patchValue({
-          client: '',
-          selectA: '',
-          selectB: '',
-          selectC: ''
-        });
         if (res['data'].length > 0) {
           this.clients = res['data'];
+          this.validationSelect(configClient);
         }
       });
+    } else {
+      this.validationClearSelect(configClient);
     }
   }
 
   getSelect1(select1) {
+    let count = 0;
     this.label = [];
-    this.values = [];  
-    this.selects1 = false;   
-    this.selects2 = false;
-    this.selects3 = false;
-    this.referId = null;
-    this.firstFormGroup.patchValue({
-      selectA: '',
-      selectB: '',
-      selectC: ''
-    });
-    
-    let type = this.clients[select1].client;
+    this.referPosition = select1;
     this.referId = this.clients[select1].id;
+    let type = this.clients[select1].client;
     let data = this.clientTypes[type]; 
     for (const key in data[1]) {
-      this.label.push(key);
-      this.values.push(data[1][key]);
+      if (data[1][key][0] != false) {
+        let element = data[1][key][0];
+        let name = data[1][key][1];
+        this.label.push([key, name]);
+        if (count == 0) {
+          this.selectsA = this.clients[select1].clientTypeConfig[element];
+        } else if (count == 1) {
+          this.selectsB = this.clients[select1].clientTypeConfig[element];
+        } else if (count == 2) {
+          this.selectsC = this.clients[select1].clientTypeConfig[element];
+        }
+      }
+      count++;
     }
-
-    this.selects1 = this.clients[select1][this.values[0][0]];
   }
 
-  getSelect2(select2) {
-    this.selects2 = false;
-    this.selects3 = false;
-    this.firstFormGroup.patchValue({
-      selectB: '',
-      selectC: ''
+  validationSelect(config) {
+    config.forEach(e => {
+      this.firstFormGroup.controls[e].setValidators([Validators.required]);
     });
-    this.selects2 = this.selects1[select2][this.values[1][0]];
   }
 
-  getSelect3(select3) {
-    this.selects3 = false;
-    this.firstFormGroup.patchValue({
-      selectC: ''
+  validationClearSelect(config) {
+    config.forEach(e => {
+      this.firstFormGroup.controls[e].clearValidators();
+      this.firstFormGroup.controls[e].updateValueAndValidity();
     });
-    this.selects3 = this.selects2[select3][this.values[2][0]];
   }
 
   onSubmit() {
+    if(this.firstFormGroup.invalid || this.secondFormGroup.invalid || this.thirdFormGroup.invalid) {
+      return;
+    }
     let formData = Object.assign(this.firstFormGroup.value, this.secondFormGroup.value, this.thirdFormGroup.value); 
-    formData.last_names = formData.last_name_one+' '+formData.first_name_two;
+    formData.birthday = dayjs(formData.birthday).format("YYYY-MM-DD");
     formData.reference = this.referId;
-    formData.client = formData.client == '' ? 'persona natual' : formData.client;
+    formData.client = formData.client == '' ? 'persona natural' : formData.client;
     formData.client_config = {
       'client_type': formData.client_type,
       'client': formData.client,
       'selectA': formData.selectA,
       'selectB': formData.selectB,
       'selectC': formData.selectC,
+      'position':  this.referPosition
     };
     this.authGuardService.register(formData);
   }
 }
+
+export function sameField(
+  control: AbstractControl
+): ValidationErrors | null {
+  if (control && control.get("password") && control.get("password_confirmation")) {
+    const password = control.get("password").value;
+    const passwordConfirmation = control.get("password_confirmation").value;  
+    if (password != passwordConfirmation) {
+      control.get("password_confirmation")?.setErrors({ sameError: true });
+    } else {
+      control.get("password_confirmation")?.setErrors(null);
+    }
+    return null
+  }
+  return null;
+}
+

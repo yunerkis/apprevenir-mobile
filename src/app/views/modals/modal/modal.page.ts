@@ -13,7 +13,7 @@ export class ModalPage implements OnInit {
   
   content: any;
   addiction: FormGroup;
-  url = environment.url;
+  url = environment.url+'/storage';
 
   constructor(
     private modalController: ModalController,

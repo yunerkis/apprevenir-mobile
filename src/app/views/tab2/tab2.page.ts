@@ -20,7 +20,7 @@ export class Tab2Page implements OnInit {
   search = false;
   images : any = {};
   SearchForm: FormGroup;
-  url = environment.url;
+  url = environment.url+'/storage';
 
   constructor(
     public modalController: ModalController,
@@ -84,16 +84,4 @@ export class Tab2Page implements OnInit {
       }
     });
   }
-
-  // testImage(tests) {
-  //   tests.forEach(test => {
-  //     if (test.image != '') {
-  //       this.testService.image(test.image).subscribe(
-  //         res => {
-  //           let key = test.image.split('.');
-  //           this.images[key[0]] =  this.sanitizer.bypassSecurityTrustHtml(res['image']);
-  //         });
-  //     }
-  //   });
-  // }
 }

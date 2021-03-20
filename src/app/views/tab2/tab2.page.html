@@ -30,11 +30,11 @@
         </div>
         <div class="test__card-image">
           <img *ngIf="test.image == ''" src="../../../assets/images/apprevenir-test.png" alt="test image">
-          <img *ngIf="test.image != ''" src="{{url}}/image/{{test.image}}" alt="test image">
+          <img *ngIf="test.image != ''" src="{{url}}/images/{{test.image}}" alt="test image">
         </div>
         <div>
-          <button *ngIf="test.addictions.length > 0" class="test__btn test" (click)="openModal(test)">Hacer test</button>
-          <a *ngIf="test.addictions.length == 0" [routerLink]="['/test/test/'+test.id]"><button class="test__btn test">Hacer test</button></a>
+          <button *ngIf="test.addictions.length > 0 && test.id != 2" class="test__btn test" (click)="openModal(test)">Hacer test</button>
+          <a *ngIf="test.id == 2 || test.addictions.length == 0" [routerLink]="['/test/test/'+test.id]"><button class="test__btn test">Hacer test</button></a>
         </div>
       </div>
     </div>
