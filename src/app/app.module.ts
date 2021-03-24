@@ -15,6 +15,7 @@ import { JwtModule, JWT_OPTIONS } from '@auth0/angular-jwt';
 import { AuthGuardService } from './services/auth-guard.service';
 import { AuthService } from './services/auth.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 
 export function jwtOptions(storage){
@@ -34,6 +35,7 @@ export function jwtOptions(storage){
     IonicModule.forRoot(), 
     AppRoutingModule,
     HttpClientModule,
+    MatFormFieldModule,
     IonicStorageModule.forRoot(),
     JwtModule.forRoot({
       jwtOptionsProvider:{

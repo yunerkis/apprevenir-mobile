@@ -95,7 +95,19 @@
     &__question {
         font-family: 'KanitMedium';
     }
-}  
+
+    &__addiction {
+        display: flex;
+    }
+} 
+
+.test__label {
+    font-weight: 900;
+    font-size: 24px;
+    margin-right: 12px;
+    margin-left: 15px;
+    color:var(--color-primary);
+}
 
 mat-radio-group {
 
@@ -106,5 +118,4 @@ mat-radio-group {
         margin-bottom: 10px;
         margin-left: 10px;
     }
-
 }
