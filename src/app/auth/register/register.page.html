@@ -20,49 +20,86 @@
         </mat-form-field>
         <div *ngIf="clients">
           <mat-form-field class="example-full-width" >
-            <mat-label>Seleccione usuario</mat-label>
+            <mat-label>Seleccione cliente</mat-label>
             <mat-select formControlName="client" #clientSelect (selectionChange)="getSelect1(clientSelect.value)">
               <mat-option *ngFor="let client of clients; let i = index" [value]="i">
                 {{ client.profile.first_names }}
               </mat-option>
             </mat-select>
             <mat-error *ngIf="firstFormGroup.get('client').hasError('required')">
-              Por favor elige usuario
+              Por favor elige cliente
             </mat-error>
           </mat-form-field>
-          <mat-form-field class="example-full-width" *ngIf="selectsA">
-            <mat-label>Por favor elige tu {{ label[0][0] }}</mat-label>
-            <mat-select formControlName="selectA">
-              <mat-option *ngFor="let selectA of selectsA;" [value]="selectA[label[0][1]]">
-                {{ selectA[label[0][1]] }}
-              </mat-option>
-            </mat-select>
-            <mat-error *ngIf="firstFormGroup.get('selectA').hasError('required')">
-              Por favor elige tu {{ label[0][0] }}
-            </mat-error>
-          </mat-form-field>
-          <mat-form-field class="example-full-width" *ngIf="selectsB">
-            <mat-label>Por favor elige tu {{ label[1][0] }}</mat-label>
-            <mat-select formControlName="selectB">
-              <mat-option *ngFor="let selectB of selectsB;" [value]="selectB[label[1][1]]">
-                {{ selectB[label[1][1]] }}
-              </mat-option>
-            </mat-select>
-            <mat-error *ngIf="firstFormGroup.get('selectB').hasError('required')">
-              Por favor elige tu {{ label[1][0] }}
-            </mat-error>
-          </mat-form-field>
-          <mat-form-field class="example-full-width" *ngIf="selectsC">
-            <mat-label>Por favor elige tu {{ label[2][0] }}</mat-label>
-            <mat-select formControlName="selectC">
-              <mat-option *ngFor="let selectC of selectsC;" [value]="selectC[label[2][1]]">
-                {{ selectC[label[2][1]] }}
-              </mat-option>
-            </mat-select>
-            <mat-error *ngIf="firstFormGroup.get('selectC').hasError('required')">
-              Por favor elige tu {{ label[2][0] }}
-            </mat-error>
-          </mat-form-field>
+          <div *ngIf="!entity">
+            <mat-form-field class="example-full-width" *ngIf="selectsA">
+              <mat-label>Por favor elige tu {{ label[0][0] }}</mat-label>
+              <mat-select formControlName="selectA">
+                <mat-option *ngFor="let selectA of selectsA;" [value]="selectA['id']">
+                  {{ selectA[label[0][1]] }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="firstFormGroup.get('selectA').hasError('required')">
+                Por favor elige tu {{ label[0][0] }}
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="example-full-width" *ngIf="selectsB">
+              <mat-label>Por favor elige tu {{ label[1][0] }}</mat-label>
+              <mat-select formControlName="selectB">
+                <mat-option *ngFor="let selectB of selectsB;" [value]="selectB['id']">
+                  {{ selectB[label[1][1]] }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="firstFormGroup.get('selectB').hasError('required')">
+                Por favor elige tu {{ label[1][0] }}
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="example-full-width" *ngIf="selectsC">
+              <mat-label>Por favor elige tu {{ label[2][0] }}</mat-label>
+              <mat-select formControlName="selectC">
+                <mat-option *ngFor="let selectC of selectsC;" [value]="selectC['id']">
+                  {{ selectC[label[2][1]] }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="firstFormGroup.get('selectC').hasError('required')">
+                Por favor elige tu {{ label[2][0] }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div *ngIf="entity">
+            <mat-form-field class="example-full-width" *ngIf="selectsA">
+              <mat-label>Por favor elige tu Zona</mat-label>
+              <mat-select formControlName="selectA" #select1 (selectionChange)="getSelect2(select1.value)">
+                <mat-option *ngFor="let selectA of selectsA;" [value]="selectA">
+                  Casco {{ selectA }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="firstFormGroup.get('selectA').hasError('required')">
+                Por favor elige tu Zona
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="example-full-width" *ngIf="selectsB">
+              <mat-label>Por favor elige tu {{ label[0] }}</mat-label>
+              <mat-select formControlName="selectB" #select2 (selectionChange)="getSelect3(select2.value)">
+                <mat-option *ngFor="let selectB of selectsB;" [value]="selectB['id']">
+                  {{ selectB['commune'] }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="firstFormGroup.get('selectB').hasError('required')">
+                Por favor elige tu {{ label[0] }}
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="example-full-width" *ngIf="selectsC">
+              <mat-label>Por favor elige tu {{ label[1] }}</mat-label>
+              <mat-select formControlName="selectC">
+                <mat-option *ngFor="let selectC of selectsC;" [value]="selectC['id']">
+                  {{ selectC['neighborhood'] }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="firstFormGroup.get('selectC').hasError('required')">
+                Por favor elige tu {{ label[1] }}
+              </mat-error>
+            </mat-form-field>
+          </div>
         </div>
       </div>
       <p class="register-form__label">Información personal</p>
@@ -96,7 +133,7 @@
       <div class="register-form__input">
         <mat-form-field class="example-full-width">
           <mat-label>Fecha de Nacimiento</mat-label>
-          <input matInput [matDatepicker]="picker" required formControlName="birthday">
+          <input matInput [matDatepicker]="picker" required formControlName="birthday" (click)="picker.open()">
           <mat-datepicker-toggle matSuffix [for]="picker">
             <mat-icon matDatepickerToggleIcon class="icon-date" style="font-size: 20px;">date_range</mat-icon>
           </mat-datepicker-toggle>

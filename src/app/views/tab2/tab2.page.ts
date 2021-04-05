@@ -58,12 +58,13 @@ export class Tab2Page implements OnInit {
     }); 
   }
 
-  async openModal(contents) {
+  async openModal(contents, type) {
     const modal = await this.modalController.create({
       component: ModalPage,
       cssClass: 'modal-terms',
       componentProps: {
         "contents": contents,
+        "type": type
       }
     });
 

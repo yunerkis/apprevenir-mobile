@@ -21,6 +21,7 @@ export class Tab3Page implements OnInit, AfterViewInit {
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   thirdFormGroup: FormGroup;
+  entity = false;
   tab = "data";
   image_gender = '';
   name = '';
@@ -36,8 +37,9 @@ export class Tab3Page implements OnInit, AfterViewInit {
     'entidades territoriales' : [
       'Entidad Territorial',
       {
-        'Comuna': ['communes', 'commune'],
-        'Barrio': ['neighborhoods', 'neighborhood']
+        'Zona': ['rural', 'urbana'],
+        'rural': ['corregimiento', 'vereda'],
+        'urbana': ['comuna', 'barrio']
       }
     ],
     'secretarias de educacion': [
@@ -58,7 +60,7 @@ export class Tab3Page implements OnInit, AfterViewInit {
       'Universidad',
       {
         'Programa': ['programs', 'program'],
-        'Modalidad': ['modalities', 'modality	'],
+        'Modalidad': ['modalities', 'modality'],
         'Semestre': ['semesters', 'semester']
       }
     ],
@@ -195,7 +197,7 @@ export class Tab3Page implements OnInit, AfterViewInit {
       this.image_gender = profile.gender_id;
       this.name = profile.first_names;
       this.lastNames = profile.last_names + ' ' + profile.last_names_two;
-     
+      
       this.firstFormGroup.patchValue({
         first_names: profile.first_names,
         last_names: profile.last_names,
@@ -206,9 +208,9 @@ export class Tab3Page implements OnInit, AfterViewInit {
         education_level_id: profile.education_level_id,
         client_type: config['client_type'],
         client: config['position'],
-        selectA: config['selectA'],
-        selectB: config['selectB'],
-        selectC: config['selectC'],
+        selectA: parseInt(config['selectA']),
+        selectB: parseInt(config['selectB']),
+        selectC: parseInt(config['selectC']),
       });
       this.secondFormGroup.patchValue({
         country_id: profile.country_id,
@@ -279,7 +281,7 @@ export class Tab3Page implements OnInit, AfterViewInit {
           this.clients = res['data'];
           this.validationSelect(configClient);
           if (!update && clientType != 'persona natural') {
-            this.getSelect1(position)
+            this.getSelect1(position, update)
           }
         }
       });
@@ -288,27 +290,70 @@ export class Tab3Page implements OnInit, AfterViewInit {
     }
   }
 
-  getSelect1(select1) {
+  getSelect1(select1, update = true) {
     let count = 0;
     this.label = [];
     this.referId = this.clients[select1].id;
     let type = this.clients[select1].client;
     let data = this.clientTypes[type]; 
-    for (const key in data[1]) {
-      if (data[1][key][0] != false) {
-        let element = data[1][key][0];
-        let name = data[1][key][1];
-        this.label.push([key, name]);
-        if (count == 0) {
-          this.selectsA = this.clients[select1].clientTypeConfig[element];
-        } else if (count == 1) {
-          this.selectsB = this.clients[select1].clientTypeConfig[element];
-        } else if (count == 2) {
-          this.selectsC = this.clients[select1].clientTypeConfig[element];
+    
+    if (data[0] != 'Entidad Territorial') {
+      this.entity = false;
+      for (const key in data[1]) {
+        if (data[1][key][0] != false) {
+          let element = data[1][key][0];
+          let name = data[1][key][1];
+          this.label.push([key, name]);
+          if (count == 0) {
+            this.selectsA = this.clients[select1].clientTypeConfig[element];
+          } else if (count == 1) {
+            this.selectsB = this.clients[select1].clientTypeConfig[element];
+          } else if (count == 2) {
+            this.selectsC = this.clients[select1].clientTypeConfig[element];
+          }
         }
+        count++;
       }
-      count++;
+    } else {
+      this.entity = true;
+      this.selectsA = data[1]['Zona'];
+      if (!update) {
+        this.getSelect2(this.firstFormGroup.controls['selectA'].value, update);
+      }
     }
+  }
+
+  getSelect2(select1, update = true) {
+    this.selectsB = false;
+    this.selectsC = false;
+    if (update) {
+      this.firstFormGroup.patchValue({
+        selectB:'',
+        selectC:''
+      });
+    }
+
+    let type = this.firstFormGroup.controls['client_type'].value;
+    let selectedClient = this.firstFormGroup.controls['client'].value;
+    this.label = this.clientTypes[type][1][select1];
+    this.selectsB = this.clients[selectedClient].clientTypeConfig['communes'][select1];
+    
+    if (!update) {
+      this.getSelect3(this.firstFormGroup.controls['selectB'].value, update);
+    }
+  }
+
+  getSelect3(select2, update = true) {
+    if (update) {
+      this.firstFormGroup.patchValue({
+        selectC:''
+      });
+    }
+    this.selectsB.forEach(e => {
+        if (e.id == select2) {
+          this.selectsC = e['neighborhoods']
+        }
+    });
   }
 
   validationSelect(config) {
@@ -335,7 +380,7 @@ export class Tab3Page implements OnInit, AfterViewInit {
     formData.client = formData.client == '' ? 'persona natural' : formData.client;
     formData.client_config = {
       'client_type': formData.client_type,
-      'client': formData.client,
+      'client': this.referId,
       'selectA': formData.selectA,
       'selectB': formData.selectB,
       'selectC': formData.selectC,

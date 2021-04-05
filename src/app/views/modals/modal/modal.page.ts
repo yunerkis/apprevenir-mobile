@@ -12,6 +12,7 @@ import { environment } from '../../../../environments/environment';
 export class ModalPage implements OnInit {
   
   content: any;
+  type: string;
   addiction: FormGroup;
   url = environment.url+'/storage';
 
@@ -24,6 +25,7 @@ export class ModalPage implements OnInit {
 
   ngOnInit() {
     this.content = this.navParams.data.contents;
+    this.type = this.navParams.data.type;
 
     this.addiction = this.formBuilder.group({
       addiction_id: ['', Validators.required],

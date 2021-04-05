@@ -7,7 +7,7 @@
   </div>
   <div class="modal-terms__text modal-test__text">
     <div>
-      <div [innerHTML]="content.introduction" *ngIf="content.id == 2 || content.addictions.length == 0">
+      <div [innerHTML]="content.introduction" *ngIf="type == 'info'">
       </div>
       <div *ngIf="content.addictions.length > 0 && content.id != 2">
         <div class="modal-test__form">

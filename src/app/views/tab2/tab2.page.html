@@ -20,7 +20,7 @@
     <div class="test__list">
       <div class="test__card" *ngFor="let test of tests">
         <div class="test__card-head">
-          <ion-icon name="help-circle-outline" class="test__card-help" (click)="openModal(test)"></ion-icon>
+          <ion-icon name="help-circle-outline" class="test__card-help" (click)="openModal(test, 'info')"></ion-icon>
           <div class="test__card-category">
             <span *ngFor="let category of test.categories"> {{ category.name }} <br></span>
           </div>
@@ -33,7 +33,7 @@
           <img *ngIf="test.image != ''" src="{{url}}/images/{{test.image}}" alt="test image">
         </div>
         <div>
-          <button *ngIf="test.addictions.length > 0 && test.id != 2" class="test__btn test" (click)="openModal(test)">Hacer test</button>
+          <button *ngIf="test.addictions.length > 0 && test.id != 2" class="test__btn test" (click)="openModal(test, 'test')">Hacer test</button>
           <a *ngIf="test.id == 2 || test.addictions.length == 0" [routerLink]="['/test/test/'+test.id]"><button class="test__btn test">Hacer test</button></a>
         </div>
       </div>

@@ -14,6 +14,7 @@ export class RegisterPage implements OnInit {
   secondFormGroup: FormGroup;
   thirdFormGroup: FormGroup;
   genderInvalid = false;
+  entity = false;
   isEditable = false;
   countries = [];
   states = [];
@@ -24,8 +25,9 @@ export class RegisterPage implements OnInit {
     'entidades territoriales' : [
       'Entidad Territorial',
       {
-        'Comuna': ['communes', 'commune'],
-        'Barrio': ['neighborhoods', 'neighborhood']
+        'Zona': ['rural', 'urbana'],
+        'rural': ['corregimiento', 'vereda'],
+        'urbana': ['comuna', 'barrio']
       }
     ],
     'secretarias de educacion': [
@@ -46,7 +48,7 @@ export class RegisterPage implements OnInit {
       'Universidad',
       {
         'Programa': ['programs', 'program'],
-        'Modalidad': ['modalities', 'modality	'],
+        'Modalidad': ['modalities', 'modality'],
         'Semestre': ['semesters', 'semester']
       }
     ],
@@ -222,21 +224,52 @@ export class RegisterPage implements OnInit {
     this.referId = this.clients[select1].id;
     let type = this.clients[select1].client;
     let data = this.clientTypes[type]; 
-    for (const key in data[1]) {
-      if (data[1][key][0] != false) {
-        let element = data[1][key][0];
-        let name = data[1][key][1];
-        this.label.push([key, name]);
-        if (count == 0) {
-          this.selectsA = this.clients[select1].clientTypeConfig[element];
-        } else if (count == 1) {
-          this.selectsB = this.clients[select1].clientTypeConfig[element];
-        } else if (count == 2) {
-          this.selectsC = this.clients[select1].clientTypeConfig[element];
+    
+    if (data[0] != 'Entidad Territorial') {
+      this.entity = false;
+      for (const key in data[1]) {
+        if (data[1][key][0] != false) {
+          let element = data[1][key][0];
+          let name = data[1][key][1];
+          this.label.push([key, name]);
+          if (count == 0) {
+            this.selectsA = this.clients[select1].clientTypeConfig[element];
+          } else if (count == 1) {
+            this.selectsB = this.clients[select1].clientTypeConfig[element];
+          } else if (count == 2) {
+            this.selectsC = this.clients[select1].clientTypeConfig[element];
+          }
         }
+        count++;
       }
-      count++;
+    } else {
+      this.entity = true;
+      this.selectsA = data[1]['Zona'];
     }
+  }
+
+  getSelect2(select1) {
+    this.selectsB = false;
+    this.selectsC = false;
+    this.firstFormGroup.patchValue({
+      selectB:'',
+      selectC:''
+    });
+    let type = this.firstFormGroup.controls['client_type'].value;
+    let selectedClient = this.firstFormGroup.controls['client'].value;
+    this.label = this.clientTypes[type][1][select1];
+    this.selectsB = this.clients[selectedClient].clientTypeConfig['communes'][select1];
+  }
+
+  getSelect3(select2) {
+    this.firstFormGroup.patchValue({
+      selectC:''
+    });
+    this.selectsB.forEach(e => {
+        if (e.id == select2) {
+          this.selectsC = e['neighborhoods']
+        }
+    });
   }
 
   validationSelect(config) {
@@ -262,7 +295,7 @@ export class RegisterPage implements OnInit {
     formData.client = formData.client == '' ? 'persona natural' : formData.client;
     formData.client_config = {
       'client_type': formData.client_type,
-      'client': formData.client,
+      'client': this.referId,
       'selectA': formData.selectA,
       'selectB': formData.selectB,
       'selectC': formData.selectC,
