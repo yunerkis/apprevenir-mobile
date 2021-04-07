@@ -59,12 +59,12 @@ export class TestPage implements OnInit {
 
     const id = this.route.snapshot.paramMap.get("id");
 
+    const addiction = this.route.snapshot.queryParamMap.get("addiction");
+    
     this.testService.getTest(id).then( res => { 
       res.subscribe(test => {
         this.test = test['data'];
-        this.questions =  this.test['questions'];
-        this.testService.test.next(this.test);
-        this.test['questions'].forEach((question, i) => {
+        this.questions =  this.test['questions'].map((question, i)=>{
           this.answer = {};
           if (i == 0 && this.test['name'] == 'Drogas') {
             this.answer['addiction'] = ['', Validators.required];
@@ -72,7 +72,14 @@ export class TestPage implements OnInit {
             this.answer['answer_'+i] = ['', Validators.required];
           }
           this.answers.push(this.formBuilder.group(this.answer));
+          
+          if (addiction != null) {
+            question.question = question.question.replace('varI', addiction);
+          }
+          
+          return question;
         });
+        this.testService.test.next(this.test);
         this.formGroup = this.formBuilder.group({ formArray: this.formBuilder.array(this.answers) });
         this.openModal(this.test, true);
       }, data => {
