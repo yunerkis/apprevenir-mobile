@@ -14,10 +14,7 @@ import { LevelPage } from '../../modals/level/level.page';
 })
 export class TestResultPage implements OnInit {
 
-  resultLevel = "";
-  url_video = "";
-  professional_help = "";
-  url_interest = "";
+  testResults = [];
   load = false;
   tab = "result";
   gifLevel = {
@@ -51,19 +48,25 @@ export class TestResultPage implements OnInit {
   ngOnInit() {
     this.loaderService.showHideAutoLoader();
     
-    this.testService.testInfo.subscribe( (val) => {
-      if (Object.keys(val).length == 0) {
+    this.testService.testInfo.subscribe((val) => {
+      if (val.length == 0) {
         this.router.navigate(['home']);
       }
-      this.resultLevel = val['resultLevel'];
-      this.url_video = val['url_video'];
-      this.professional_help = val['professional_help'];
-      this.url_interest = val['url_interest'];
+
+      val.map((result) => {
+        console.log(result)
+        this.testResults.push({
+          'resultLevel': result['resultLevel'],
+          'url_video': result['url_video'],
+          'professional_help': result['professional_help'],
+          'url_interest': result['url_interest'],
+          'addiction': result['addiction']
+        });
+      });
     }, data => {
       if (data.error.data == 'disabled') {
         this.testService.userDelete()
       }
-      console.log(data.error);
     });
 
     setTimeout(()=>{

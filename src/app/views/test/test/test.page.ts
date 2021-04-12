@@ -16,7 +16,7 @@ export class TestPage implements OnInit {
 
   addiction = null;
   addiction_id = false;
-  addictionDesc = null;
+  addictionArray = []
   test = [];
   start = true;
   formGroup: FormGroup;
@@ -66,11 +66,17 @@ export class TestPage implements OnInit {
         this.test = test['data'];
         this.questions =  this.test['questions'].map((question, i)=>{
           this.answer = {};
+
           if (i == 0 && this.test['name'] == 'Drogas') {
             this.answer['addiction'] = ['', Validators.required];
+          } else if (this.test['name'] == 'Drogas') {
+            this.test['addictions'].map((addiction) => {
+              this.answer['answer_'+addiction.id+'_'+i] = ['', Validators.required];
+            });
           } else {
             this.answer['answer_'+i] = ['', Validators.required];
           }
+          
           this.answers.push(this.formBuilder.group(this.answer));
           
           if (addiction != null) {
@@ -95,28 +101,72 @@ export class TestPage implements OnInit {
     let arrayAnswers =  this.formGroup.value.formArray;
     let key = 'answer_';
     let objAnswers = [];
-    arrayAnswers.forEach((e, i) => {
-      objAnswers.push(e[key+i]);
-    });
+    let testArray = false;
+
+    if (this.addictionArray.length !== 0) {
+      testArray = true;
+      this.addictionArray.forEach((item, i) => {
+        let objAnswersAddiction = [];
+        arrayAnswers.forEach((elem, inx) => {
+          if (inx !== 0) {
+            objAnswersAddiction.push(elem[key+item.id+'_'+inx]);
+          }
+        });
+        objAnswers.push({
+          'addiction': item.id,
+          'answers': objAnswersAddiction
+        });
+      });
+    } else {
+      arrayAnswers.forEach((e, i) => {
+        objAnswers.push(e[key+i]);
+      });
+    }
 
     if (!this.addiction_id) {
       this.route.snapshot.queryParamMap.get("addiction_id")
     }
-
+    
     let result = {
       'test_id': this.test['id'],
-      'answers':objAnswers,
-      'addiction_id': this.addiction_id
+      'answers': objAnswers,
+      'addiction_id': this.addiction_id,
+      'test_array': testArray
     }
-
+  
     this.testService.storeAnswer(result);
   }
 
   selectAddiction(event) {
+    
+    let id = this.test['addictions'][event.source.value].id;
+    
+    if (event.checked) {
+      this.addictionArray.push({
+        'id':id,
+        'desc': this.test['addictions'][event.source.value].description,
+        'order': event.source.value
+      })
+    } else {
+      this.addictionArray.forEach((value,index) => {
+        if(value.id==id) this.addictionArray.splice(index,1);
+      });
+    }
 
-    this.addictionDesc = this.test['addictions'][event.value].description;
-
-    this.addiction_id = this.test['addictions'][event.value].id;
+    this.test['questions'].map((question, i)=>{
+      if (i != 0) {
+        this.test['addictions'].map((addiction) => {
+          this.addictionArray.map((addiction2, inx)=> {
+            if (addiction2.id == addiction.id) {
+              this.formGroup.controls['formArray']['controls'][i]['controls']['answer_'+addiction.id+'_'+i].setValidators([Validators.required]);
+            } else {
+              this.formGroup.controls['formArray']['controls'][i]['controls']['answer_'+addiction.id+'_'+i].clearValidators();
+              this.formGroup.controls['formArray']['controls'][i]['controls']['answer_'+addiction.id+'_'+i].updateValueAndValidity();
+            }
+          });
+        });
+      }
+    });
   }
 
   async openModal(contents, start = false) {

@@ -16,7 +16,7 @@ export class TestService {
 
   url = environment.url;
   test = new BehaviorSubject([]);
-  testInfo = new BehaviorSubject({});
+  testInfo = new BehaviorSubject([]);
 
   constructor(
     private router: Router,

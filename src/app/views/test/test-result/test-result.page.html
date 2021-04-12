@@ -17,28 +17,31 @@
       <ion-label>Enlaces</ion-label>
     </div>
   </div>
-  <div class="stepper-top">
+  <div class="stepper-top" *ngFor="let testResult of testResults; let i = index">
     <div *ngIf="tab == 'result'">
-      <div *ngIf="gifLevel[resultLevel]">
+      <div *ngIf="gifLevel[testResult.resultLevel]">
         <div class="result__warning">
-            <img src="../../../../assets/icon/help.png" class="test__help" alt="help" (click)="openModal(resultLevel)">
-            <div [innerHTML]="gifLevel[resultLevel]"></div>
-            <div [style]="colorsLevel[resultLevel]">{{resultLevel}}</div>
-        </div>
-      </div>
-      <div *ngIf="!gifLevel[resultLevel]">
-        <div class="result__warning">
-          <ion-icon name="warning-outline"></ion-icon>
-          <div>{{resultLevel}}</div>
+            <img src="../../../../assets/icon/help.png" class="test__help" alt="help" (click)="openModal(testResult.resultLevel)">
+            <div [innerHTML]="gifLevel[testResult.resultLevel]"></div>
+            <div [style]="colorsLevel[testResult.resultLevel]">{{testResult.resultLevel}}</div>
+            <div [style]="colorsLevel[testResult.resultLevel]">{{testResult.addiction}}</div>
         </div>
       </div>
     </div>
     <div class="tab-info" *ngIf="tab == 'info'">
-      <iframe width="100%" height="315" [src]="getVideoIframe(url_video)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      <div [style]="colorsLevel[testResult.resultLevel]">{{testResult.addiction}}</div>
+      <iframe width="100%" height="315" [src]="getVideoIframe(testResult.url_video)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div>
-    <div class="tab-info" *ngIf="tab == 'help'" [innerHTML]="professional_help">
+    <div *ngIf="tab == 'help'">
+      <div [style]="colorsLevel[testResult.resultLevel]">{{testResult.addiction}}</div>
+      <div class="tab-info" [innerHTML]="testResult.professional_help">
+      </div>
     </div>
-    <div class="tab-info link" *ngIf="tab == 'link'" [innerHTML]="url_interest">
+    <div *ngIf="tab == 'link'">
+      <div [style]="colorsLevel[testResult.resultLevel]">{{testResult.addiction}}</div>
+      <div class="tab-info link" [innerHTML]="testResult.url_interest">
+      </div>
     </div>
+    
   </div>
 </div>
