@@ -54,3 +54,12 @@ body {
 width: 100%;
 }
 
+.test-img {
+  img{
+    width: 172px !important;
+  }
+}
+
+.test-info-top:first-child {
+  margin-top: 120px;
+}

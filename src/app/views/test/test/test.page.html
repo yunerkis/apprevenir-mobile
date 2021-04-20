@@ -13,10 +13,12 @@
           <div *ngIf="test['name'] == 'Drogas'">
             <div *ngIf="question.order == 1">
               <div *ngFor="let addiction of test.addictions; let in = index">
-                <label class="test__label" >{{ order[in] }}</label>
-                <mat-checkbox class="example-margin" formControlName="addiction" required value="{{ in }}" 
+                <mat-checkbox class="example-margin" disableRipple="true" formControlName="addiction" required value="{{ in }}" 
                 (change)="selectAddiction($event)"
-                >{{ addiction.description }}</mat-checkbox>
+                >
+                  <label class="test__label" >{{ order[in] }}</label>
+                 <div class="check-div">{{ addiction.description }}</div> 
+                </mat-checkbox>
               </div>
             </div>
             
