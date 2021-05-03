@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  url: 'http://localhost:3000',
-  //url: 'http://appprevenir-demo.westus.cloudapp.azure.com'
+  //url: 'http://localhost:3000',
+  url: 'https://appprevenir-demo.westus.cloudapp.azure.com'
   
 };
