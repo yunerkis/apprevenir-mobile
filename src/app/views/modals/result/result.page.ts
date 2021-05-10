@@ -27,7 +27,9 @@ export class ResultPage implements OnInit {
 
   ngOnInit() {
     this.content = this.navParams.data.contents;
-    console.log(this.content)
+    this.content['answers'].forEach((e, i) => {
+      e['question'] = this.content['questions'][i];
+    });
     this.dataSource = this.content['answers'];
   }
 

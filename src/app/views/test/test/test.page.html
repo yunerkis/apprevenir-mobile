@@ -31,7 +31,7 @@
                 
                 <mat-form-field class="example-full-width">
                   <mat-label>Elige una opción</mat-label>
-                  <mat-select formControlName="answer_{{addictionSelect.id}}_{{i}}" required >
+                  <mat-select formControlName="answer_{{addictionSelect.id}}_{{question.id}}" required >
                     <mat-option [value]="answer.id"  *ngFor="let answer of question.answers; let in = index" >
                       {{ answer.answer }}
                     </mat-option>
@@ -41,7 +41,7 @@
             </div>
           </div>
         
-          <mat-radio-group formControlName="answer_{{i}}" required class="test__radio-flex" 
+          <mat-radio-group formControlName="answer_{{question.id}}" required class="test__radio-flex" 
             *ngIf="test['name'] != 'Drogas'">
             <mat-radio-button value="{{ answer.id }}" *ngFor="let answer of question.answers; let in = index">
               <label class="test__label">{{ order[in] }}</label>
