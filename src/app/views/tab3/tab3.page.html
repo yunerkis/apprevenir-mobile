@@ -43,7 +43,7 @@
                     <mat-form-field class="example-full-width" >
                       <mat-label>Seleccione cliente</mat-label>
                       <mat-select formControlName="client" #clientSelect (selectionChange)="getSelect1(clientSelect.value)">
-                        <mat-option *ngFor="let client of clients; let i = index" [value]="i">
+                        <mat-option *ngFor="let client of clients; let i = index" [value]="client.id">
                           {{ client.profile.first_names }}
                         </mat-option>
                       </mat-select>

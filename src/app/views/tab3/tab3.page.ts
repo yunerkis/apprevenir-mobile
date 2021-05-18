@@ -134,7 +134,8 @@ export class Tab3Page implements OnInit, AfterViewInit {
   selectsB: any = false;
   selectsC: any = false;
   referId = null;
-  referPosition = null;
+  type = null;
+  position = null;
   label = [];
   values = [];
 
@@ -207,7 +208,7 @@ export class Tab3Page implements OnInit, AfterViewInit {
         civil_status_id: profile.civil_status_id,
         education_level_id: profile.education_level_id,
         client_type: config['client_type'],
-        client: config['position'],
+        client: parseInt(config['client']),
         selectA: parseInt(config['selectA']),
         selectB: parseInt(config['selectB']),
         selectC: parseInt(config['selectC']),
@@ -226,7 +227,7 @@ export class Tab3Page implements OnInit, AfterViewInit {
       this.getStates(profile.country_id);
       this.getCities(profile.state_id);
       
-      this.getClients(config['client_type'], false, config['position'])
+      this.getClients(config['client_type'], false, config['client'])
     });
   }
   
@@ -257,13 +258,12 @@ export class Tab3Page implements OnInit, AfterViewInit {
     }
   }
 
-  getClients(clientType, update = true, position = null) {
+  getClients(clientType, update = true, clientId) {
     this.clients = false
     this.selectsA = false;   
     this.selectsB = false;
     this.selectsC = false;
     this.referId = null;
-    this.referPosition = null;
     let configClient = [
       'client', 'selectA', 'selectB', 'selectC'
     ]; 
@@ -281,8 +281,7 @@ export class Tab3Page implements OnInit, AfterViewInit {
           this.clients = res['data'];
           this.validationSelect(configClient);
           if (!update && clientType != 'persona natural') {
-            this.referPosition = position;
-            this.getSelect1(position, update);
+            this.getSelect1(clientId, update);
           }
         }
       });
@@ -294,10 +293,15 @@ export class Tab3Page implements OnInit, AfterViewInit {
   getSelect1(select1, update = true) {
     let count = 0;
     this.label = [];
-    this.referId = this.clients[select1].id;
-    let type = this.clients[select1].client;
-    let data = this.clientTypes[type]; 
-    this.referPosition = select1;
+    this.clients.forEach((e, i) => {
+      if (e.id == select1) {
+        this.referId = e.id;
+        this.type = e.client;
+        this.position = i;
+      }
+    });
+  
+    let data = this.clientTypes[this.type]; 
     
     if (data[0] != 'Entidad Territorial') {
       this.entity = false;
@@ -307,11 +311,11 @@ export class Tab3Page implements OnInit, AfterViewInit {
           let name = data[1][key][1];
           this.label.push([key, name]);
           if (count == 0) {
-            this.selectsA = this.clients[select1].clientTypeConfig[element];
+            this.selectsA = this.clients[this.position].clientTypeConfig[element];
           } else if (count == 1) {
-            this.selectsB = this.clients[select1].clientTypeConfig[element];
+            this.selectsB = this.clients[this.position].clientTypeConfig[element];
           } else if (count == 2) {
-            this.selectsC = this.clients[select1].clientTypeConfig[element];
+            this.selectsC = this.clients[this.position].clientTypeConfig[element];
           }
         }
         count++;
@@ -386,7 +390,6 @@ export class Tab3Page implements OnInit, AfterViewInit {
       'selectA': formData.selectA,
       'selectB': formData.selectB,
       'selectC': formData.selectC,
-      'position': this.referPosition
     };
     this.authGuardService.updateProfile(formData).then((data) => {
       this.image_gender = formData.gender_id;
