@@ -281,7 +281,8 @@ export class Tab3Page implements OnInit, AfterViewInit {
           this.clients = res['data'];
           this.validationSelect(configClient);
           if (!update && clientType != 'persona natural') {
-            this.getSelect1(position, update)
+            this.referPosition = position;
+            this.getSelect1(position, update);
           }
         }
       });
@@ -296,6 +297,7 @@ export class Tab3Page implements OnInit, AfterViewInit {
     this.referId = this.clients[select1].id;
     let type = this.clients[select1].client;
     let data = this.clientTypes[type]; 
+    this.referPosition = select1;
     
     if (data[0] != 'Entidad Territorial') {
       this.entity = false;
@@ -384,7 +386,7 @@ export class Tab3Page implements OnInit, AfterViewInit {
       'selectA': formData.selectA,
       'selectB': formData.selectB,
       'selectC': formData.selectC,
-      'position':  this.referPosition
+      'position': this.referPosition
     };
     this.authGuardService.updateProfile(formData).then((data) => {
       this.image_gender = formData.gender_id;

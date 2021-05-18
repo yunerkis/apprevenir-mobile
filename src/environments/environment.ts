@@ -5,6 +5,7 @@
 export const environment = {
   production: true,
   //url: 'http://127.0.0.1:8000',
+  //url: 'http://apprevenir-back.test',
   url: 'https://appprevenir-demo.westus.cloudapp.azure.com'
 };
 
