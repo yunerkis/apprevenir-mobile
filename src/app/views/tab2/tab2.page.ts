@@ -49,7 +49,6 @@ export class Tab2Page implements OnInit {
         if (data.error.data == 'disabled') {
           this.testService.userDelete()
         }
-        console.log(data.error);
       });
     });
 
