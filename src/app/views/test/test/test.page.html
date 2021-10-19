@@ -50,8 +50,8 @@
           </mat-radio-group>
         </div>
         <div class="test-form__content-btns">
-          <a *ngIf="i == 0" [routerLink]="['/home']"><button class="test-form__btn back" mat-button>Atras</button></a>
-          <button *ngIf="i != 0" class="test-form__btn back" mat-button matStepperPrevious>Atras</button>
+          <a *ngIf="i == 0" [routerLink]="['/home']"><button class="test-form__btn back" mat-button>Atrás</button></a>
+          <button *ngIf="i != 0" class="test-form__btn back" mat-button matStepperPrevious>Atrás</button>
           <button *ngIf="i != questions.length - 1" class="test-form__btn next" mat-button matStepperNext> Siguiente</button>
           <button *ngIf="i == questions.length - 1" class="test-form__btn next" mat-button matStepperNext (click)="onSubmit()">Enviar</button>
         </div>

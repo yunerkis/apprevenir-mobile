@@ -85,6 +85,7 @@ export class TestPage implements OnInit {
           
           if (addiction != null) {
             question.question = question.question.replace('varI', addiction);
+            question.question = question.question.replace('varI ', addiction);
           }
           
           return question;
