@@ -383,7 +383,7 @@ export class Tab3Page implements OnInit, AfterViewInit {
     let formData = Object.assign(this.firstFormGroup.value, this.secondFormGroup.value, this.thirdFormGroup.value); 
     formData.birthday = dayjs(formData.birthday).format("YYYY-MM-DD");
     formData.reference = this.referId;
-    formData.client = formData.client == '' ? 'persona natural' : formData.client;
+    formData.client = formData.client == '' ||  this.referId ? 'persona natural' : formData.client_type;
     formData.client_config = {
       'client_type': formData.client_type,
       'client': this.referId,
