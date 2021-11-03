@@ -203,7 +203,7 @@ export class Tab3Page implements OnInit, AfterViewInit {
         first_names: profile.first_names,
         last_names: profile.last_names,
         last_names_two: profile.last_names_two,
-        birthday: profile.birthday,
+        birthday: dayjs(profile.birthday).add(1, 'day').format("YYYY-MM-DD"),
         gender_id: profile.gender_id,
         civil_status_id: profile.civil_status_id,
         education_level_id: profile.education_level_id,
