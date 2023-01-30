@@ -101,10 +101,17 @@ export class AuthGuardService {
         this.router.navigate(['login']);
         this.messageSuccess('Usuario registrado correctamente')
       }, error => {
-        const errorMessage = 
+        console.log('ERROR', error.status)
+        let errorMessage = "";
+        if(error.status == 422){
+          errorMessage = "La contraseña debe tener al menos 8 caractéres"
+          this.messageErros(errorMessage);
+        }else{
+          errorMessage = 
           error.error?.data || 
-          "No fue posible contactar al servidor. Por favor revisa tu conexión a internet e inténtalo de nuevo";
-        this.messageErros(errorMessage);
+          "No fue posible contactar al servidor. Por favor revisa tu conexión a internet e inténtalo de nuevo test";
+          this.messageErros(errorMessage);
+        }
       });
   }
 

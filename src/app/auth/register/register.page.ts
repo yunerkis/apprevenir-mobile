@@ -126,7 +126,7 @@ export class RegisterPage implements OnInit {
 
   onProfileNextClicked() {
     const control = this.firstFormGroup.get('gender_id');
-    this.genderInvalid = control.hasError('required');
+    //this.genderInvalid = control.hasError('required');
   }
 
   ngOnInit() {
@@ -135,14 +135,14 @@ export class RegisterPage implements OnInit {
       last_names: ['', Validators.required],
       last_names_two: ['', Validators.required],
       birthday: ['', Validators.required],
-      gender_id: ['', Validators.required],
+      gender_id: [''],
       client_type: ['', Validators.required],
       client: [''],
       selectA: [''],
       selectB: [''],
       selectC: [''],
-      civil_status_id: ['', Validators.required],
-      education_level_id: ['', Validators.required],
+      civil_status_id: [''],
+      education_level_id: [''],
     });
     this.secondFormGroup = this.formBuilder.group({
       country_id: ['', Validators.required],
@@ -151,10 +151,10 @@ export class RegisterPage implements OnInit {
     });
     this.thirdFormGroup = this.formBuilder.group({
       phone: ['', Validators.required],
-      email: ['', Validators.required],
+      email: ['', Validators.required, Validators.email],
       password: ['', Validators.required],
       password_confirmation: ['', Validators.required],
-    }, { validators: sameField });
+    }, { validators: sameField, validationPassword });
     this.getCountries();
   }
 
@@ -304,7 +304,13 @@ export class RegisterPage implements OnInit {
     this.authGuardService.register(formData);
   }
 }
-
+export function validationPassword(control: AbstractControl
+  ): ValidationErrors | null  {
+    if(control.get("password").value.length < 8 ){
+      control.get("password_confirmation")?.setErrors({ sameError: true });
+    }
+    return null;
+}
 export function sameField(
   control: AbstractControl
 ): ValidationErrors | null {
@@ -316,7 +322,13 @@ export function sameField(
     } else {
       control.get("password_confirmation")?.setErrors(null);
     }
+    if(control.get("password").value.length < 8 ){
+      control.get("password_confirmation")?.setErrors({ length: true });
+    }else{
+      control.get("password_confirmation")?.setErrors(null);
+    }
     return null
+
   }
   return null;
 }

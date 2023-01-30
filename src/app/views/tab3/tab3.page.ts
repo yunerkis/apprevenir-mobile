@@ -128,7 +128,8 @@ export class Tab3Page implements OnInit, AfterViewInit {
   color = {
     'Severo': '#FF4E60',
     'Moderado': '#FFA14E',
-    'Leve': '#20E57E'
+    'Leve': '#20E57E',
+    'Ausencia de Ansiedad': '#20E57E'
   };
   selectsA: any = false;
   selectsB: any = false;
@@ -411,9 +412,16 @@ export class Tab3Page implements OnInit, AfterViewInit {
       'border-radius': '10px',
       'padding-top': '1px',
       'padding-bottom': '1px',
+      'overflow': 'hidden',
+      'text-overflow': 'ellipsis',
+      'display': '-webkit-box',
+      '-webkit-line-clamp':'3',
+      '-webkit-box-orient': 'vertical',
+      'line-height': '15px',
+      'text-align': 'center'
     }
   }
-
+//./jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore apprevenir-key.keystore app-release.aab apprevenir
   async openModal(contents) {
     const modal = await this.modalController.create({
       component: ResultPage,

@@ -166,7 +166,7 @@
                 </div>
                 <div class="register-form__input">
                   <p class="register-form__label-small">Género</p>
-                  <mat-radio-group formControlName="gender_id" required>
+                  <mat-radio-group formControlName="gender_id">
                     <mat-radio-button [value]="gender.value" *ngFor="let gender of genders">{{ gender.gender }}</mat-radio-button>
                   </mat-radio-group>
                   <mat-error *ngIf="genderInvalid">
@@ -176,7 +176,7 @@
                 <div class="register-form__input">
                   <mat-form-field class="example-full-width">
                     <mat-label>Estado Civil</mat-label>
-                    <mat-select formControlName="civil_status_id" required>
+                    <mat-select formControlName="civil_status_id" >
                       <mat-option *ngFor="let civil_status of civil_statuses" [value]="civil_status.value">
                         {{ civil_status.status }}
                       </mat-option>
@@ -189,7 +189,7 @@
                 <div class="register-form__input">
                   <mat-form-field class="example-full-width">
                     <mat-label>Nivel de Estudios </mat-label>
-                    <mat-select formControlName="education_level_id" required>
+                    <mat-select formControlName="education_level_id" >
                       <mat-option *ngFor="let education of educations" [value]="education.value">
                         {{ education.education }}
                       </mat-option>
